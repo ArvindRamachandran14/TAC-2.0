@@ -42,11 +42,11 @@ def main():
 
     TC_DPG = TC.TC(ser_TC_DPG)
 
-    TC_CC.power_off()
+    #TC_CC.power_off()
 
-    TC_SC.power_off()
+    #TC_SC.power_off()
 
-    TC_DPG.power_off()
+    #TC_DPG.power_off()
 
     try:
 
@@ -56,7 +56,7 @@ def main():
         
             time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
             
-            Read_Instruments(dl, irga, time_stamp)
+            Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp)
 
             Cmd_prc = Command_proc.Command_Proc(dl, ser_PC.readline().decode(), time_stamp)
             
@@ -106,8 +106,8 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
    
    IRGA_list = irga.read_IRGA()
 
-   TC_list = [TC_SC.read_temperature(), TC_CC.read_temperature(), TC_DPG.read_temperature()]
-
+   TC_list = [TC_SC.read_temperature(0), TC_CC.read_temperature(0), TC_DPG.read_temperature(0)]
+   
    dl.setParm('pCO2', IRGA_list[0], time_stamp)
 
    dl.setParm('pH2O', IRGA_list[1], time_stamp)
@@ -122,6 +122,6 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
    dl.setParm('CC_T1', TC_list[1], time_stamp)
 
-   dl.setParm('DPG_TI', TC_list[2], time_stamp)
+   dl.setParm('DPG_T1', TC_list[2], time_stamp)
 
 main()
