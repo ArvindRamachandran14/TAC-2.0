@@ -27,6 +27,8 @@ def main():
 
     ser_PC = serial.Serial('/dev/ttyUSB0', 9600, timeout=3)
 
+    ser_PC = seerial.Serial
+
 
     #################################   Object creation   ################################# 
 
