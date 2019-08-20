@@ -4,6 +4,8 @@ import serial
 
 import IRGA
 
+import TC
+
 import Command_proc
 
 import datetime
@@ -14,6 +16,12 @@ def main():
 
 
     #################################   Define Serial Ports   ################################# 
+
+    ser_TC_SC = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
+
+    ser_TC_DPG = serial.Serial('/dev/ttyUSB2', 9600, timeout=1)
+
+    ser_TC_CC = serial.Serial('/dev/ttyUSB3', 9600, timeout=1)
 
     ser_IRGA= serial.Serial('/dev/ttyUSB4', 9600, timeout=1)
 
@@ -26,6 +34,18 @@ def main():
 
     irga = IRGA.IRGA(ser_IRGA)
 
+    TC_SC = TC.TC(ser_TC_SC)
+
+    TC_CC = TC.TC(ser_TC_CC)
+
+    TC_DPG = TC.TC(ser_TC_DPG)
+
+    #TC_CC.power_off()
+
+    #TC_SC.power_off()
+
+    #TC_DPG.power_off()
+
     try:
 
         while True:
@@ -34,7 +54,7 @@ def main():
         
             time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
             
-            Read_Instruments(dl, irga, time_stamp)
+            Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp)
 
             Cmd_prc = Command_proc.Command_Proc(dl, ser_PC.readline().decode(), time_stamp)
             
@@ -76,7 +96,7 @@ def main():
         print('Terminated')
     
  
-def Read_Instruments(dl, irga, time_stamp):
+def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
     
     #print(irga.read_IRGA())
    
@@ -84,6 +104,8 @@ def Read_Instruments(dl, irga, time_stamp):
    
    IRGA_list = irga.read_IRGA()
 
+   TC_list = [TC_SC.read_temperature(0), TC_CC.read_temperature(0), TC_DPG.read_temperature(0)]
+   
    dl.setParm('pCO2', IRGA_list[0], time_stamp)
 
    dl.setParm('pH2O', IRGA_list[1], time_stamp)
@@ -94,5 +116,10 @@ def Read_Instruments(dl, irga, time_stamp):
    
    dl.setParm('IVOLT', IRGA_list[4], time_stamp)
 
-   
+   dl.setParm('SC_T1', TC_list[0], time_stamp)
+
+   dl.setParm('CC_T1', TC_list[1], time_stamp)
+
+   dl.setParm('DPG_T1', TC_list[2], time_stamp)
+
 main()
