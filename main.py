@@ -29,7 +29,6 @@ def main():
 
     ser_PC = seerial.Serial
 
-
     #################################   Object creation   ################################# 
 
     dl = DataLib.DataLib()  # initialization triggered when object is created 
@@ -67,18 +66,35 @@ def main():
             if isinstance(Output, bool):
                 
                 pass
-            
-            elif isinstance(Output, str):
-                
-                ser_PC.write(Output.encode())
-                
-                ser_PC.write(('\r'+'\n').encode())
-            
-            else:
+
+            elif isinstance(Output, tuple):
             
                 ser_PC.write((str(Output[0])+'---'+str(Output[1])).encode())
             
                 ser_PC.write(('\r'+'\n').encode())
+
+            elif isinstance(Output, str):
+
+              if Output in dl.getParmDict().keys()
+
+                ser_PC.write('Ok'.encode())
+                
+                ser_PC.write(('\r'+'\n').encode())
+
+                if Output in ['SC_T_Set', 'CC_T_Set', 'DPG_T_Set']:
+
+                  print(Output)
+
+                #if Output == 'CC_T_Set':
+
+                #ser_TC_CC.set_temperature()
+
+              else:
+
+                ser_PC.write(Output.encode())
+                
+                ser_PC.write(('\r'+'\n').encode())\ 
+          
             
             #print('Timestamp: '+ str(time_stamp))
             
@@ -106,7 +122,7 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
    
    IRGA_list = irga.read_IRGA()
 
-   TC_list = [TC_SC.read_temperature(0), TC_CC.read_temperature(0), TC_DPG.read_temperature(0)]
+   TC_list = [TC_SC.read_temperature(0), TC_SC.read_temperature(1), TC_CC.read_temperature(0), TC_DPG.read_temperature(0)]
    
    dl.setParm('pCO2', IRGA_list[0], time_stamp)
 
@@ -120,8 +136,10 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
    dl.setParm('SC_T1', TC_list[0], time_stamp)
 
-   dl.setParm('CC_T1', TC_list[1], time_stamp)
+   dl.setParm('SC_T2', TC_list[1], time_stamp)
 
-   dl.setParm('DPG_T1', TC_list[2], time_stamp)
+   dl.setParm('CC_T1', TC_list[2], time_stamp)
+
+   dl.setParm('DPG_T1', TC_list[3], time_stamp)
 
 main()

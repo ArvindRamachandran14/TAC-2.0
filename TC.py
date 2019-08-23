@@ -25,9 +25,9 @@ class TC():
 
 		self.dict = {}
         
-                self.buf=[0,0,0,0,0,0,0,0,0,0,0,0]
+        self.buf=[0,0,0,0,0,0,0,0,0,0,0,0]
 	
-                self.string = "0x"
+        self.string = "0x"
     
 	def power_on(self):
 
@@ -43,9 +43,9 @@ class TC():
 
 	def read_temperature(self,thermistor):
 
-                self.buf=[0,0,0,0,0,0,0,0,0,0,0,0]
+        self.buf=[0,0,0,0,0,0,0,0,0,0,0,0]
 	
-                self.string = "0x"
+        self.string = "0x"
 
 		for pn in range(0,16):
 			self.ser.write((TC.bst[thermistor][pn]).encode())

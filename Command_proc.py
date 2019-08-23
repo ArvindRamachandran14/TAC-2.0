@@ -26,9 +26,9 @@ class Command_Proc():
             
             if self.strings[1] in self.dl.getParmDict().keys():
 
-                setParm(self, self.strings[1], float(self.strings[2]), self.time_stamp)
+                self.dl.setParm(self, self.strings[1], float(self.strings[2]), self.time_stamp)
 
-                return('Ok')
+                return(self.strings[1])
 
             else:
 
