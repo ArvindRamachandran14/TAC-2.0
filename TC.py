@@ -11,7 +11,9 @@ class TC():
 
 	power_off = ['*','0','0','2','d','0','0','0','0','0','0','0','0','7','6','\r']	# to turn power off
 
-	bstc=['*','0','0','1','c','0','0','0','0','0','9','c','4','b','4','\r'] # To set temp to 25C
+	#bstc=['*','0','0','1','c','0','0','0','0','0','9','c','4','b','4','\r'] # To set temp to 25 C
+
+	bstc=['*','0','0','1','c','0','0','0','0','0','b','b','8','d','c','\r'] # To set temp to 30 C
 	
 	bst = []
 
@@ -48,17 +50,17 @@ class TC():
             self.string = "0x"
 
 	    for pn in range(0,16):
-		self.ser.write((TC.bst[thermistor][pn]).encode())
-		time.sleep(0.001)
+			self.ser.write((TC.bst[thermistor][pn]).encode())
+			time.sleep(0.001)
 
 	    self.dict['timestamp'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
 	    for pn in range(0,12):
-		self.buf[pn]=self.ser.read(1)
-                time.sleep(0.001)
+			self.buf[pn]=self.ser.read(1)
+            time.sleep(0.001)
 
 	    for i in range(1, 9):
-		self.string+=self.buf[i].decode()
+			self.string+=self.buf[i].decode()
 
 	    self.dict['temperature']  = int(self.string,0)/100.0
 	    
@@ -68,8 +70,8 @@ class TC():
 
 	def set_temperature(self):
 
-            for pn in range(0,16):
-		self.ser.write((bstc[pn]).encode())
-		time.sleep(0.001)
+        for pn in range(0,16):
+			self.ser.write((bstc[pn]).encode())
+			time.sleep(0.001)
 
 
