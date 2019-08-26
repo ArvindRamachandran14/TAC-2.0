@@ -70,7 +70,7 @@ class TC():
 
 	def set_temperature(self):
 
-        for pn in range(0,16):
+            for pn in range(0,16):
 			self.ser.write((bstc[pn]).encode())
 			time.sleep(0.001)
 
