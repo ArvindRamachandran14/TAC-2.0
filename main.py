@@ -85,7 +85,9 @@ def main():
 
                 if Output == 'CC_T_Set':
 
-                    ser_TC_CC.set_temperature()
+                    ser_TC_CC.read_control_type()  
+
+                    #ser_TC_CC.set_temperature()
 
               else:
 

@@ -21,6 +21,8 @@ class TC():
 
 	bst.append(['*','0','0','0','6','0','0','0','0','0','0','0','0','4','6','\r']) # to read thermistor temp 1 from controller 2
 
+	control_type(['*','0','0','4','4','0','0','0','0','0','0','0','0','4','8','\r']) #Set control type to PID control
+
 	def __init__(self, ser): 
 
 	    self.ser = ser 
@@ -73,5 +75,10 @@ class TC():
             for pn in range(0,16):
 			self.ser.write((bstc[pn]).encode())
 			time.sleep(0.001)
+
+	def read_control_type(self):
+
+		for pn in range(0,16):
+			self.ser.write((control_type[pn]).encode())
 
 
