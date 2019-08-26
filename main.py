@@ -27,8 +27,6 @@ def main():
 
     ser_PC = serial.Serial('/dev/ttyUSB0', 9600, timeout=3)
 
-    ser_PC = seerial.Serial
-
     #################################   Object creation   ################################# 
 
     dl = DataLib.DataLib()  # initialization triggered when object is created 
@@ -75,7 +73,7 @@ def main():
 
             elif isinstance(Output, str):
 
-              if Output in dl.getParmDict().keys()
+              if Output in dl.getParmDict().keys():
 
                 ser_PC.write('Ok'.encode())
                 
@@ -85,15 +83,15 @@ def main():
 
                   print(Output)
 
-                #if Output == 'CC_T_Set':
+                if Output == 'CC_T_Set':
 
-                #ser_TC_CC.set_temperature()
+                    ser_TC_CC.set_temperature()
 
               else:
 
                 ser_PC.write(Output.encode())
                 
-                ser_PC.write(('\r'+'\n').encode())\ 
+                ser_PC.write(('\r'+'\n').encode())
           
             
             #print('Timestamp: '+ str(time_stamp))

@@ -17,17 +17,17 @@ class TC():
 
 	bst.append(['*','0','0','0','1','0','0','0','0','0','0','0','0','4','1','\r']) # to read thermistor temp 1 from controller 1
 
-	bst.append(['*','0','0','0','1','0','0','0','0','0','0','0','0','4','2','\r']) # to read thermistor temp 1 from controller 2
+	bst.append(['*','0','0','0','6','0','0','0','0','0','0','0','0','4','6','\r']) # to read thermistor temp 1 from controller 2
 
 	def __init__(self, ser): 
 
-		self.ser = ser 
+	    self.ser = ser 
 
-		self.dict = {}
+	    self.dict = {}
         
-        self.buf=[0,0,0,0,0,0,0,0,0,0,0,0]
+            self.buf=[0,0,0,0,0,0,0,0,0,0,0,0]
 	
-        self.string = "0x"
+            self.string = "0x"
     
 	def power_on(self):
 
@@ -43,31 +43,33 @@ class TC():
 
 	def read_temperature(self,thermistor):
 
-        self.buf=[0,0,0,0,0,0,0,0,0,0,0,0]
+            self.buf=[0,0,0,0,0,0,0,0,0,0,0,0]
 	
-        self.string = "0x"
+            self.string = "0x"
 
-		for pn in range(0,16):
-			self.ser.write((TC.bst[thermistor][pn]).encode())
-			time.sleep(0.001)
+	    for pn in range(0,16):
+		self.ser.write((TC.bst[thermistor][pn]).encode())
+		time.sleep(0.001)
 
-		self.dict['timestamp'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+	    self.dict['timestamp'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
-		for pn in range(0,12):
-		    self.buf[pn]=self.ser.read(1)
-		    time.sleep(0.001)
+	    for pn in range(0,12):
+		self.buf[pn]=self.ser.read(1)
+                time.sleep(0.001)
 
-		for i in range(1, 9):
-			self.string+=self.buf[i].decode()
+	    for i in range(1, 9):
+		self.string+=self.buf[i].decode()
 
-		self.dict['temperature']  = int(self.string,0)/100.0
+	    self.dict['temperature']  = int(self.string,0)/100.0
+	    
+	    #print(self.dict['temperature'])
 
-		return(self.dict['temperature'])
+	    return(self.dict['temperature'])
 
 	def set_temperature(self):
 
-		for pn in range(0,16):
-			self.ser.write((bstc[pn]).encode())
-			time.sleep(0.001)
+            for pn in range(0,16):
+		self.ser.write((bstc[pn]).encode())
+		time.sleep(0.001)
 
 
