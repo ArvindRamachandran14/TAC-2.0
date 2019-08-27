@@ -59,7 +59,7 @@ def main():
             
             Output = Cmd_prc.Do_it()
             
-            print(Output)
+            #print(type(Output))
             
             if isinstance(Output, bool):
                 
@@ -71,25 +71,31 @@ def main():
             
                 ser_PC.write(('\r'+'\n').encode())
 
-            elif isinstance(Output, str):
-
-              if Output in dl.getParmDict().keys():
-
-                ser_PC.write('Ok'.encode())
+            elif isinstance(Output, unicode):
                 
-                ser_PC.write(('\r'+'\n').encode())
+                #print('Output is a string')
+                
+                #print(dl.getParmDict().keys())
+                
+                if Output in dl.getParmDict().keys():
 
-                if Output in ['SC_T_Set', 'CC_T_Set', 'DPG_T_Set']:
+                    ser_PC.write('Ok'.encode())
+                
+                    ser_PC.write(('\r'+'\n').encode())
 
-                  print(Output)
+                    if Output in ['SC_T_Set', 'CC_T_Set', 'DPG_T_Set']:
+                  
+                        if Output == 'CC_T_Set':
+                    
+                            #print(Output)
+                            
+                            TC_CC.set_control_type()
+                    
+                            print(TC_CC.read_control_type())
+                            
+                            #print(TC_CC.set_temperature())
 
-                if Output == 'CC_T_Set':
-
-                    ser_TC_CC.read_control_type()  
-
-                    #ser_TC_CC.set_temperature()
-
-              else:
+            else:
 
                 ser_PC.write(Output.encode())
                 

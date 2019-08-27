@@ -16,7 +16,7 @@ class Command_Proc():
 
     def Do_it(self):
     
-        print(self.strings)
+        #print(self.strings)
         
         if self.strings in ([u''], [u'\n'], [u'\r']):
         
@@ -25,8 +25,12 @@ class Command_Proc():
         elif self.strings[0] == 's':
             
             if self.strings[1] in self.dl.getParmDict().keys():
+                
+                #print(float(self.strings[2]))
 
                 self.dl.setParm(self.strings[1], float(self.strings[2]), self.time_stamp)
+                
+                #print(self.dl.getParmDict(self.strings[1])) 
 
                 return(self.strings[1])
 
