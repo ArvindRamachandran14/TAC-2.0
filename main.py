@@ -87,7 +87,7 @@ def main():
                   
                         if Output == 'CC_T_Set':
                     
-                            TC_CC.power_on()
+                            #TC_CC.power_on()
                             
                             TC_CC.set_control_type()
                     

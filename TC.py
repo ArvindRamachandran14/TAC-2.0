@@ -37,7 +37,7 @@ class TC():
 	
             self.buf_ctl_type=[0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to read CONTROL TYPE
             
-            self.buf.set_temp=[0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to read response to SET TEMP command
+            self.buf_set_temp=[0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to read response to SET TEMP command
             
             self.string_read_temperature = "0x" # String to read temperature 
             
@@ -74,9 +74,9 @@ class TC():
                 time.sleep(0.001)
 
 	    for i in range(1, 9):
-		self.string+=self.buf_read_temp[i].decode()
+		self.string_read_temp+=self.buf_read_temp[i].decode()
 
-	    self.dict['temperature']  = int(self.string,0)/100.0
+	    self.dict['temperature']  = int(self.string_read_temp,0)/100.0
 	    
 	    #print(self.dict['temperature'])
 
@@ -84,27 +84,27 @@ class TC():
 
 	def set_temperature(self):
         
-            self.string_st = ""
+            self.string_set_temp = ""
 
             for pn in range(0,16):
 		self.ser.write((TC.bstc[pn]).encode())
 		time.sleep(0.001)
 	    for i in range(0,12):
-                self.string_st+=self.ser.read(1).decode()
+                self.string_set_temp+=self.ser.read(1).decode()
                 
-            return(self.string_st)
+            return(self.string_set_temp)
 
 	def read_control_type(self):
             
-            self.string_ct = ""
+            self.string_ctl_type = ""
 
 	    for pn in range(0,16):
-		self.ser.write((TC.rd_ct[pn]).encode())
+		self.ser.write((TC.read_ctl_type[pn]).encode())
 	    for i in range(0,12):
-                self.string_ct+=self.ser.read(1).decode()
-	    return(self.string_ct)
+                self.string_ctl_type+=self.ser.read(1).decode()
+	    return(self.string_ctl_type)
 	
 	def set_control_type(self):
             for pn in range(0,16):
-		self.ser.write((TC.set_ct[pn]).encode())
+		self.ser.write((TC.set_ctl_type[pn]).encode())
         
