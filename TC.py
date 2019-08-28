@@ -7,43 +7,43 @@ import datetime
 
 class TC():
 
-	power_on = ['*','0','0','2','d','0','0','0','0','0','0','0','1','7','7','\r'] # to turn power on
+	#List of Commands to perform TC operations
 
-	power_off = ['*','0','0','2','d','0','0','0','0','0','0','0','0','7','6','\r']	# to turn power off
+	power_on = ['*','0','0','2','d','0','0','0','0','0','0','0','1','7','7','\r'] # Command to turn TC power on
 
-	#bstc=['*','0','0','1','c','0','0','0','0','0','9','c','4','b','4','\r'] # To set temp to 25 C
+	power_off = ['*','0','0','2','d','0','0','0','0','0','0','0','0','7','6','\r']	# Command to turn TC power off
 
-	bstc=['*','0','0','1','c','0','0','0','0','0','b','b','8','d','c','\r'] # To set temp to 30 C
+	bstc_25 =['*','0','0','1','c','0','0','0','0','0','9','c','4','b','4','\r'] # Command to set temp to 25 C
+
+	bstc_30 =['*','0','0','1','c','0','0','0','0','0','b','b','8','d','c','\r'] # Command to set temp to 30 C
 	
 	bst = []
 
-	bst.append(['*','0','0','0','1','0','0','0','0','0','0','0','0','4','1','\r']) # to read thermistor temp 1 from controller 1
+	bst.append(['*','0','0','0','1','0','0','0','0','0','0','0','0','4','1','\r']) # Command to read thermistor 1 temp from controller 
 
-	bst.append(['*','0','0','0','6','0','0','0','0','0','0','0','0','4','6','\r']) # to read thermistor temp 1 from controller 2
+	bst.append(['*','0','0','0','6','0','0','0','0','0','0','0','0','4','6','\r']) # Command to read thermistor 2 temp from controller 
 
-	read_ctl_type = ['*','0','0','4','4','0','0','0','0','0','0','0','0','4','8','\r'] #Read control type
+	read_ctl_type = ['*','0','0','4','4','0','0','0','0','0','0','0','0','4','8','\r'] #Command to Read CONTROL TYPE of TC
 	
-	set_ctl_type = ['*','0','0','2','b','0','0','0','0','0','0','0','1','7','5','\r'] #Set control type to PID
+	set_ctl_type = ['*','0','0','2','b','0','0','0','0','0','0','0','1','7','5','\r'] #Command to Set CONTROL TYPE of TC to PID
 	
-        
-    
 	def __init__(self, ser): 
 
 	    self.ser = ser 
 
 	    self.dict = {}
         
-            self.buf_read_temp=[0,0,0,0,0,0,0,0,0,0,0,0]
+            self.buf_read_temp=[0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to read temperature 
 	
-            self.buf_ctl_type=[0,0,0,0,0,0,0,0,0,0,0,0]
+            self.buf_ctl_type=[0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to read CONTROL TYPE
             
-            self.buf.set_temp=[0,0,0,0,0,0,0,0,0,0,0,0]
+            self.buf.set_temp=[0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to read response to SET TEMP command
             
-            self.string_read_temperature = "0x"
+            self.string_read_temperature = "0x" # String to read temperature 
             
-            self.string_ctl_type = ""
+            self.string_ctl_type = "" #String to record CONTROL TYPE 
             
-            self.string_set_temp = ""
+            self.string_set_temp = "" #String to record response to SET TEMP
     
 	def power_on(self):
 

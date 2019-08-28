@@ -39,7 +39,7 @@ def main():
 
     TC_DPG = TC.TC(ser_TC_DPG)
 
-    #TC_CC.power_off()
+    #TC_CC.power_on()
 
     #TC_SC.power_off()
 
@@ -87,7 +87,7 @@ def main():
                   
                         if Output == 'CC_T_Set':
                     
-                            #print(Output)
+                            TC_CC.power_on()
                             
                             TC_CC.set_control_type()
                     
