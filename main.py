@@ -39,7 +39,9 @@ def main():
 
     TC_DPG = TC.TC(ser_TC_DPG)
 
-    #TC_CC.power_on()
+    TC_CC.set_control_type()
+
+    TC_CC.power_on()
 
     #TC_SC.power_off()
 
@@ -88,12 +90,10 @@ def main():
                         if Output == 'CC_T_Set':
                     
                             #TC_CC.power_on()
-                            
-                            TC_CC.set_control_type()
                     
-                            print(TC_CC.read_control_type())
+                            #TC_CC.read_control_type()
                             
-                            #print(TC_CC.set_temperature())
+                            print(TC_CC.set_temperature())
 
             else:
 
@@ -117,6 +117,7 @@ def main():
             #print('\n')
         
     except KeyboardInterrupt:
+	TC_CC.power_off()
         print('Terminated')
     
  
@@ -127,6 +128,8 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
    print('reading instruments')
    
    IRGA_list = irga.read_IRGA()
+
+   #TC_list = [0,0,0,0]
 
    TC_list = [TC_SC.read_temperature(0), TC_SC.read_temperature(1), TC_CC.read_temperature(0), TC_DPG.read_temperature(0)]
    
