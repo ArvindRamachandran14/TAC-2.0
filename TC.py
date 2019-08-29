@@ -16,6 +16,8 @@ class TC():
 	bstc_25 =['*','0','0','1','c','0','0','0','0','0','9','c','4','b','4','\r'] # Command to set temp to 25 C
 
 	bstc_30 =['*','0','0','1','c','0','0','0','0','0','b','b','8','d','c','\r'] # Command to set temp to 30 C
+
+	bst_35 = ['*','0','0','1','c','0','0','0','0','0','d','a','c','2','f','\r'] #Command to set temp to 35 C
 	
 	bst = []
 
@@ -80,7 +82,7 @@ class TC():
 
 	def set_temperature(self):
         
-        self.string_set_temp = ""
+    	self.string_set_temp = ""
 
         for pn in range(0,16):
 			self.ser.write((TC.bstc[pn]).encode())
