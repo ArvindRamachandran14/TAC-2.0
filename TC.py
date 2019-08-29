@@ -9,15 +9,16 @@ class TC():
 
 	#List of Commands to perform TC operations
 
-	power_on = ['*','0','0','2','d','0','0','0','0','0','0','0','1','7','7','\r'] # Command to turn TC power on
+	pw_on = ['*','0','0','2','d','0','0','0','0','0','0','0','1','7','7','\r'] # Command to turn TC power on
 
-	power_off = ['*','0','0','2','d','0','0','0','0','0','0','0','0','7','6','\r']	# Command to turn TC power off
+	pw_off = ['*','0','0','2','d','0','0','0','0','0','0','0','0','7','6','\r']	# Command to turn TC power off
 
 	bstc_25 =['*','0','0','1','c','0','0','0','0','0','9','c','4','b','4','\r'] # Command to set temp to 25 C
 
-	bstc_30 =['*','0','0','1','c','0','0','0','0','0','b','b','8','d','c','\r'] # Command to set temp to 30 C
 
 	bst_35 = ['*','0','0','1','c','0','0','0','0','0','d','a','c','2','f','\r'] #Command to set temp to 35 C
+
+	bstc_30 =['*','0','0','1','c','0','0','0','0','0','b','b','8','e','0','\r'] # Command to set temp to 30 C
 	
 	bst = []
 
@@ -35,44 +36,55 @@ class TC():
 
 	    self.dict = {}
         
-        self.buf_read_temp=[0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to read temperature
+            self.buf_read_temp=[0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to read temperature
+
+	    self.buf_ctl_type = [0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to record CONTROL TYPE 
+
+	    self.buf_set_temp = [0,0,0,0,0,0,0,0,0,0,0,0] #Buffer to record response to SET TEMP
             
-        self.string_read_temperature = "0x" # String to read temperature 
+            self.string_read_temperature = "0x" # String to read temperature 
             
-        self.string_ctl_type = "" #String to record CONTROL TYPE 
+            self.string_ctl_type = "" #String to record CONTROL TYPE 
             
-        self.string_set_temp = "" #String to record response to SET TEMP
+            self.string_set_temp = "" #String to record response to SET TEMP
     
 	def power_on(self):
-
+	     
+	    print("Turning TC_CC ON")
+		
 	    for pn in range(0,16):
-			self.ser.write((TC.power_on[pn]).encode())
-			time.sleep(0.001)
+	        self.ser.write((TC.pw_on[pn]).encode())
+		time.sleep(0.001)
 
 	def power_off(self):
+	     
+	     print("Turning TC_CC OFF")
 
-		for pn in range(0,16):
-		   	self.ser.write((TC.power_off[pn]).encode())
-		  	time.sleep(0.001)
+	     for pn in range(0,16):
+	         self.ser.write((TC.pw_off[pn]).encode())
+		 time.sleep(0.001)
 
 	def read_temperature(self,thermistor):
 
-        self.buf_read_temp=[0,0,0,0,0,0,0,0,0,0,0,0]
+            self.buf_read_temp=[0,0,0,0,0,0,0,0,0,0,0,0]
 	
-        self.string_read_temp = "0x"
+            self.string_read_temp = "0x"
+
+	    self.ser.reset_output_buffer()
+	    self.ser.reset_input_buffer()
 
 	    for pn in range(0,16):
-			self.ser.write((TC.bst[thermistor][pn]).encode())
-			time.sleep(0.001)
+		self.ser.write((TC.bst[thermistor][pn]).encode())
+		time.sleep(0.001)
 
 	    self.dict['timestamp'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
 	    for pn in range(0,12):
-			self.buf_read_temp[pn]=self.ser.read(1)
-            time.sleep(0.001)
+		self.buf_read_temp[pn]=self.ser.read(1)
+            	time.sleep(0.001)
 
 	    for i in range(1, 9):
-			self.string_read_temp+=self.buf_read_temp[i].decode()
+		self.string_read_temp+=self.buf_read_temp[i].decode()
 
 	    self.dict['temperature']  = int(self.string_read_temp,0)/100.0
 	    
@@ -82,28 +94,51 @@ class TC():
 
 	def set_temperature(self):
         
-    	self.string_set_temp = ""
 
-        for pn in range(0,16):
-			self.ser.write((TC.bstc[pn]).encode())
-			time.sleep(0.001)
+            self.buf_set_temp=[0,0,0,0,0,0,0,0,0,0,0,0]
+	    self.string_set_temp = ""
+	    
+	    self.ser.reset_output_buffer()
+	    self.ser.reset_input_buffer()
 
+            for pn in range(0,16):
+	        self.ser.write((TC.bstc_25[pn]).encode())
+	        time.sleep(0.001)
+	   
 	    for i in range(0,12):
-            self.string_set_temp+=self.ser.read(1).decode()
-                
-        return(self.string_set_temp)
+                self.buf_set_temp[i]=self.ser.read(1)
+		time.sleep(0.001)
+	    
+	    for i in range(0,12):
+		self.string_set_temp+=self.buf_set_temp[i].decode()
+
+            return(self.string_set_temp)
 
 	def read_control_type(self):
-            
-        self.string_ctl_type = ""
+	    
+
+            self.buf_ctl_type=[0,0,0,0,0,0,0,0,0,0,0,0] 
+            self.string_ctl_type = ""
+
+	    self.ser.reset_output_buffer()
+	    self.ser.reset_input_buffer()
 
 	    for pn in range(0,16):
-			self.ser.write((TC.read_ctl_type[pn]).encode())
+	        self.ser.write((TC.read_ctl_type[pn]).encode())
 
 	    for i in range(0,12):
-            self.string_ctl_type+=self.ser.read(1).decode()
-	   	return(self.string_ctl_type)
+                self.buf_ctl_type[i]=self.ser.read(1)
+		time.sleep(0.001)
+
+	    for i in range(0,12):
+		self.string_ctl_type+=self.buf_ctl_type[i].decode()
+ 
+            return(self.string_ctl_type)
 	
 	def set_control_type(self):
-        for pn in range(0,16):
-			self.ser.write((TC.set_ctl_type[pn]).encode())
+
+	    self.ser.reset_output_buffer()
+	    self.ser.reset_input_buffer()
+
+            for pn in range(0,16):
+	        self.ser.write((TC.set_ctl_type[pn]).encode())
