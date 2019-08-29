@@ -125,7 +125,7 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
     
     #print(irga.read_IRGA())
    
-   print('reading instruments')
+   #print('reading instruments')
    
    IRGA_list = irga.read_IRGA()
 

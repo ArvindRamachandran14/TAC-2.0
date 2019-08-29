@@ -98,7 +98,7 @@ class TC():
 	    self.ser.reset_input_buffer()
 
             for pn in range(0,16):
-	        self.ser.write((TC.bstc_30[pn]).encode())
+	        self.ser.write((TC.bstc_25[pn]).encode())
 	        time.sleep(0.001)
 	   
 	    for i in range(0,12):
