@@ -27,7 +27,6 @@ def main():
 
     ser_PC = serial.Serial('/dev/ttyUSB0', 9600, timeout=3)
 
-
     #################################   Object creation   ################################# 
 
     dl = DataLib.DataLib()  # initialization triggered when object is created 
@@ -40,7 +39,9 @@ def main():
 
     TC_DPG = TC.TC(ser_TC_DPG)
 
-    #TC_CC.power_off()
+    TC_CC.set_control_type()
+
+    TC_CC.power_on()
 
     #TC_SC.power_off()
 
@@ -60,23 +61,46 @@ def main():
             
             Output = Cmd_prc.Do_it()
             
-            print(Output)
+            #print(type(Output))
             
             if isinstance(Output, bool):
                 
                 pass
-            
-            elif isinstance(Output, str):
-                
-                ser_PC.write(Output.encode())
-                
-                ser_PC.write(('\r'+'\n').encode())
-            
-            else:
+
+            elif isinstance(Output, tuple):
             
                 ser_PC.write((str(Output[0])+'---'+str(Output[1])).encode())
             
                 ser_PC.write(('\r'+'\n').encode())
+
+            elif isinstance(Output, unicode):
+                
+                #print('Output is a string')
+                
+                #print(dl.getParmDict().keys())
+                
+                if Output in dl.getParmDict().keys():
+
+                    ser_PC.write('Ok'.encode())
+                
+                    ser_PC.write(('\r'+'\n').encode())
+
+                    if Output in ['SC_T_Set', 'CC_T_Set', 'DPG_T_Set']:
+                  
+                        if Output == 'CC_T_Set':
+                    
+                            #TC_CC.power_on()
+                    
+                            #TC_CC.read_control_type()
+                            
+                            print(TC_CC.set_temperature())
+
+            else:
+
+                ser_PC.write(Output.encode())
+                
+                ser_PC.write(('\r'+'\n').encode())
+          
             
             #print('Timestamp: '+ str(time_stamp))
             
@@ -93,6 +117,7 @@ def main():
             #print('\n')
         
     except KeyboardInterrupt:
+	TC_CC.power_off()
         print('Terminated')
     
  
@@ -100,11 +125,13 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
     
     #print(irga.read_IRGA())
    
-   print('reading instruments')
+   #print('reading instruments')
    
    IRGA_list = irga.read_IRGA()
 
-   TC_list = [TC_SC.read_temperature(0), TC_CC.read_temperature(0), TC_DPG.read_temperature(0)]
+   #TC_list = [0,0,0,0]
+
+   TC_list = [TC_SC.read_temperature(0), TC_SC.read_temperature(1), TC_CC.read_temperature(0), TC_DPG.read_temperature(0)]
    
    dl.setParm('pCO2', IRGA_list[0], time_stamp)
 
@@ -118,8 +145,10 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
    dl.setParm('SC_T1', TC_list[0], time_stamp)
 
-   dl.setParm('CC_T1', TC_list[1], time_stamp)
+   dl.setParm('SC_T2', TC_list[1], time_stamp)
 
-   dl.setParm('DPG_T1', TC_list[2], time_stamp)
+   dl.setParm('CC_T1', TC_list[2], time_stamp)
+
+   dl.setParm('DPG_T1', TC_list[3], time_stamp)
 
 main()
