@@ -4,7 +4,6 @@ import time
 
 import datetime
 
-
 class TC():
 
 	#List of Commands to perform TC operations

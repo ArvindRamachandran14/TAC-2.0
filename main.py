@@ -12,36 +12,16 @@ import datetime
 
 import time
 
+import global_variables as g
+
 def main():
 
 
     #################################   Define Serial Ports   ################################# 
 
-    ser_TC_SC = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
+    g.gv.TC_CC.set_control_type()
 
-    ser_TC_DPG = serial.Serial('/dev/ttyUSB2', 9600, timeout=1)
-
-    ser_TC_CC = serial.Serial('/dev/ttyUSB3', 9600, timeout=1)
-
-    ser_IRGA= serial.Serial('/dev/ttyUSB4', 9600, timeout=1)
-
-    ser_PC = serial.Serial('/dev/ttyUSB0', 9600, timeout=3)
-
-    #################################   Object creation   ################################# 
-
-    dl = DataLib.DataLib()  # initialization triggered when object is created 
-
-    irga = IRGA.IRGA(ser_IRGA)
-
-    TC_SC = TC.TC(ser_TC_SC)
-
-    TC_CC = TC.TC(ser_TC_CC)
-
-    TC_DPG = TC.TC(ser_TC_DPG)
-
-    TC_CC.set_control_type()
-
-    TC_CC.power_on()
+    g.gv.TC_CC.power_on()
 
     #TC_SC.power_off()
 
@@ -55,9 +35,9 @@ def main():
         
             time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
             
-            Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp)
+            Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)
 
-            Cmd_prc = Command_proc.Command_Proc(dl, ser_PC.readline().decode(), time_stamp)
+            Cmd_prc = Command_proc.Command_Proc(g.gv.dl, g.gv.ser_PC.readline().decode(), time_stamp)
             
             Output = Cmd_prc.Do_it()
             
@@ -69,9 +49,9 @@ def main():
 
             elif isinstance(Output, tuple):
             
-                ser_PC.write((str(Output[0])+'---'+str(Output[1])).encode())
+                g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])).encode())
             
-                ser_PC.write(('\r'+'\n').encode())
+                g.gv.ser_PC.write(('\r'+'\n').encode())
 
             elif isinstance(Output, unicode):
                 
@@ -79,11 +59,11 @@ def main():
                 
                 #print(dl.getParmDict().keys())
                 
-                if Output in dl.getParmDict().keys():
+                if Output in g.gv.dl.getParmDict().keys():
 
-                    ser_PC.write('Ok'.encode())
+                    g.gv.ser_PC.write('Ok'.encode())
                 
-                    ser_PC.write(('\r'+'\n').encode())
+                    g.gv.ser_PC.write(('\r'+'\n').encode())
 
                     if Output in ['SC_T_Set', 'CC_T_Set', 'DPG_T_Set']:
                   
@@ -93,13 +73,13 @@ def main():
                     
                             #TC_CC.read_control_type()
                             
-                            print(TC_CC.set_temperature())
+                            print(g.gv.TC_CC.set_temperature())
 
             else:
 
-                ser_PC.write(Output.encode())
+                g.gv.ser_PC.write(Output.encode())
                 
-                ser_PC.write(('\r'+'\n').encode())
+                g.gv.ser_PC.write(('\r'+'\n').encode())
           
             
             #print('Timestamp: '+ str(time_stamp))
@@ -117,7 +97,7 @@ def main():
             #print('\n')
         
     except KeyboardInterrupt:
-	TC_CC.power_off()
+	g.gv.TC_CC.power_off()
         print('Terminated')
     
  
@@ -127,28 +107,28 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
    
    #print('reading instruments')
    
-   IRGA_list = irga.read_IRGA()
+   IRGA_list = g.gv.irga.read_IRGA()
 
    #TC_list = [0,0,0,0]
 
-   TC_list = [TC_SC.read_temperature(0), TC_SC.read_temperature(1), TC_CC.read_temperature(0), TC_DPG.read_temperature(0)]
+   TC_list = [g.gv.TC_SC.read_temperature(0), g.gv.TC_SC.read_temperature(1), g.gv.TC_CC.read_temperature(0), g.gv.TC_DPG.read_temperature(0)]
    
-   dl.setParm('pCO2', IRGA_list[0], time_stamp)
+   g.gv.dl.setParm('pCO2', IRGA_list[0], time_stamp)
 
-   dl.setParm('pH2O', IRGA_list[1], time_stamp)
+   g.gv.dl.setParm('pH2O', IRGA_list[1], time_stamp)
    
-   dl.setParm('Cell_pressure', IRGA_list[2], time_stamp)
+   g.gv.dl.setParm('Cell_pressure', IRGA_list[2], time_stamp)
    
-   dl.setParm('Cell_temp', IRGA_list[3], time_stamp)
+   g.gv.dl.setParm('Cell_temp', IRGA_list[3], time_stamp)
    
-   dl.setParm('IVOLT', IRGA_list[4], time_stamp)
+   g.gv.dl.setParm('IVOLT', IRGA_list[4], time_stamp)
 
-   dl.setParm('SC_T1', TC_list[0], time_stamp)
+   g.gv.dl.setParm('SC_T1', TC_list[0], time_stamp)
 
-   dl.setParm('SC_T2', TC_list[1], time_stamp)
+   g.gv.dl.setParm('SC_T2', TC_list[1], time_stamp)
 
-   dl.setParm('CC_T1', TC_list[2], time_stamp)
+   g.gv.dl.setParm('CC_T1', TC_list[2], time_stamp)
 
-   dl.setParm('DPG_T1', TC_list[3], time_stamp)
+   g.gv.dl.setParm('DPG_T1', TC_list[3], time_stamp)
 
 main()
