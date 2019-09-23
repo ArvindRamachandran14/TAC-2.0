@@ -16,7 +16,6 @@ import global_variables as g
 
 def main():
 
-
     #################################   Define Serial Ports   ################################# 
 
     g.gv.TC_CC.set_control_type()
@@ -130,5 +129,6 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
    g.gv.dl.setParm('CC_T1', TC_list[2], time_stamp)
 
    g.gv.dl.setParm('DPG_T1', TC_list[3], time_stamp)
+
 
 main()

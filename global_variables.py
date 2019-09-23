@@ -1,4 +1,7 @@
-import TC
+
+#This module has all the variables that need to be accessed across different modules. 
+
+import TC 
 
 import Datalib
 
@@ -7,6 +10,8 @@ import IRGA
 import serial
 
 class gv():
+
+    #################################   Serial port definiton   #################################     
 
 	ser_TC_SC = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
 
@@ -22,7 +27,7 @@ class gv():
 
     dl = DataLib.DataLib()  # initialization triggered when object is created 
 
-    irga = IRGA.IRGA(ser_IRGA)
+    irga = IRGA.IRGA(ser_IRGA) 
 
     TC_SC = TC.TC(ser_TC_SC)
 

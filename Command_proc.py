@@ -1,10 +1,8 @@
-
-import `
-
 import TC
 
 class Command_Proc():
     """docstring for Command_Proc"""
+    
     def __init__(self, dl, string, time_stamp):
 
         self.dl = dl

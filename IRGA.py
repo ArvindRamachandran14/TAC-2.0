@@ -40,7 +40,7 @@ class IRGA():
 
         self.ser.write('<LI840><DATA>?</DATA></LI840>'.encode()) #Command to request output from IRGA
         
-        self.xmlstring = self.ser.readline().decode()# Reading the output as an XML string 
+        self.xmlstring = self.ser.read(1000).decode()# Reading the output as an XML string 
         
         #print(self.xmlstring)
         
