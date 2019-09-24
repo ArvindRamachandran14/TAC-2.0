@@ -52,28 +52,6 @@ def main():
             
                 g.gv.ser_PC.write(('\r'+'\n').encode())
 
-            elif isinstance(Output, unicode):
-                
-                #print('Output is a string')
-                
-                #print(dl.getParmDict().keys())
-                
-                if Output in g.gv.dl.getParmDict().keys():
-
-                    g.gv.ser_PC.write('Ok'.encode())
-                
-                    g.gv.ser_PC.write(('\r'+'\n').encode())
-
-                    if Output in ['SC_T_Set', 'CC_T_Set', 'DPG_T_Set']:
-                  
-                        if Output == 'CC_T_Set':
-                    
-                            #TC_CC.power_on()
-                    
-                            #TC_CC.read_control_type()
-                            
-                            print(g.gv.TC_CC.set_temperature())
-
             else:
 
                 g.gv.ser_PC.write(Output.encode())
@@ -96,8 +74,8 @@ def main():
             #print('\n')
         
     except KeyboardInterrupt:
-	g.gv.TC_CC.power_off()
-        print('Terminated')
+	   g.gv.TC_CC.power_off()
+     print('Terminated')
     
  
 def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
@@ -129,6 +107,5 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
    g.gv.dl.setParm('CC_T1', TC_list[2], time_stamp)
 
    g.gv.dl.setParm('DPG_T1', TC_list[3], time_stamp)
-
 
 main()

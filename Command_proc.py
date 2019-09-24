@@ -1,8 +1,9 @@
-import TC
+
+import global_variables as g
 
 class Command_Proc():
     """docstring for Command_Proc"""
-    
+
     def __init__(self, dl, string, time_stamp):
 
         self.dl = dl
@@ -32,7 +33,19 @@ class Command_Proc():
                 
                 #print(self.dl.getParmDict(self.strings[1])) 
 
-                return(self.strings[1])
+                if self.strings[1] in ['SC_T_Set', 'CC_T_Set', 'DPG_T_Set']:
+
+                    if self.strings[1] == 'SC_T_Set'
+
+                        return(g.gv.TC_SC.set_temperature(float(self.strings[2])))
+
+                    elif self.strings[1] == 'CC_T_Set'
+
+                        return(g.gv.TC_CC.set_temperature(float(self.strings[2])))
+
+                    elif self.strings[1] == 'DPG_T_Set'
+
+                        return(g.gv.TC_DPG.set_temperature(float(self.strings[2])))
 
             else:
 
