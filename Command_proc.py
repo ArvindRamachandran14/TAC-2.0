@@ -43,7 +43,7 @@ class Command_Proc():
 
                         return(g.gv.TC_CC.set_temperature(float(self.strings[2])))
 
-                    elif self.strings[1] == 'DPG_T_Set':strings
+                    elif self.strings[1] == 'DPG_T_Set':strings:
 
                         return(g.gv.TC_DPG.set_temperature(float(self.strings[2])))
 
