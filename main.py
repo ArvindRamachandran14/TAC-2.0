@@ -74,7 +74,7 @@ def main():
             #print('\n')
         
     except KeyboardInterrupt:
-	   g.gv.TC_CC.power_off()
+     g.gv.TC_CC.power_off()
      print('Terminated')
     
  
