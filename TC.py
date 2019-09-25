@@ -14,6 +14,8 @@ class TC():
 
     bstc_T = ['*','0','0','1','c'] # Set temperature 
 
+    bst = []
+
     bst.append(['*','0','0','0','1','0','0','0','0','0','0','0','0','4','1','\r']) # Command to read thermistor 1 temp from controller 
 
     bst.append(['*','0','0','0','6','0','0','0','0','0','0','0','0','4','6','\r']) # Command to read thermistor 2 temp from controller 
