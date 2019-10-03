@@ -1,6 +1,8 @@
 
 import global_variables as g
 
+import Command_Dict
+
 class Command_Proc():
     """docstring for Command_Proc"""
 
@@ -19,50 +21,38 @@ class Command_Proc():
     
         #print(self.strings)
         
-        if self.strings in ([u''], [u'\n'], [u'\r']):
+        if self.strings in ([u''], [u'\n'], [u'\r']): # User enters a new line or does not enter anything - no action requied, return False
         
             return False
 
-        elif self.strings[0] == 's':
+        elif self.strings[0] == 's': #Check to see if command is a set command
             
-            if self.strings[1] in self.dl.getParmDict().keys():
+            if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
                 
                 #print(float(self.strings[2]))
 
-                self.dl.setParm(self.strings[1], float(self.strings[2]), self.time_stamp)
+                self.dl.setParm(self.strings[1], float(self.strings[2]), self.time_stamp) # Update register with user specified set point
                 
                 #print(self.dl.getParmDict(self.strings[1])) 
 
-                if self.strings[1] in ['SC_T_Set', 'CC_T_Set', 'DPG_T_Set']:
-
-                    if self.strings[1] == 'SC_T_Set':
-
-                        return(g.gv.TC_SC.set_temperature(float(self.strings[2])))
-
-                    elif self.strings[1] == 'CC_T_Set':
-
-                        return(g.gv.TC_CC.set_temperature(float(self.strings[2])))
-
-                    elif self.strings[1] == 'DPG_T_Set':
-
-                        return(g.gv.TC_DPG.set_temperature(float(self.strings[2])))
-
+                return(g.gv.TC_SC.send_command(Command_Dict.Command_Dict[self.strings[1]], float(self.strings[2]))) # Performing set operation, return string - Done, Input Error, Checksum Error
+            
             else:
 
-                return('Input Error')
+                return('Variable does not exist') # Variable does not exist, return error message string  
 
-        elif self.strings[0] == 'g':
+        elif self.strings[0] == 'g': #Check to see if command is a get command
 
-            if self.strings[1][:-1] in self.dl.getParmDict().keys():
+            if self.strings[1][:-1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
 
-                return(self.dl.getParm(self.strings[1][:-1]))
+                return(self.dl.getParm(self.strings[1][:-1])) # Obtain value from register, return tuple to lab PC
             
             else:
             
-                return('Input Error')
+                return('Variable does not exist') # Variable does not exist, return error message string 
 
         else:
             
             print(self.strings)
 
-            return('Input Error')
+            return('Command Error') # Wrong command
