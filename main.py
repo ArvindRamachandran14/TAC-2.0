@@ -53,7 +53,7 @@ def main():
                 g.gv.ser_PC.write(('\r'+'\n').encode())
 
             else:
-
+		
                 g.gv.ser_PC.write(Output.encode())
                 
                 g.gv.ser_PC.write(('\r'+'\n').encode())
@@ -73,7 +73,7 @@ def main():
             
             #print('\n')
         
-    except KeyboardInterrupt:
+    except (RuntimeError, TypeError, NameError, KeyboardInterrupt):
      g.gv.TC_CC.power_off()
      print('Terminated')
     

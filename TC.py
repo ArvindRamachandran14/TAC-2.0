@@ -93,7 +93,11 @@ class TC():
 
         list = []
 
-        for x in hex(T_Set*100)[2:]:
+	print(T_Set)
+
+	print(type(T_Set))
+
+        for x in hex(int(T_Set*100))[2:]:
             list.append(x) 
 
         bstc_temp += ['0']*(8-len(list))
