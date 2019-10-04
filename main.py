@@ -1,3 +1,6 @@
+
+ #################################  Import relevant packages  ################################# 
+
 import DataLib
 
 import serial
@@ -14,13 +17,15 @@ import time
 
 import global_variables as g
 
+import Command_Dict
+
 def main():
 
-    #################################   Define Serial Ports   ################################# 
+    #################################  Turn power on and set control type  ################################# 
 
-    g.gv.TC_CC.set_control_type()
+    g.gv.TC_CC.send_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
-    g.gv.TC_CC.power_on()
+    g.gv.TC_CC.send_command(Command_Dict.Command_Dict['power'], 1)
 
     #TC_SC.power_off()
 
@@ -29,24 +34,28 @@ def main():
     try:
 
         while True:
-            
-            current_time = time.time()
-        
-            time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-            
-            Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)
 
-            Cmd_prc = Command_proc.Command_Proc(g.gv.dl, g.gv.ser_PC.readline().decode(), time_stamp)
+           #################################  Machine loop  ################################# 
             
-            Output = Cmd_prc.Do_it()
+            current_time = time.time() # current time 
+        
+            time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S') # create time stamp in specific format
+            
+            Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
+
+            Cmd_prc = Command_proc.Command_Proc(g.gv.dl, g.gv.ser_PC.readline().decode(), time_stamp) # perform user directed action from command line
+            
+            Output = Cmd_prc.Do_it() # Output of said action from command processor
             
             #print(type(Output))
+
+            ########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
             
-            if isinstance(Output, bool):
+            if isinstance(Output, bool): # Pass if False 
                 
                 pass
 
-            elif isinstance(Output, tuple):
+            elif isinstance(Output, tuple):  # Write to PC if output is a tuple
             
                 g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])).encode())
             
@@ -54,7 +63,7 @@ def main():
 
             else:
 		
-                g.gv.ser_PC.write(Output.encode())
+                g.gv.ser_PC.write(Output.encode()) # Likely a string - display string on PC and then go to newline 
                 
                 g.gv.ser_PC.write(('\r'+'\n').encode())
           
@@ -74,23 +83,33 @@ def main():
             #print('\n')
         
     except (RuntimeError, TypeError, NameError, KeyboardInterrupt):
-     g.gv.TC_CC.power_off()
+     g.gv.TC_CC.send_command(Command_Dict.Command_Dict['power'], 0)
      print('Terminated')
     
  
 def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
-    
+
+   #Function to read instruments - IRGA, TC_SC, TC_CC, TC_DPG
+
     #print(irga.read_IRGA())
    
    #print('reading instruments')
    
-   IRGA_list = g.gv.irga.read_IRGA()
+   IRGA_list = g.gv.irga.read_IRGA() # Read IRGA 
 
    #TC_list = [0,0,0,0]
 
-   TC_list = [g.gv.TC_SC.read_temperature(0), g.gv.TC_SC.read_temperature(1), g.gv.TC_CC.read_temperature(0), g.gv.TC_DPG.read_temperature(0)]
-   
-   g.gv.dl.setParm('pCO2', IRGA_list[0], time_stamp)
+   TC_list.append(g.gv.TC_SC.read_temperature(Command_Dict.Command_Dict['T_SC'], 0)) # read thermistor 1 of SC
+
+   TC_list.append(g.gv.TC_SC.read_temperature(Command_Dict.Command_Dict['T_TB'], 0)) # read thermistor 2 of SC
+
+   TC_list.append(g.gv.TC_CC.read_temperature(Command_Dict.Command_Dict['T_CC'], 0)) # read thermistor 1 of CC
+
+   TC_list.append(g.gv.TC_DPG.read_temperature(Command_Dict.Command_Dict['T_DPG'], 0)) # read thermistor 1 of DPG
+
+   # Updated the registers with the most recently read system variables in 
+
+   g.gv.dl.setParm('pCO2', IRGA_list[0], time_stamp) 
 
    g.gv.dl.setParm('pH2O', IRGA_list[1], time_stamp)
    
@@ -108,4 +127,4 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
    g.gv.dl.setParm('DPG_T1', TC_list[3], time_stamp)
 
-main()
+main() # Call main
