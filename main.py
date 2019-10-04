@@ -23,9 +23,9 @@ def main():
 
     #################################  Turn power on and set control type  ################################# 
 
-    g.gv.TC_CC.send_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
-
     g.gv.TC_CC.send_command(Command_Dict.Command_Dict['power'], 1)
+
+    g.gv.TC_CC.send_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
     #TC_SC.power_off()
 
@@ -82,9 +82,9 @@ def main():
             
             #print('\n')
         
-    except (RuntimeError, TypeError, NameError, KeyboardInterrupt):
+    except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
      g.gv.TC_CC.send_command(Command_Dict.Command_Dict['power'], 0)
-     print('Terminated')
+     print('Terminated because of' + str(e))
     
  
 def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
@@ -97,15 +97,15 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
    
    IRGA_list = g.gv.irga.read_IRGA() # Read IRGA 
 
-   #TC_list = [0,0,0,0]
+   TC_list = []
 
-   TC_list.append(g.gv.TC_SC.read_temperature(Command_Dict.Command_Dict['T_SC'], 0)) # read thermistor 1 of SC
+   TC_list.append(g.gv.TC_SC.read_temperature(Command_Dict.Command_Dict['SC_T1'], 0)) # read thermistor 1 of SC
 
-   TC_list.append(g.gv.TC_SC.read_temperature(Command_Dict.Command_Dict['T_TB'], 0)) # read thermistor 2 of SC
+   TC_list.append(g.gv.TC_SC.read_temperature(Command_Dict.Command_Dict['SC_T2'], 0)) # read thermistor 2 of SC
 
-   TC_list.append(g.gv.TC_CC.read_temperature(Command_Dict.Command_Dict['T_CC'], 0)) # read thermistor 1 of CC
+   TC_list.append(g.gv.TC_CC.read_temperature(Command_Dict.Command_Dict['CC_T1'], 0)) # read thermistor 1 of CC
 
-   TC_list.append(g.gv.TC_DPG.read_temperature(Command_Dict.Command_Dict['T_DPG'], 0)) # read thermistor 1 of DPG
+   TC_list.append(g.gv.TC_DPG.read_temperature(Command_Dict.Command_Dict['DPG_T1'], 0)) # read thermistor 1 of DPG
 
    # Updated the registers with the most recently read system variables in 
 
