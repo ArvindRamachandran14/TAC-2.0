@@ -63,7 +63,7 @@ class TC():
 
         return(return_buffer)
 
-    def send_command(self, command, send_value):
+    def write_command(self, command, send_value):
 
         #print(TC.command_generator(command, send_value))
 
@@ -107,7 +107,9 @@ class TC():
 
             return('Checksum error')
 
-    def read_temperature(self, command, send_value):
+    def read_value(self, command):
+
+        send_value = 0
 
         output_buffer=[0,0,0,0,0,0,0,0,0,0,0,0]
 
@@ -130,8 +132,7 @@ class TC():
         for i in range(1, 9):
             string_read_temp+=output_buffer[i].decode()
 
-        return(int(string_read_temp,0)/100.0) #Convert to temperature
-
+        return(int(string_read_temp,0)) #Convert string to integer (actual output)
 
 #tc = TC('Ser')
 

@@ -1,48 +1,87 @@
 Command_Dict = {}
 
 Command_Dict['power_write'] = '2d' 
+
+Command_Dict['power_read'] = '46'
  
 #################################### Read thermistors ####################################
 
-Command_Dict['SC_T1'] = '01'
+Command_Dict['SC_T_read'] = '01'
 
-Command_Dict['SC_T2'] = '06'
+Command_Dict['SC_T2_read'] = '06'
 
-Command_Dict['CC_T1'] = '01'
+Command_Dict['CC_T1_read'] = '01'
 
-Command_Dict['DPG_T1'] = '01'
+Command_Dict['DPG_T1_read'] = '01'
 
-#################################### Send set point commands ####################################
+#################################### Write set point  ####################################
 
-Command_Dict['SC_T_Set'] = '1c'
+Command_Dict['SC_T_Set_write'] = '1c'
 
-Command_Dict['CC_T_Set'] = '1c'
+Command_Dict['CC_T_Set_write'] = '1c'
 
-Command_Dict['DPG_T_Set'] = '1c'
+Command_Dict['DPG_T_Set_write'] = '1c'
 
-#################################### Set proprtional bandwidth ####################################
 
-Command_Dict['SC_P']  = '1d'
+#################################### Read set point  ####################################
 
-Command_Dict['CC_P']  = '1d'
+Command_Dict['SC_T_Set_read'] = '50'
 
-Command_Dict['CC_P']  = '1d'
+Command_Dict['CC_T_Set_read'] = '50'
 
-#################################### Set integral gain ####################################
+Command_Dict['DPG_T_Set_read'] = '50'
 
-Command_Dict['SC_I'] = '1e'
+#################################### Write proprtional bandwidth ####################################
 
-Command_Dict['CC_I'] = '1e'
+Command_Dict['SC_P_write']  = '1d'
 
-Command_Dict['DPG_I'] = '1e'
+Command_Dict['CC_P_write']  = '1d'
 
-#################################### Set derivative gain ####################################
+Command_Dict['CC_P_write']  = '1d'
 
-Command_Dict['SC_D'] = '1f'
+#################################### Read proprtional bandwidth ####################################
 
-Command_Dict['CC_D'] = '1f'
+Command_Dict['SC_P_read']  = '51'
 
-Command_Dict['DPG_D'] = '1f'
+Command_Dict['CC_P_read']  = '51'
+
+Command_Dict['CC_P_read']  = '51'
+
+#################################### Write integral gain ####################################
+
+Command_Dict['SC_I_write'] = '1e'
+
+Command_Dict['CC_I_write'] = '1e'
+
+Command_Dict['DPG_I_write'] = '1e'
+
+
+#################################### Read integral gain ####################################
+
+Command_Dict['SC_I_read']  = '52'
+
+Command_Dict['CC_I_read']  = '52'
+
+Command_Dict['CC_I_read']  = '52'
+
+
+#################################### Write derivative gain ####################################
+
+Command_Dict['SC_D_write'] = '1f'
+
+Command_Dict['CC_D_write'] = '1f'
+
+Command_Dict['DPG_D_write'] = '1f'
+
+
+#################################### Read derivative gain ####################################
+
+Command_Dict['SC_D_read'] = '53'
+
+Command_Dict['CC_D_read'] = '53'
+
+Command_Dict['DPG_D_read'] = '53'
+
 
 #################################### R/W Control types ####################################
 
@@ -51,9 +90,3 @@ Command_Dict['set_ctl_type'] =  '2b'
 Command_Dict['read_ctl_type'] = '44'
 
 #################################### Other commands ####################################
-
-Command_Dict['read_propotional_width'] = '51'
-
-Command_Dict['read_integral_gain'] = '52'
-
-Command_Dict['read_derivative_gain'] = '53'

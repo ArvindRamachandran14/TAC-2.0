@@ -33,11 +33,11 @@ class Command_Proc():
 
 		#print(self.strings[1])
 
-                self.dl.setParm(self.strings[1], float(self.strings[2]), self.time_stamp) # Update register with user specified set point
+                s#elf.dl.setParm(self.strings[1], float(self.strings[2]), self.time_stamp) # Update register with user specified set point
                 
-                print(self.dl.getParm(self.strings[1])) 
+                #print(self.dl.getParm(self.strings[1])) 
 
-                return(g.gv.TC_SC.send_command(Command_Dict.Command_Dict[self.strings[1]], int(float(self.strings[2])*100))) # Performing set operation, return string - Done, Input Error, Checksum Error
+                return(g.gv.TC_SC.send_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))) # Performing set operation, return string - Done, Input Error, Checksum Error
             
             else:
 
