@@ -15,7 +15,8 @@ class TC():
         self.output_buffer = []
 
 
-    def command_generator(command, send_value): 
+    @classmethod
+    def command_generator(cls, command, send_value): 
 
         #Function to generate the command to be sent to the TC, given the command type and sendvalue
 
@@ -70,27 +71,39 @@ class TC():
 
         output_string = ""
 
+	#print(command)
+
+	#print(send_value)
+
         command_buffer = TC.command_generator(command, send_value) # Command generator function returns the command buffer to be sent to the TC
 
         ################################# Write command to TC #################################
 
         for pn in range(0,16):
-            self.ser.write(command_buffer[pn]).encode() #ser is the serial port of the relevant TC
+            self.ser.write(command_buffer[pn].encode()) #ser is the serial port of the relevant TC
             time.sleep(0.001)
 
         ################################# Read response from TC #################################
+	
+	output_string = self.ser.readline().decode()
 
-        for pn in range(0,12):
-            output_buffer[pn]=self.ser.read(1)
+        for pn in range(len(output_string)):
+            output_buffer.append(str(output_string[pn]))
             time.sleep(0.001)
         
         ################################# Checksum test #################################
 
-        if command_buffer[5:-3] == output_buffer[2:-3]:
+        if command_buffer[5:-3] == output_buffer[1:-3]:
+
+	    print(command_buffer)
 
             return('Done')
 
         else:
+		
+	    #print(command_buffer[5:-3])
+	
+	    #print(output_buffer[2:-3])
 
             return('Checksum error')
 
@@ -105,7 +118,7 @@ class TC():
         ################################# Write command to TC #################################
 
         for pn in range(0,16):
-            self.ser.write(command_buffer[pn]).encode()
+            self.ser.write(command_buffer[pn].encode())
             time.sleep(0.001)
 
         ################################# Read response from TC #################################
@@ -117,7 +130,7 @@ class TC():
         for i in range(1, 9):
             string_read_temp+=output_buffer[i].decode()
 
-        return(int(self.string_read_temp,0)/100.0) #Convert to temperature
+        return(int(string_read_temp,0)/100.0) #Convert to temperature
 
 
 #tc = TC('Ser')

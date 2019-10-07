@@ -4,13 +4,13 @@ Command_Dict['power_write'] = '2d'
  
 #################################### Read thermistors ####################################
 
-Command_Dict['T_SC'] = '01'
+Command_Dict['SC_T1'] = '01'
 
-Command_Dict['T_TB'] = '06'
+Command_Dict['SC_T2'] = '06'
 
-Command_Dict['T_CC'] = '01'
+Command_Dict['CC_T1'] = '01'
 
-Command_Dict['T_CC'] = '01'
+Command_Dict['DPG_T1'] = '01'
 
 #################################### Send set point commands ####################################
 
