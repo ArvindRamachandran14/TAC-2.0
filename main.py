@@ -103,21 +103,11 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
    #Function to read instruments - IRGA, TC_SC, TC_CC, TC_DPG
 
-    #print(irga.read_IRGA())
+   #print(irga.read_IRGA())
    
    #print('reading instruments')
    
    IRGA_list = g.gv.irga.read_IRGA() # Read IRGA 
-
-   TC_list = []
-
-   TC_list.append( # read thermistor 1 of SC
-
-   TC_list.append() # read thermistor 2 of SC
-
-   TC_list.append(g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T1'], 0)/100.0) # read thermistor 1 of CC
-
-   TC_list.append(, 0)/100.0) # read thermistor 1 of DPG
 
    # Updated the registers with the most recently read system variables in 
 
