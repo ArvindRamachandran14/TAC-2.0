@@ -1,7 +1,7 @@
 Command_Dict = {}
 
-Command_Dict['power'] = '2d' 
-
+Command_Dict['power_write'] = '2d' 
+ 
 #################################### Read thermistors ####################################
 
 Command_Dict['T_SC'] = '01'

@@ -25,7 +25,7 @@ def main():
 
     g.gv.TC_CC.send_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
-    g.gv.TC_CC.send_command(Command_Dict.Command_Dict['power'], 1)
+    g.gv.TC_CC.send_command(Command_Dict.Command_Dict['power_write'], 1)
 
     #TC_SC.power_off()
 
@@ -83,7 +83,7 @@ def main():
             #print('\n')
         
     except KeyboardInterrupt:
-     g.gv.TC_CC.send_command(Command_Dict.Command_Dict['power'], 0)
+     g.gv.TC_CC.send_command(Command_Dict.Command_Dict['power_write'], 0)
      print('Terminated')
     
  

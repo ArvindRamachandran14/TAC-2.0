@@ -15,7 +15,7 @@ class TC():
         self.output_buffer = []
 
 
-    def command_generator(self, command, send_value): 
+    def command_generator(command, send_value): 
 
         #Function to generate the command to be sent to the TC, given the command type and sendvalue
 
@@ -70,7 +70,7 @@ class TC():
 
         output_string = ""
 
-        command_buffer = self.command_generator(command, send_value) # Command generator function returns the command buffer to be sent to the TC
+        command_buffer = TC.command_generator(command, send_value) # Command generator function returns the command buffer to be sent to the TC
 
         ################################# Write command to TC #################################
 
