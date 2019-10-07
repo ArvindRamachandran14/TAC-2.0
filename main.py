@@ -84,9 +84,9 @@ def main():
         
     except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
      
-     g.gv.TC_CC.send_command(Command_Dict.Command_Dict['power_write'], 0)
+     g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0)
 
-     power = g.gv.TC_CC.read_value(Command_Dict,Command_Dict['power_read'])
+     power = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['power_read'])
 
      if power == 0:
 
@@ -96,7 +96,7 @@ def main():
 
       print('Controller still on')
 
-     print('Terminated because of' + str(e))
+     print('Terminated because ' + str(e))
     
  
 def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
@@ -121,36 +121,36 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
    
    g.gv.dl.setParm('IVOLT', IRGA_list[4], time_stamp)
 
-   g.gv.dl.setParm('SC_T1', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('SC_T1', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T1_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('SC_T2', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T2_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('SC_T2', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T2_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('CC_T1', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T1_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('CC_T1', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T1_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('DPG_T1', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T1_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('DPG_T1', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T1_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('SC_P', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_P_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('SC_P', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_P_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('SC_I', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_I_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('SC_I', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_I_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('SC_D', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_D_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('SC_D', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_D_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('CC_P', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_P_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('CC_P', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_P_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('CC_I', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_I_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('CC_I', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_I_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('CC_D', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_D_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('CC_D', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_D_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('DPG_P', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_P_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('DPG_P', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_P_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('DPG_I', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_I_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('DPG_I', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_I_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('DPG_D', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_D_read'], 0)/100.0, time_stamp)   
+   g.gv.dl.setParm('DPG_D', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_D_read'])/100.0, time_stamp)   
 
-   g.gv.dl.setParm('SC_T_Set_read', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T_Set_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('SC_T_Set', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T_Set_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('CC_T_Set_read', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T_Set_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('CC_T_Set', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T_Set_read'])/100.0, time_stamp)
 
-   g.gv.dl.setParm('DPG_T_Set_read', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T_Set_read'], 0)/100.0, time_stamp)
+   g.gv.dl.setParm('DPG_T_Set', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T_Set_read'])/100.0, time_stamp)
 
 main() # Call main

@@ -6,7 +6,7 @@ Command_Dict['power_read'] = '46'
  
 #################################### Read thermistors ####################################
 
-Command_Dict['SC_T_read'] = '01'
+Command_Dict['SC_T1_read'] = '01'
 
 Command_Dict['SC_T2_read'] = '06'
 
@@ -37,7 +37,7 @@ Command_Dict['SC_P_write']  = '1d'
 
 Command_Dict['CC_P_write']  = '1d'
 
-Command_Dict['CC_P_write']  = '1d'
+Command_Dict['DPG_P_write']  = '1d'
 
 #################################### Read proprtional bandwidth ####################################
 
@@ -45,7 +45,7 @@ Command_Dict['SC_P_read']  = '51'
 
 Command_Dict['CC_P_read']  = '51'
 
-Command_Dict['CC_P_read']  = '51'
+Command_Dict['DPG_P_read']  = '51'
 
 #################################### Write integral gain ####################################
 
@@ -62,7 +62,7 @@ Command_Dict['SC_I_read']  = '52'
 
 Command_Dict['CC_I_read']  = '52'
 
-Command_Dict['CC_I_read']  = '52'
+Command_Dict['DPG_I_read']  = '52'
 
 
 #################################### Write derivative gain ####################################
