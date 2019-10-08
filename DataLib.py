@@ -43,11 +43,9 @@ class DataLib():
         self.SC_I = Register(9, 'SC_I', 0.0, init_ts) 
         self.SC_D = Register(10, 'SC_D', 0.0, init_ts) 
 
-
         self.DPG_P = Register(11, 'DPG_P', 0.0, init_ts) 
         self.DPG_I = Register(12, 'DPG_I', 0.0, init_ts) 
         self.DPG_D = Register(13, 'DPG_D', 0.0, init_ts) 
-
 
         self.CC_P = Register(14, 'CC_P', 0.0, init_ts) 
         self.CC_I = Register(15, 'CC_I', 0.0, init_ts) 
@@ -55,11 +53,11 @@ class DataLib():
 
         # Controller State and Output 
 
-        self.SC_State = Register(17,'SC_State', 0.0, init_ts)
+        self.SC_State = Register(17,'SC_State', 0, init_ts)
         self.SC_Output = Register(18,'SC_Output', 0.0, init_ts)
-        self.DPG_State = Register(19,'DPG_State', 0.0, init_ts)
+        self.DPG_State = Register(19,'DPG_State', 0, init_ts)
         self.DPG_Output = Register(20,'DPG_Output', 0.0, init_ts)
-        self.CC_State = Register(21,'CC_State', 0.0, init_ts)
+        self.CC_State = Register(21,'CC_State', 0, init_ts)
         self.CC_Output = Register(22,'CC_Output', 0.0, init_ts)
         
         # IRGA

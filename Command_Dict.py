@@ -1,9 +1,13 @@
 Command_Dict = {}
 
+################################### Power ####################################
+
 Command_Dict['power_write'] = '2d' 
 
 Command_Dict['power_read'] = '46'
- 
+
+Command_Dict['power_output_read'] = '02'
+
 #################################### Read thermistors ####################################
 
 Command_Dict['SC_T1_read'] = '01'
@@ -55,7 +59,6 @@ Command_Dict['CC_I_write'] = '1e'
 
 Command_Dict['DPG_I_write'] = '1e'
 
-
 #################################### Read integral gain ####################################
 
 Command_Dict['SC_I_read']  = '52'
@@ -81,7 +84,6 @@ Command_Dict['SC_D_read'] = '53'
 Command_Dict['CC_D_read'] = '53'
 
 Command_Dict['DPG_D_read'] = '53'
-
 
 #################################### R/W Control types ####################################
 
