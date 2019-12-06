@@ -7,6 +7,8 @@ import time
 
 import datetime
 
+import re
+
 import xml.etree.ElementTree as ET
 
 
@@ -30,7 +32,7 @@ class IRGA():
         
         #self.ser.write(self.string_as_bytes)
         
-        #self.ser.write('<LI840> <CFG> <OUTRATE> 0 </OUTRATE> </CFG> </LI840>')
+        self.ser.write('<LI840> <CFG> <OUTRATE> 0 </OUTRATE> </CFG> </LI840>'.encode())
         
         self.return_list = []
 
@@ -38,9 +40,15 @@ class IRGA():
         
         self.return_list = []
 
+        self.ser.reset_input_buffer()
+
+        self.ser.reset_output_buffer()
+
         self.ser.write('<LI840><DATA>?</DATA></LI840>'.encode()) #Command to request output from IRGA
         
         self.xmlstring = self.ser.read(1000).decode()# Reading the output as an XML string 
+
+        #self.xmlstring = re.search('<li840>(.*)</li840>',self.xmlstring).group(0)
         
         #print(self.xmlstring)
         

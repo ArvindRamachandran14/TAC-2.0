@@ -85,7 +85,7 @@ class TC():
 
         ################################# Read response from TC #################################
 	
-	output_string = self.ser.readline().decode()
+        output_string = self.ser.readline().decode()
 
         for pn in range(len(output_string)):
             output_buffer.append(str(output_string[pn]))
@@ -95,7 +95,7 @@ class TC():
 
         if command_buffer[5:-3] == output_buffer[1:-3]:
 
-	    print(command_buffer)
+	    #print(command_buffer)
 
             return('Done')
 

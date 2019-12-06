@@ -25,11 +25,11 @@ def main():
 
     #g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
-    g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 1)
+    #g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 1)
 
     g.gv.TC_SC.write_command(Command_Dict.Command_Dict['power_write'], 1)
 
-    g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['power_write'], 1)
+    #g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['power_write'], 1)
 
     #TC_SC.power_off()
 
@@ -88,13 +88,13 @@ def main():
         
     except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
      
-     g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0)
+     #g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0)
 
      g.gv.TC_SC.write_command(Command_Dict.Command_Dict['power_write'], 0)
 
-     g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['power_write'], 0)
+     #g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['power_write'], 0)
 
-     power = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['power_read'])
+     power = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['power_read'])
 
      if power == 0:
 
@@ -167,11 +167,11 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
    g.gv.dl.setParm('DPG_State', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['power_read']), time_stamp)
 
-   g.gv.dl.setParm('SC_Output', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['power_output_read'])*(100/511), time_stamp)
+   g.gv.dl.setParm('SC_Output', (g.gv.TC_SC.read_value(Command_Dict.Command_Dict['power_output_read'])/511.0)*100, time_stamp)
 
-   g.gv.dl.setParm('CC_Output', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_output_read'])*(100/511), time_stamp)
+   g.gv.dl.setParm('CC_Output', (g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_output_read'])/511.0)*100, time_stamp)
 
-   g.gv.dl.setParm('DPG_Output', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['power_output_read'])*(100/511), time_stamp)
+   g.gv.dl.setParm('DPG_Output', (g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['power_output_read'])/511.0)*100, time_stamp)
 
 
 main() # Call main

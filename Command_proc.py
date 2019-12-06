@@ -39,7 +39,14 @@ class Command_Proc():
 		
 		#print(Command_Dict.Command_Dict[self.strings[1]+'_write'])
 
-                return(g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))) # Performing set operation, return string - Done, Input Error, Checksum Error
+                if self.strings[1][0:2] == "SC":
+                    return(g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))) # Performing set operation, return string - Done, Input Error, Checksum Error
+
+                elif self.strings[1][0:2] == "CC":
+                    return(g.gv.TC_CC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)))
+
+                elif self.strings[1][0:2] == "DP":
+                    return(g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)))
             
             else:
 
