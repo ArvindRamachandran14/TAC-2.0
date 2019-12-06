@@ -56,7 +56,11 @@ def main():
 
 			elif isinstance(Output, dict):
 
-				xmlstrings = dicttoxml.dicttoxml(Output)
+				print(Output)
+
+				xmlstring = dicttoxml.dicttoxml(Output)
+				
+				print(xmlstring)
 
 				g.gv.ser_PC.write(xmlstring)
 
@@ -70,6 +74,8 @@ def main():
 				g.gv.ser_PC.write(('\r'+'\n').encode())
 
 			else:
+				
+				#print(type(Output))
 		
 				g.gv.ser_PC.write(Output.encode()) # Likely a string - display string on PC and then go to newline 
 								
