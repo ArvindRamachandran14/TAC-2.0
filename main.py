@@ -30,80 +30,80 @@ def main():
 
 	g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
-		try:
+	try:
 
-			while True:
+		while True:
 
-				#################################  Machine loop  ################################# 
+			#################################  Machine loop  ################################# 
 						
-				current_time = time.time() # current time 
+			current_time = time.time() # current time 
 				
-				time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S') # create time stamp in specific format
+			time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S') # create time stamp in specific format
 						
-				Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
+			Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
 
-				Cmd_prc = Command_proc.Command_Proc(g.gv.dl, g.gv.ser_PC.readline().decode(), time_stamp) # perform user directed action from command line
+			Cmd_prc = Command_proc.Command_Proc(g.gv.dl, g.gv.ser_PC.readline().decode(), time_stamp) # perform user directed action from command line
 						
-				Output = Cmd_prc.Do_it() # Output of said action from command processor
+			Output = Cmd_prc.Do_it() # Output of said action from command processor
 						
-				#print(type(Output))
+			#print(type(Output))
 
-				########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
+			########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
 						
-				if isinstance(Output, bool): # Pass if False 
+			if isinstance(Output, bool): # Pass if False 
 								
-					pass
+				pass
 
-				elif isinstance(Output, dict):
+			elif isinstance(Output, dict):
 
-					xmlstrings = dicttoxml.dicttoxml(Output)
+				xmlstrings = dicttoxml.dicttoxml(Output)
 
-					g.gv.ser_PC.write(xmlstring)
+				g.gv.ser_PC.write(xmlstring)
 
-					g.gv.ser_PC.write(('\r'+'\n').encode())
+				g.gv.ser_PC.write(('\r'+'\n').encode())
 
 
-				elif isinstance(Output, tuple):  # Write to PC if output is a tuple
+			elif isinstance(Output, tuple):  # Write to PC if output is a tuple
 						
-					g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])).encode())
+				g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])).encode())
 						
-					g.gv.ser_PC.write(('\r'+'\n').encode())
+				g.gv.ser_PC.write(('\r'+'\n').encode())
 
-				else:
+			else:
 		
-					g.gv.ser_PC.write(Output.encode()) # Likely a string - display string on PC and then go to newline 
+				g.gv.ser_PC.write(Output.encode()) # Likely a string - display string on PC and then go to newline 
 								
-					g.gv.ser_PC.write(('\r'+'\n').encode())
+				g.gv.ser_PC.write(('\r'+'\n').encode())
 					
-					#print('Timestamp: '+ str(time_stamp))
+				#print('Timestamp: '+ str(time_stamp))
 						
-					#print('pCO2: '+ str(dl.getParm('pCO2'))+ ' ppm')
+				#print('pCO2: '+ str(dl.getParm('pCO2'))+ ' ppm')
 						
-					#print('pH2O: '+ str(dl.getParm('pH2O'))+ ' ppt')
+				#print('pH2O: '+ str(dl.getParm('pH2O'))+ ' ppt')
 						
-					#print('Cell Temp: ' + str(dl.getParm('Cell_temp'))+ ' C')
+				#print('Cell Temp: ' + str(dl.getParm('Cell_temp'))+ ' C')
 						
-					#print('Cell Pressure: ' + str(dl.getParm('Cell_pressure'))+ ' kPa')
+				#print('Cell Pressure: ' + str(dl.getParm('Cell_pressure'))+ ' kPa')
 
-					#print('Cell Voltage: ' + str(dl.getParm('IVOLT'))+ ' V')
+				#print('Cell Voltage: ' + str(dl.getParm('IVOLT'))+ ' V')
 						
-					#print('\n')
+				#print('\n')
 				
-		except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
+	except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 		 
-			g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0)
+		g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0)
 
-		 	power = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_read'])
+		power = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_read'])
 
-		 	if power == 0:
+		if power == 0:
 
-				print('Controller turned off')
+			print('Controller turned off')
 
-		 	elif power ==1:
+		 elif power ==1:
 
-				print('Controller still on')
+			print('Controller still on')
 
-		 	print('Terminated because ' + str(e))
+		 print('Terminated because ' + str(e))
 		
 
 def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
