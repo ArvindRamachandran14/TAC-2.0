@@ -99,11 +99,11 @@ def main():
 
 			print('Controller turned off')
 
-		 elif power ==1:
+		elif power ==1:
 
 			print('Controller still on')
 
-		 print('Terminated because ' + str(e))
+		print('Terminated because ' + str(e))
 		
 
 def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
