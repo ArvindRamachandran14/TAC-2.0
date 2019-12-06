@@ -16,7 +16,6 @@ class Register():
         self.value = _v
         self.time_stamp = _ts
 
-
 class DataLib():
 
     # Controller data manager
