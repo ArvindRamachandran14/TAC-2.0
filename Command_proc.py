@@ -31,13 +31,13 @@ class Command_Proc():
                 
                 #print(float(self.strings[2]))
 
-		#print(self.strings[1])
+        #print(self.strings[1])
 
                 #self.dl.setParm(self.strings[1], float(self.strings[2]), self.time_stamp) # Update register with user specified set point
                 
                 #print(self.dl.getParm(self.strings[1])) 
-		
-		#print(Command_Dict.Command_Dict[self.strings[1]+'_write'])
+        
+        #print(Command_Dict.Command_Dict[self.strings[1]+'_write'])
 
                 return(g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))) # Performing set operation, return string - Done, Input Error, Checksum Error
             
@@ -47,7 +47,11 @@ class Command_Proc():
 
         elif self.strings[0] == 'g': #Check to see if command is a get command
 
-            if self.strings[1][:-1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
+            if self.strings[1] = 'all':
+
+                return(self.dl.getParmDict)
+
+            elif self.strings[1][:-1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
 
                 return(self.dl.getParm(self.strings[1][:-1])) # Obtain value from register, return tuple to lab PC
             
