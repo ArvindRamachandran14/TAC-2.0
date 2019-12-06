@@ -84,13 +84,8 @@ class TC():
             time.sleep(0.001)
 
         ################################# Read response from TC #################################
-<<<<<<< HEAD
 	
         output_string = self.ser.readline().decode()
-=======
-    
-    output_string = self.ser.readline().decode()
->>>>>>> 471e68e6c6fd2187de42ba5ee9ee0f9334655bd4
 
         for pn in range(len(output_string)):
             output_buffer.append(str(output_string[pn]))
@@ -100,20 +95,10 @@ class TC():
 
         if command_buffer[5:-3] == output_buffer[1:-3]:
 
-<<<<<<< HEAD
-	    #print(command_buffer)
-=======
-        print(command_buffer)
->>>>>>> 471e68e6c6fd2187de42ba5ee9ee0f9334655bd4
-
             return('Done')
 
         else:
-        
-        #print(command_buffer[5:-3])
     
-        #print(output_buffer[2:-3])
-
             return('Checksum error')
 
     def read_value(self, command):

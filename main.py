@@ -24,27 +24,13 @@ import dicttoxml
 
 def main():
 
-		#################################  Turn power on and set control type  ################################# 
+	#################################  Turn power on and set control type  ################################# 
 
-		g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
+	g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
-		g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 1)
-
-		#TC_SC.power_off()
-
-<<<<<<< HEAD
-    #g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
-
-    #g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 1)
-
-    g.gv.TC_SC.write_command(Command_Dict.Command_Dict['power_write'], 1)
-
-    #g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['power_write'], 1)
-=======
-		#TC_DPG.power_off()
+	g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
 		try:
->>>>>>> 471e68e6c6fd2187de42ba5ee9ee0f9334655bd4
 
 			while True:
 
@@ -119,49 +105,7 @@ def main():
 
 		 	print('Terminated because ' + str(e))
 		
-<<<<<<< HEAD
-                g.gv.ser_PC.write(Output.encode()) # Likely a string - display string on PC and then go to newline 
-                
-                g.gv.ser_PC.write(('\r'+'\n').encode())
-          
-            
-            #print('Timestamp: '+ str(time_stamp))
-            
-            #print('pCO2: '+ str(dl.getParm('pCO2'))+ ' ppm')
-            
-            #print('pH2O: '+ str(dl.getParm('pH2O'))+ ' ppt')
-            
-            #print('Cell Temp: ' + str(dl.getParm('Cell_temp'))+ ' C')
-            
-            #print('Cell Pressure: ' + str(dl.getParm('Cell_pressure'))+ ' kPa')
 
-            #print('Cell Voltage: ' + str(dl.getParm('IVOLT'))+ ' V')
-            
-            #print('\n')
-        
-    except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
-     
-     #g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0)
-
-     g.gv.TC_SC.write_command(Command_Dict.Command_Dict['power_write'], 0)
-
-     #g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['power_write'], 0)
-
-     power = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['power_read'])
-
-     if power == 0:
-
-      print('Controller turned off')
-
-     elif power ==1:
-
-      print('Controller still on')
-
-     print('Terminated because ' + str(e))
-    
-=======
->>>>>>> 471e68e6c6fd2187de42ba5ee9ee0f9334655bd4
- 
 def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
 	 #Function to read instruments - IRGA, TC_SC, TC_CC, TC_DPG
@@ -220,14 +164,13 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
 	 g.gv.dl.setParm('CC_State', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_read']), time_stamp)
 
+	 g.gv.dl.setParm('DPG_State', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['power_read']), time_stamp)
+
    	 g.gv.dl.setParm('SC_Output', (g.gv.TC_SC.read_value(Command_Dict.Command_Dict['power_output_read'])/511.0)*100, time_stamp)
 
    	 g.gv.dl.setParm('CC_Output', (g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_output_read'])/511.0)*100, time_stamp)
 
-
    	 g.gv.dl.setParm('DPG_Output', (g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['power_output_read'])/511.0)*100, time_stamp)
-
-	 g.gv.dl.setParm('DPG_State', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['power_read']), time_stamp)
 
 
 main() # Call main
