@@ -54,7 +54,7 @@ class Command_Proc():
 
         elif self.strings[0] == 'g': #Check to see if command is a get command
 
-            if self.strings[1] == 'all':
+            if self.strings[1][:-1] == 'all':
 
                 return(self.dl.getParmDict)
 
