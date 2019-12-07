@@ -74,7 +74,7 @@ class DataLib():
         # Control
         self.Run = Register(30, "Run", False, init_ts)
 
-        # The parameter dictionary
+        # The parameter dictionary with register objects
         self.parmDict = {
             self.SC_T1.name : self.SC_T1,
             self.SC_T2.name : self.SC_T2, 
@@ -109,7 +109,19 @@ class DataLib():
         }
 
     def getParmDict(self):
+        
         return self.parmDict
+
+    def get_all_data(self):
+
+        all_data_dict = {}
+
+        for key in self.parmDict.keys():
+
+            all_data_dict[key] = (self.parmDict[key].value, (self.parmDict[key].time_stamp))
+
+        return(all_data_dict)
+
 
     def setParm(self, key, value, time_stamp):
         if key in self.parmDict:

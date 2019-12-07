@@ -56,11 +56,7 @@ def main():
 
 			elif isinstance(Output, dict):
 
-				print(Output)
-
 				xmlstring = dicttoxml.dicttoxml(Output)
-				
-				print(xmlstring)
 
 				g.gv.ser_PC.write(xmlstring)
 
