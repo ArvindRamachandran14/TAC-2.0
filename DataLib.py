@@ -108,11 +108,11 @@ class DataLib():
             self.IVOLT.name: self.IVOLT,
             self.pH2O.name: self.pH2O,
             self.pCO2.name: self.pCO2,
-            self.Dew_point_temp: self.Dew_point_temp,
+            self.Dew_point_temp.name: self.Dew_point_temp,
             self.Sample_weight.name: self.Sample_weight,
             self.V_state.name: self.V_state,
-            self.Run.name: self.Run
-            self.Status: self.Status
+            self.Run.name: self.Run,
+            self.Status.name: self.Status
         }
 
     def getParmDict(self):
