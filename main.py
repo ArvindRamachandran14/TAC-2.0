@@ -1,4 +1,5 @@
 
+
  #################################  Import relevant packages  ################################# 
 
 import DataLib
@@ -125,18 +126,36 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 	 g.gv.dl.setParm('pH2O', IRGA_list[1], time_stamp)
 	 
 	 g.gv.dl.setParm('Cell_pressure', IRGA_list[2], time_stamp)
+
+	 Cell_temp = IRGA_list[3]
 	 
-	 g.gv.dl.setParm('Cell_temp', IRGA_list[3], time_stamp)
+	 g.gv.dl.setParm('Cell_temp', Cell_temp, time_stamp)
 	 
 	 g.gv.dl.setParm('IVOLT', IRGA_list[4], time_stamp)
 
-	 g.gv.dl.setParm('SC_T1', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T1_read'])/100.0, time_stamp)
+	 Dew_point_temp =  IRGA_list[5]
 
-	 g.gv.dl.setParm('SC_T2', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T2_read'])/100.0, time_stamp)
+	 g.gv.dl.setParm('Dew_point_temp', Dew_point_temp, time_stamp)
 
-	 g.gv.dl.setParm('CC_T1', g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T1_read'])/100.0, time_stamp)
+	 SC_T1 = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T1_read'])/100.0
 
-	 g.gv.dl.setParm('DPG_T1', g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T1_read'])/100.0, time_stamp)
+	 g.gv.dl.setParm('SC_T1', SC_T1, time_stamp)
+
+	 SC_T2 = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T2_read'])/100.0
+
+	 g.gv.dl.setParm('SC_T2', SC_T2, time_stamp)
+
+	 CC_T1 = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T1_read'])/100.0
+
+	 g.gv.dl.setParm('CC_T1', CC_T1, time_stamp)
+
+	 DPG_T1 = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T1_read'])/100.0
+
+	 g.gv.dl.setParm('DPG_T1', DPG_T1, time_stamp)
+
+	 if Cell_temp < 50.0 or Dew_point_temp < 45.0 or Dew_point_temp > CC_T1 or CC_T1 > SC_T1 or SC_T1 > DPG_T1:
+
+	 	g.gv.dl.setParm('Status', 1, time_stamp)
 
 	 g.gv.dl.setParm('SC_P', g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_P_read'])/100.0, time_stamp)
 

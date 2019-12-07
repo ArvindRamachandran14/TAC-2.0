@@ -65,14 +65,19 @@ class DataLib():
         self.IVOLT = Register(25, 'IVOLT', 0.0, init_ts) # Voltage supplied to IRGA
         self.pH2O = Register(26, 'pH2O', 0.0, init_ts)    # Partial pressure H20 (Pa)
         self.pCO2 = Register(27, 'pCO2', 0.0, init_ts)   # Partial pressure CO2 (Pa)
+        self.Dew_point_temp = Register(28, 'Dew_point_temp', 0.0, init_ts)
 
         #Others
 
-        self.Sample_weight = Register(28, 'Sample_weight', 0.0, init_ts) #Weight of the sample
-        self.V_state = Register(29, 'V_state',0.0, init_ts) #Desired valve state – bypass/norma
+        self.Sample_weight = Register(29, 'Sample_weight', 0.0, init_ts) #Weight of the sample
+        self.V_state = Register(30, 'V_state',0.0, init_ts) #Desired valve state – bypass/norma
 
         # Control
-        self.Run = Register(30, "Run", False, init_ts)
+        self.Run = Register(31, "Run", False, init_ts)
+
+        #Status 
+
+        self.Status = Register(32, "Status", 0, init_ts)
 
         # The parameter dictionary with register objects
         self.parmDict = {
@@ -103,9 +108,11 @@ class DataLib():
             self.IVOLT.name: self.IVOLT,
             self.pH2O.name: self.pH2O,
             self.pCO2.name: self.pCO2,
+            self.Dew_point_temp: self.Dew_point_temp,
             self.Sample_weight.name: self.Sample_weight,
             self.V_state.name: self.V_state,
             self.Run.name: self.Run
+            self.Status: self.Status
         }
 
     def getParmDict(self):

@@ -65,5 +65,7 @@ class IRGA():
         self.return_list.append(float(self.root[0].find('celltemp').text))
 
         self.return_list.append(float(self.root[0].find('ivolt').text))
+
+        self.return_list.append(float(self.root[0].find('h2odewpoint').text))
             
         return(self.return_list)
