@@ -73,7 +73,7 @@ class DataLib():
         self.V_state = Register(30, 'V_state',0.0, init_ts) #Desired valve state – bypass/norma
 
         # Control
-        self.Run = Register(31, "Run", False, init_ts)
+        self.Run = Register(31, "Run", 0, init_ts)
 
         #Status 
 
