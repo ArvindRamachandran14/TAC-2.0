@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 """ DataLib.py
@@ -73,7 +74,7 @@ class DataLib():
         self.V_state = Register(30, 'V_state',0.0, init_ts) #Desired valve state – bypass/norma
 
         # Control
-        self.Run = Register(31, "Run", False, init_ts)
+        self.Run = Register(31, "Run", 0, init_ts)
 
         #Status 
 
@@ -128,7 +129,6 @@ class DataLib():
             all_data_dict[key] = (self.parmDict[key].value, (self.parmDict[key].time_stamp))
 
         return(all_data_dict)
-
 
     def setParm(self, key, value, time_stamp):
         if key in self.parmDict:

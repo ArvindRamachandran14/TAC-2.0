@@ -156,6 +156,7 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 	 if Cell_temp > 50.0 and Dew_point_temp < 45.0 and Dew_point_temp > CC_T1 and CC_T1 > SC_T1 and SC_T1 > DPG_T1:
 		
 		pass
+		
 	 else:
 
 	 	g.gv.dl.setParm('Status', 1, time_stamp)
