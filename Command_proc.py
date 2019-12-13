@@ -47,6 +47,8 @@ class Command_Proc():
 
                     if Output_string == "Done":
 
+                        current_time = time.time() # current time 
+
                         time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_SC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
@@ -57,6 +59,8 @@ class Command_Proc():
 
                     if Output_string == "Done":
 
+                        current_time = time.time() # current time 
+
                         time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
@@ -66,6 +70,8 @@ class Command_Proc():
                     g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
                     if Output_string == "Done":
+
+                        current_time = time.time() # current time 
 
                         time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
