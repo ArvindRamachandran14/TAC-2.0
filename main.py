@@ -37,11 +37,11 @@ def main():
 			#################################  Machine loop  ################################# 
 						
 			current_time = time.time() # current time 
-
-			print(current_time)
 				
-			time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S') # create time stamp in specific format
+			time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f') # create time stamp in specific format
 						
+			print(time_stamp)
+
 			Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
 
 			Cmd_prc = Command_proc.Command_Proc(g.gv.dl, g.gv.ser_PC.readline().decode(), time_stamp) # perform user directed action from command line
