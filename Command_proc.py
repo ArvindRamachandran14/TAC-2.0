@@ -43,9 +43,11 @@ class Command_Proc():
 
                     Output_string = g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)) # Performing set operation, return string - Done, Input Error, Checksum Error
 
-                    print(type(Output_string))
-
                     return(Output_string)
+
+                    if Output_string == 'Done':
+
+                        print('It works')
 
                 elif self.strings[1][0:2] == "CC":
                 
