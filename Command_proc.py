@@ -43,21 +43,27 @@ class Command_Proc():
 
                     Output_string = g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)) # Performing set operation, return string - Done, Input Error, Checksum Error
 
-                    if Output_string == 'Done':
+                    if Output_string == "Done":
 
-		    return(Output_string)
+                        g.gv.dl.setParm(self.strings[1], g.gv.TC_SC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
                 elif self.strings[1][0:2] == "CC":
                 
                     Output_string = g.gv.TC_CC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
-                    return(Output_string)
+                    if Output_string == "Done":
+
+                        g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
                 elif self.strings[1][0:2] == "DP":
                     
                     g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
-                
-                    return(Output_string) 
+
+                    if Output_string == "Done":
+
+                        g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
+
+                return(Output_string) 
 
             else:
 
