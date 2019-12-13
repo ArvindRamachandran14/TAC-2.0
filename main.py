@@ -37,6 +37,8 @@ def main():
 			#################################  Machine loop  ################################# 
 						
 			current_time = time.time() # current time 
+
+			print(current_time)
 				
 			time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S') # create time stamp in specific format
 						
