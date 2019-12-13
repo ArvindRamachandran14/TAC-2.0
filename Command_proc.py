@@ -40,14 +40,25 @@ class Command_Proc():
         #print(Command_Dict.Command_Dict[self.strings[1]+'_write'])
 
                 if self.strings[1][0:2] == "SC":
-                    return(g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))) # Performing set operation, return string - Done, Input Error, Checksum Error
+
+                    Output_string = g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)) # Performing set operation, return string - Done, Input Error, Checksum Error
+
+                    print(type(Output_string))
+
+                    return(Output_string)
 
                 elif self.strings[1][0:2] == "CC":
-                    return(g.gv.TC_CC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)))
+                
+                    Output_string = g.gv.TC_CC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
+
+                    return(Output_string)
 
                 elif self.strings[1][0:2] == "DP":
-                    return(g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)))
-            
+                    
+                    g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
+                
+                    return(Output_string) 
+
             else:
 
                 return('Variable does not exist') # Variable does not exist, return error message string  
@@ -61,8 +72,6 @@ class Command_Proc():
             elif self.strings[1][:-1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
 
                 return(self.dl.getParm(self.strings[1][:-1])) # Obtain value from register, return tuple to lab PC
-            
-            else:
             
                 return('Variable does not exist') # Variable does not exist, return error message string 
 
