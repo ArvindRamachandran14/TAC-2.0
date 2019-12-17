@@ -60,9 +60,11 @@ def main():
 
 			elif isinstance(Output, dict):
 
+				xmlstring = dicttoxml.dicttoxml(Output)
+
 				result_string = json.dumps(Output) 
 
-				g.gv.ser_PC.write(result_string)
+				g.gv.ser_PC.write(xmlstring)
 
 				g.gv.ser_PC.write(('\r'+'\n').encode())
 
