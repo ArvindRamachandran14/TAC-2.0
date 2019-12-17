@@ -1,4 +1,4 @@
-s
+
 # -*- coding: utf-8 -*-
 
 """ DataLib.py
@@ -124,7 +124,7 @@ class DataLib():
 
         all_data_dict = {}
 
-        for key in ['SC_T1', 'SC_T2', ' CC_T1', 'DPG_T1', 'pH2O', 'pCO2', 'Dew_point_temp', 'Sample_weight', 'Status']:
+        for key in ['SC_T1', 'SC_T2', 'CC_T1', 'DPG_T1', 'pH2O', 'pCO2', 'Dew_point_temp', 'Sample_weight', 'Status']:
 
             all_data_dict[key] = (self.parmDict[key].value, (self.parmDict[key].time_stamp))
 
