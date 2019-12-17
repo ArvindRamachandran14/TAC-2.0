@@ -124,13 +124,13 @@ class DataLib():
 
         all_data_dict = {}
 
-        string = []
+        string = ""
 
         for key in ['SC_T1', 'SC_T2', 'CC_T1', 'DPG_T1', 'pH2O', 'pCO2', 'Dew_point_temp', 'Sample_weight', 'Status']:
 
-            string + = str(self.parmDict[key].value) 
+            string += str(self.parmDict[key].value) 
 
-            string + = ','
+            string += ','
 
         return(string)
 
