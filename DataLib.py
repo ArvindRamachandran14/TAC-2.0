@@ -124,11 +124,15 @@ class DataLib():
 
         all_data_dict = {}
 
+        string = []
+
         for key in ['SC_T1', 'SC_T2', 'CC_T1', 'DPG_T1', 'pH2O', 'pCO2', 'Dew_point_temp', 'Sample_weight', 'Status']:
 
-            all_data_dict[key] = str(self.parmDict[key].value) + '---' +str(self.parmDict[key].time_stamp)
+            string + = str(self.parmDict[key].value) 
 
-        return(all_data_dict)
+            string + = ','
+
+        return(string)
 
     def setParm(self, key, value, time_stamp):
         if key in self.parmDict:
