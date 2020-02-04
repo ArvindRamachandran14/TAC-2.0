@@ -19,7 +19,7 @@ import global_variables as g
 
 import Command_Dict
 
-import dicttoxml
+#import dicttoxml
 
 import json
 
@@ -42,11 +42,15 @@ def main():
                 
             time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f') # create time stamp in specific format
                         
-            print(time_stamp)
+            #print(time_stamp)
 
             Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
 
-            Cmd_prc = Command_proc.Command_Proc(g.gv.dl, g.gv.ser_PC.readline().decode(), time_stamp) # perform user directed action from command line
+            user_input = g.gv.ser_PC.readline()
+
+            #print(user_input)
+            
+            Cmd_prc = Command_proc.Command_Proc(g.gv.dl, user_input.decode(), time_stamp) # perform user directed action from command line
                         
             Output = Cmd_prc.Do_it() # Output of said action from command processor
                         
@@ -62,13 +66,13 @@ def main():
 
                 print('output is a dictionary')
 
-                xmlstring = dicttoxml.dicttoxml(Output)
+                #xmlstring = dicttoxml.dicttoxml(Output)
 
-                result_string = json.dumps(Output) 
+                #result_string = json.dumps(Output) 
 
-                g.gv.ser_PC.write(xmlstring)
+                #g.gv.ser_PC.write(xmlstring)
 
-                g.gv.ser_PC.write(('\r'+'\n').encode())
+                #g.gv.ser_PC.write(('\r'+'\n').encode())
 
 
             elif isinstance(Output, tuple):  # Write to PC if output is a tuple
@@ -78,8 +82,6 @@ def main():
                 g.gv.ser_PC.write(('\r'+'\n').encode())
 
             else:
-                
-                print(type(Output))
         
                 g.gv.ser_PC.write(Output.encode()) # Likely a string - display string on PC and then go to newline 
                                 

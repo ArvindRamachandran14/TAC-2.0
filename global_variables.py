@@ -21,7 +21,9 @@ class gv():
 
     ser_IRGA= serial.Serial('/dev/ttyUSB4', 9600, timeout=1)
 
-    ser_PC = serial.Serial('/dev/ttyUSB0', 115200, timeout=3)
+    ser_PC = serial.Serial('/dev/ttyUSB0', 9600, timeout=3)
+
+    ser_PC.stopbits = 2
 
     #################################   Object creation   ################################# 
 
