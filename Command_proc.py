@@ -89,6 +89,8 @@ class Command_Proc():
 
             if self.strings[1][:-1] == 'all':
 
+                print('g-all command received')
+
                 return(self.dl.get_all_data())
 
             elif self.strings[1][:-1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
