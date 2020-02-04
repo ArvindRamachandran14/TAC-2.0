@@ -13,7 +13,7 @@ class Command_Proc():
     def __init__(self, dl, string, time_stamp):
 
         self.dl = dl
-
+ 
         self.string = string
 
         self.strings =  self.string.split('-')
