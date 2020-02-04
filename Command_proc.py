@@ -87,6 +87,8 @@ class Command_Proc():
 
         elif self.strings[0] == 'g': #Check to see if command is a get command
 
+            print('Get command received')                    
+
             if self.strings[1][:-1] == 'all':
 
                 print('g-all command received')
