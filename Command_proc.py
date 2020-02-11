@@ -85,7 +85,8 @@ class Command_Proc():
 
                 return('Variable does not exist') # Variable does not exist, return error message string  
 
-        elif self.strings[0] == 'g': #Check to see if command is a get command                   
+        elif self.strings[0] == 'g': #Check to see if command is a get command     
+	              
 
             if self.strings[1][:-1] == 'all':
 
