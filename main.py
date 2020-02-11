@@ -81,6 +81,10 @@ def main():
                         
                 g.gv.ser_PC.write(('\r'+'\n').encode())
 
+            elif Outupt == 'Ok'
+
+                g.gv.ser_PC.write(Output.encode())
+
             else:
         
                 g.gv.ser_PC.write(Output.encode()) # Likely a string - display string on PC and then go to newline 
