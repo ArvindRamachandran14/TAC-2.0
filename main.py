@@ -81,7 +81,7 @@ def main():
                         
                 g.gv.ser_PC.write(('\r'+'\n').encode())
 
-            elif Outupt == 'Ok'
+            elif Output == 'Ok':
 
                 g.gv.ser_PC.write(Output.encode())
 

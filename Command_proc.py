@@ -29,7 +29,7 @@ class Command_Proc():
         
             return False
 
-        elif self.strings == 'c-check':
+        elif self.string == 'c-check\n':
 
             return 'Ok'
 
