@@ -29,6 +29,10 @@ class Command_Proc():
         
             return False
 
+        elif self.strings == 'c-check':
+
+            return 'Ok'
+
         elif self.strings[0] == 's': #Check to see if command is a set command
             
             if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
