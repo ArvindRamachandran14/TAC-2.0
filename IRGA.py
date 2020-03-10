@@ -50,7 +50,7 @@ class IRGA():
 
         #self.xmlstring = re.search('<li840>(.*)</li840>',self.xmlstring).group(0)
         
-        #print(self.xmlstring)
+        #print('xml string is ', self.xmlstring)
         
         self.root = ET.fromstring(self.xmlstring)
         

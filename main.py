@@ -23,6 +23,8 @@ import Command_Dict
 
 import json
 
+import megaio as m
+
 
 def main():
 
@@ -165,6 +167,10 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
      DPG_T1 = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T1_read'])/100.0
 
      g.gv.dl.setParm('DPG_T1', DPG_T1, time_stamp)
+
+     Sample_weight = ((m.get_adc(0,1))/4096.0)*10
+
+     g.gv.dl.setParm('Sample_weight', Sample_weight, time_stamp)
 
      if Cell_temp > 50.0 and Dew_point_temp < 45.0 and Dew_point_temp > CC_T1 and CC_T1 > SC_T1 and SC_T1 > DPG_T1:
         
