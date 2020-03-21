@@ -32,7 +32,7 @@ class IRGA():
         
         #self.ser.write(self.string_as_bytes)
         
-        self.ser.write('<LI840> <CFG> <OUTRATE> 0 </OUTRATE> </CFG> </LI840>'.encode())
+        self.ser.write('<LI840> <CFG> <OUTRATE> 0 </OUTRATE> </CFG> </LI840>'.encode()) #Set the OUTRATE to 0
         
         self.return_list = []
 
@@ -55,6 +55,8 @@ class IRGA():
         self.root = ET.fromstring(self.xmlstring)
         
         #print(self.root)
+
+        #################### Add IRGA output to the return list #################### 
             
         self.return_list.append(float(self.root[0].find('co2').text))
 

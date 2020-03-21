@@ -1,3 +1,7 @@
+
+############## Script that reads and records the pCO2 values. Intended to run a CO2 leak test ##############
+
+
 import serial 
 
 #Line added on trial branch

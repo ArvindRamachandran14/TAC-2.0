@@ -33,27 +33,27 @@ class DataLib():
         self.CC_T1 = Register(4, 'CC_T1', 0.0, init_ts) #Temperature of the conditioning chamber
 
         # Setpoints
-        self.SC_T_Set = Register(5, 'SC_T_Set', 0.0, init_ts) 
-        self.DPG_T_Set = Register(6, 'DPG_T_Set', 0.0, init_ts) 
-        self.CC_T_Set = Register(7, 'CC_T_Set', 0.0, init_ts) 
+        self.SC_T_Set = Register(5, 'SC_T_Set', 0.0, init_ts) #Sample chamber temp controller set point
+        self.DPG_T_Set = Register(6, 'DPG_T_Set', 0.0, init_ts) #Conditioning chamber temp controller set point
+        self.CC_T_Set = Register(7, 'CC_T_Set', 0.0, init_ts) #Dew point generator temp controller set point
 
         # PID values
             
-        self.SC_P = Register(8, 'SC_P', 0.0, init_ts) 
-        self.SC_I = Register(9, 'SC_I', 0.0, init_ts) 
-        self.SC_D = Register(10, 'SC_D', 0.0, init_ts) 
+        self.SC_P = Register(8, 'SC_P', 0.0, init_ts) #Sample chamber temp controller proportional gain
+        self.SC_I = Register(9, 'SC_I', 0.0, init_ts) #Sample chamber temp controller integral gain
+        self.SC_D = Register(10, 'SC_D', 0.0, init_ts) #Sample chamber temp controller differential gain
 
-        self.DPG_P = Register(11, 'DPG_P', 0.0, init_ts) 
-        self.DPG_I = Register(12, 'DPG_I', 0.0, init_ts) 
-        self.DPG_D = Register(13, 'DPG_D', 0.0, init_ts) 
+        self.DPG_P = Register(11, 'DPG_P', 0.0, init_ts) #DPG  temp controller proportional gain
+        self.DPG_I = Register(12, 'DPG_I', 0.0, init_ts) #DPG  temp controllerintegral gain
+        self.DPG_D = Register(13, 'DPG_D', 0.0, init_ts) #DPG  temp controller differential gain
 
-        self.CC_P = Register(14, 'CC_P', 0.0, init_ts) 
-        self.CC_I = Register(15, 'CC_I', 0.0, init_ts) 
-        self.CC_D = Register(16, 'CC_D', 0.0, init_ts) 
+        self.CC_P = Register(14, 'CC_P', 0.0, init_ts) #Conditioning chamber temp controller proportional gain
+        self.CC_I = Register(15, 'CC_I', 0.0, init_ts) #Conditioning chamber temp controller proportional gain
+        self.CC_D = Register(16, 'CC_D', 0.0, init_ts) #Conditioning chamber temp controller proportional gain
 
         # Controller State and Output 
 
-        self.SC_State = Register(17,'SC_State', 0, init_ts)
+        self.SC_State = Register(17,'SC_State', 0, init_ts) 
         self.SC_Output = Register(18,'SC_Output', 0.0, init_ts)
         self.DPG_State = Register(19,'DPG_State', 0, init_ts)
         self.DPG_Output = Register(20,'DPG_Output', 0.0, init_ts)
@@ -122,6 +122,8 @@ class DataLib():
 
     def get_all_data(self):
 
+        ######### Function to get all the data at once from TA #########
+
         all_data_dict = {}
 
         string = ""
@@ -135,6 +137,7 @@ class DataLib():
         return(string)
 
     def setParm(self, key, value, time_stamp):
+        ######### Function to set a certain system variable's value #########
         if key in self.parmDict:
             self.parmDict[key].value = value
             self.parmDict[key].time_stamp = time_stamp
@@ -143,6 +146,8 @@ class DataLib():
             return False
 
     def getParm(self, key):
+        ######### Function to get a certain system variable's value #########
+        if key in self.parmDict:
         if key in self.parmDict:
             value = self.parmDict[key].value
             time_stamp = self.parmDict[key].time_stamp
@@ -152,6 +157,7 @@ class DataLib():
         return value, time_stamp
 
     def parmName(self, key):
+        ######### Function to get a certain system variable's name #########
         if key in self.parmDict:
             name = self.parmDict[key].name
         else:

@@ -105,13 +105,15 @@ def main():
                         
                 #print('\n')
                 
-    except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
+    except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e: #Determine type of error
+
+
          
-        g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0)
+        g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0) #Turn power off
 
-        power = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_read'])
+        power = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_read']) 
 
-        if power == 0:
+        if power == 0: #Check that power was turned off
 
             print('Controller turned off')
 
@@ -119,7 +121,7 @@ def main():
 
             print('Controller still on')
 
-        print('Terminated because ' + str(e))
+        print('Terminated because ' + str(e)) #Print error messahe
         
 
 def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
@@ -165,6 +167,8 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
      DPG_T1 = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T1_read'])/100.0
 
      g.gv.dl.setParm('DPG_T1', DPG_T1, time_stamp)
+
+     ################### Check for normal operation of TA ################### 
 
      if Cell_temp > 50.0 and Dew_point_temp < 45.0 and Dew_point_temp > CC_T1 and CC_T1 > SC_T1 and SC_T1 > DPG_T1:
         
