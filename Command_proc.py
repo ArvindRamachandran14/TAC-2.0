@@ -36,7 +36,7 @@ class Command_Proc():
 
         elif self.string == 'c-check\n':
 
-            return 'Ok'
+            return 'Ok\n'
 
         elif self.strings[0] == 's': #Check to see if command is a set command
             

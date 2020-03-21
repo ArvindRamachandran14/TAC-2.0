@@ -13,15 +13,15 @@ class gv():
 
     #################################   Serial port definiton   #################################     
 
-    ser_TC_SC = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
+    ser_TC_SC = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
 
-    ser_TC_DPG = serial.Serial('/dev/ttyUSB2', 9600, timeout=1)
+    ser_TC_DPG = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
 
-    ser_TC_CC = serial.Serial('/dev/ttyUSB3', 9600, timeout=1)
+    ser_TC_CC = serial.Serial('/dev/ttyUSB2', 9600, timeout=1)
 
-    ser_IRGA= serial.Serial('/dev/ttyUSB4', 9600, timeout=1)
+    ser_IRGA= serial.Serial('/dev/ttyUSB3', 9600, timeout=1)
 
-    ser_PC = serial.Serial('/dev/ttyUSB0', 9600, timeout=3)
+    ser_PC = serial.Serial('/dev/ttyUSB4', 9600, timeout=3)
 
     ser_PC.stopbits = 2
 
