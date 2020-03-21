@@ -1,6 +1,6 @@
 # TAC 
 
-TAC stands for Thermodynamic Analyzer Controller. The TAC assists in running experiments on the Thermodynamic Analyzer (TA). To learn more about the TA visit https://github.com/ArvindRamachandran14/TA
+TAC stands for Thermodynamic Analyzer Controller. The TAC assists in running experiments on the Thermodynamic Analyzer (TA). To learn more about the TA visit https://github.com/ArvindRamachandran14/Thermodynamic-analyzer
 
 The TAC is responsible for measuring and controlling system variables and handling user commands. The TAC in our set up is a Raspberry Pi 
 
