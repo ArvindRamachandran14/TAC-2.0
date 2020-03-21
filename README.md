@@ -1,14 +1,16 @@
-# TAC - Thermodynamic Analyzer Controller Code 
+TAC stands for Thermodynamic Analyzer Controller 
 
-# main.py is the machine loop 
+The TAC is responsible for measuring and controlling system variables. The TAC in our set up is a Raspberry Pi 
 
-# Datalib.py is the library of all system variables
+The different scripts here are different modules that have functions like
 
-# IRGA.py contains the IRGA class
+a. Enabling the measurement of the system variables,
 
-# CO2_leak_test.py runs the CO2 leak test on the PC
+b. Data base management
 
-# 
+c. Handling commands from the user
+
+
 
 
 
