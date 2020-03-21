@@ -2,7 +2,7 @@
 
 TAC stands for Thermodynamic Analyzer Controller 
 
-The TAC is responsible for measuring and controlling system variables. The TAC in our set up is a Raspberry Pi 
+The TAC is responsible for measuring and controlling system variables and handling user commands. The TAC in our set up is a Raspberry Pi 
 
 The different scripts here are different modules that have functions like
 
