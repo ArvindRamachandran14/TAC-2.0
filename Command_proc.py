@@ -16,14 +16,14 @@ class Command_Proc():
  
         self.string = string
 
-        self.strings =  self.string.split('-')
+        self.strings =  self.string.split(' ')
 
         self.time_stamp = time_stamp
 
 
     def Do_it(self):
     
-        #print(self.strings)
+        print(self.strings)
         
         if self.strings in ([u''], [u'\n'], [u'\r']): # User enters a new line or does not enter anything - no action requied, return False
         
@@ -31,7 +31,7 @@ class Command_Proc():
 
         elif self.string == 'c-check\n':
 
-            return 'Ok\n'
+            return 'Ok'
 
         elif self.strings[0] == 's': #Check to see if command is a set command
             
@@ -89,10 +89,10 @@ class Command_Proc():
 
                 return('Variable does not exist') # Variable does not exist, return error message string  
 
-        elif self.strings[0] == 'g': #Check to see if command is a get command     
+        elif self.strings[0] == u'g': #Check to see if command is a get command     
 	              
 
-            if self.strings[1][:-1] == 'all':
+            if self.strings[1][:-1] == u'all':
 
                 return(self.dl.get_all_data())
 

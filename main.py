@@ -79,19 +79,17 @@ def main():
 
             elif isinstance(Output, tuple):  # Write to PC if output is a tuple
                         
-                g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])).encode())
+                g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])+'\r'+'\n').encode())
                         
-                g.gv.ser_PC.write(('\r'+'\n').encode())
+                #g.gv.ser_PC.write(('\r'+'\n').encode())
 
             elif Output == 'Ok':
 
-                g.gv.ser_PC.write(Output.encode())
+                g.gv.ser_PC.write((Output+'\r'+'\n').encode())
 
             else:
         
-                g.gv.ser_PC.write(Output.encode()) # Likely a string - display string on PC and then go to newline 
-                                
-                g.gv.ser_PC.write(('\r'+'\n').encode())
+                g.gv.ser_PC.write((Output+'\r'+'\n').encode()) # Likely a string - display string on PC and then go to newline 
                     
                 #print('Timestamp: '+ str(time_stamp))
                         
