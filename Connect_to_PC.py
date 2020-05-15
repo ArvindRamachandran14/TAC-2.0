@@ -1,3 +1,5 @@
+######################## Program to test serial connection to PC ######################## 
+
 import time
 
 import datetime

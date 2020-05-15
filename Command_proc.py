@@ -1,4 +1,7 @@
 
+
+############## Module that processes the commands from the user ##############
+
 import global_variables as g
 
 import Command_Dict
@@ -22,6 +25,8 @@ class Command_Proc():
 
 
     def Do_it(self):
+
+        ############# Function that executes the command #############s
     
         print(self.strings)
         

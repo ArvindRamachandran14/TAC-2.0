@@ -1,3 +1,5 @@
+#Temperature Controller module - applies to SC_TC, CC_TC, DPG_TC
+
 import serial
 
 import time 
