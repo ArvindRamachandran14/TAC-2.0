@@ -19,7 +19,7 @@ class Command_Proc():
  
         self.string = string
 
-        self.strings =  self.string.split(' ')
+        self.strings =  self.string.split('\n')[0].split(' ')
 
         self.time_stamp = time_stamp
 
@@ -28,7 +28,7 @@ class Command_Proc():
 
         ############# Function that executes the command #############s
     
-        print(self.strings)
+        #print(self.strings)
         
         if self.strings in ([u''], [u'\n'], [u'\r']): # User enters a new line or does not enter anything - no action requied, return False
         
@@ -94,17 +94,22 @@ class Command_Proc():
 
                 return('Variable does not exist') # Variable does not exist, return error message string  
 
-        elif self.strings[0] == u'g': #Check to see if command is a get command     
-	              
+        elif self.strings[0] == 'g': #Check to see if command is a get command     
+		
+            if self.strings[-1] == 'all':
 
-            if self.strings[1][:-1] == u'all':
+                #print('getting all data')
 
                 return(self.dl.get_all_data())
+	
+	   
+            elif self.strings[-1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
 
-            elif self.strings[1][:-1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
-
-                return(self.dl.getParm(self.strings[1][:-1])) # Obtain value from register, return tuple to lab PC
+                return(self.dl.getParm(self.strings[-1])) # Obtain value from register, return tuple to lab PC
             
+            else:
+            
+
                 return('Variable does not exist') # Variable does not exist, return error message string 
 
         else:
