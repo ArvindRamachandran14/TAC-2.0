@@ -48,11 +48,11 @@ def main():
 
             Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
 
-            user_input = g.gv.ser_PC.readline()
+            user_input = g.gv.ser_PC.readline().decode()
 
             #print(user_input)
             
-            Cmd_prc = Command_proc.Command_Proc(g.gv.dl, user_input.decode(), time_stamp) # perform user directed action from command line
+            Cmd_prc = Command_proc.Command_Proc(g.gv.dl, user_input, time_stamp) # perform user directed action from command line
                         
             Output = Cmd_prc.Do_it() # Output of said action from command processor
                         
@@ -79,19 +79,17 @@ def main():
 
             elif isinstance(Output, tuple):  # Write to PC if output is a tuple
                         
-                g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])).encode())
+                g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])+'\r'+'\n').encode())
                         
-                g.gv.ser_PC.write(('\r'+'\n').encode())
+                #g.gv.ser_PC.write(('\r'+'\n').encode())
 
             elif Output == 'Ok':
 
-                g.gv.ser_PC.write(Output.encode())
+                g.gv.ser_PC.write((Output+'\r'+'\n').encode())
 
             else:
         
-                g.gv.ser_PC.write(Output.encode()) # Likely a string - display string on PC and then go to newline 
-                                
-                g.gv.ser_PC.write(('\r'+'\n').encode())
+                g.gv.ser_PC.write((Output+'\r'+'\n').encode()) # Likely a string - display string on PC and then go to newline 
                     
                 #print('Timestamp: '+ str(time_stamp))
                         
@@ -108,7 +106,6 @@ def main():
                 #print('\n')
                 
     except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e: #Determine type of error
-
 
          
         g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0) #Turn power off

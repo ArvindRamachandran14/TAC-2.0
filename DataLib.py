@@ -142,7 +142,6 @@ class DataLib():
     def getParm(self, key):
         ######### Function to get a certain system variable's value #########
         if key in self.parmDict:
-        if key in self.parmDict:
             value = self.parmDict[key].value
             time_stamp = self.parmDict[key].time_stamp
         else:
