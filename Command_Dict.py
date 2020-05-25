@@ -3,40 +3,52 @@
 
 Command_Dict = {}
 
-################################### Power ####################################
+################################### Read Power ####################################
 
-Command_Dict['power_write'] = '2d' 
+Command_Dict['SC_power_read'] = '46'
 
-Command_Dict['power_read'] = '46'
+Command_Dict['CC_power_read'] = '46'
 
-Command_Dict['power_output_read'] = '02'
+Command_Dict['DPG_power_read'] = '46'
+
+################################### Write Power ####################################
+
+Command_Dict['SC_power_write'] = '2d' 
+
+Command_Dict['CC_power_write'] = '2d' 
+
+Command_Dict['DPG_power_write'] = '2d' 
+
+################################### Output read ####################################
+
+Command_Dict['output_read'] = '02'
 
 #################################### Read thermistors ####################################
 
-Command_Dict['SC_T1_read'] = '01'
+Command_Dict['SC_T_read'] = '01'
 
-Command_Dict['SC_T2_read'] = '06'
+Command_Dict['SC_block_read'] = '06'
 
-Command_Dict['CC_T1_read'] = '01'
+Command_Dict['CC_T_read'] = '01'
 
-Command_Dict['DPG_T1_read'] = '01'
+Command_Dict['DPG_T_read'] = '01'
 
 #################################### Write set point  ####################################
 
-Command_Dict['SC_T_Set_write'] = '1c'
+Command_Dict['SC_set_write'] = '1c'
 
-Command_Dict['CC_T_Set_write'] = '1c'
+Command_Dict['CC_set_write'] = '1c'
 
-Command_Dict['DPG_T_Set_write'] = '1c'
+Command_Dict['DPG_set_write'] = '1c'
 
 
 #################################### Read set point  ####################################
 
-Command_Dict['SC_T_Set_read'] = '50'
+Command_Dict['SC_set_read'] = '50'
 
-Command_Dict['CC_T_Set_read'] = '50'
+Command_Dict['CC_set_read'] = '50'
 
-Command_Dict['DPG_T_Set_read'] = '50'
+Command_Dict['DPG_set_read'] = '50'
 
 #################################### Write proprtional bandwidth ####################################
 

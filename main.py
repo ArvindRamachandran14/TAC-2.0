@@ -150,27 +150,27 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
      
      g.gv.dl.setParm('IVOLT', IRGA_list[4], time_stamp)
 
-     Dew_point_temp =  IRGA_list[5]
+     DPT =  IRGA_list[5]
 
-     g.gv.dl.setParm('Dew_point_temp', Dew_point_temp, time_stamp)
+     g.gv.dl.setParm('DPT', DPT, time_stamp)
 
-     SC_T1 = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T1_read'])/100.0
+     SC_T = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T_read'])/100.0
 
-     g.gv.dl.setParm('SC_T1', SC_T1, time_stamp)
+     g.gv.dl.setParm('SC_T', SC_T, time_stamp)
 
-     SC_T2 = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T2_read'])/100.0
+     SC_Tblock = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_Tblock_read'])/100.0
 
-     g.gv.dl.setParm('SC_T2', SC_T2, time_stamp)
+     g.gv.dl.setParm('SC_Tblock', SC_Tblock, time_stamp)
 
-     CC_T1 = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T1_read'])/100.0
+     CC_T = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T_read'])/100.0
 
-     g.gv.dl.setParm('CC_T1', CC_T1, time_stamp)
+     g.gv.dl.setParm('CC_T', CC_T, time_stamp)
 
-     DPG_T1 = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T1_read'])/100.0
+     DPG_T = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T_read'])/100.0
 
-     g.gv.dl.setParm('DPG_T1', DPG_T1, time_stamp)
+     g.gv.dl.setParm('DPG_T', DPG_T, time_stamp)
 
-     Sample_weight = ((m.get_adc(0,1))/4096.0)*10
+     WGT = ((m.get_adc(0,1))/4096.0)*10
 
      g.gv.dl.setParm('Sample_weight', Sample_weight, time_stamp)
 
