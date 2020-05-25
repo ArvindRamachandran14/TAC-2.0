@@ -30,7 +30,7 @@ def main():
 
     #################################  Turn power on and set control type  ################################# 
 
-    g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 1)
+    #g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 1)
 
     g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
@@ -107,18 +107,26 @@ def main():
                 
     except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e: #Determine type of error
          
-        g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0) #Turn power off
+        g.gv.TC_SC.write_command(Command_Dict.Command_Dict['SC_power_write'], 0) #Turn power off
 
-        power_CC = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_read'])
+        g.gv.TC_CC.write_command(Command_Dict.Command_Dict['CC_power_write'], 0) #Turn power off
+
+        g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_power_write'], 0) #Turn power off
+
+        power_CC = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_power_read'])
+       
+        power_SC = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_power_read'])
+        
+        power_DPG = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_power_read'])
  
 
-        if power_CC == 0: #Check that power was turned off
+        if power_CC == power_SC == power_DPG == 0: #Check that power was turned off
 
-            print('Controller turned off')
+            print('Controllers turned off')
 
-        elif power_CC ==1:
+        else:
 
-            print('Controller still on')
+            print('One or more of the controllers still on')
 
         print('Terminated because ' + str(e)) #Print error messahe
         
@@ -139,41 +147,41 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
      g.gv.dl.setParm('pH2O', IRGA_list[1], time_stamp)
      
-     g.gv.dl.setParm('Cell_pressure', IRGA_list[2], time_stamp)
+     g.gv.dl.setParm('CellP', IRGA_list[2], time_stamp)
 
-     Cell_temp = IRGA_list[3]
+     CellT = IRGA_list[3]
      
-     g.gv.dl.setParm('Cell_temp', Cell_temp, time_stamp)
+     g.gv.dl.setParm('CellT', CellT, time_stamp)
      
      g.gv.dl.setParm('IVOLT', IRGA_list[4], time_stamp)
 
-     Dew_point_temp =  IRGA_list[5]
+     DPT =  IRGA_list[5]
 
-     g.gv.dl.setParm('Dew_point_temp', Dew_point_temp, time_stamp)
+     g.gv.dl.setParm('DPT', DPT, time_stamp)
 
-     SC_T1 = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T1_read'])/100.0
+     SC_T = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T_read'])/100.0
 
-     g.gv.dl.setParm('SC_T1', SC_T1, time_stamp)
+     g.gv.dl.setParm('SC_T', SC_T, time_stamp)
 
-     SC_T2 = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T2_read'])/100.0
+     SC_Tblock = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_Tblock_read'])/100.0
 
-     g.gv.dl.setParm('SC_T2', SC_T2, time_stamp)
+     g.gv.dl.setParm('SC_Tblock', SC_Tblock, time_stamp)
 
-     CC_T1 = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T1_read'])/100.0
+     CC_T = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T_read'])/100.0
 
-     g.gv.dl.setParm('CC_T1', CC_T1, time_stamp)
+     g.gv.dl.setParm('CC_T', CC_T, time_stamp)
 
-     DPG_T1 = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T1_read'])/100.0
+     DPG_T = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T_read'])/100.0
 
-     g.gv.dl.setParm('DPG_T1', DPG_T1, time_stamp)
+     g.gv.dl.setParm('DPG_T', DPG_T, time_stamp)
 
-     Sample_weight = ((m.get_adc(0,1))/4096.0)*10
+     WGT = ((m.get_adc(0,1))/4096.0)*10
 
-     g.gv.dl.setParm('Sample_weight', Sample_weight, time_stamp)
+     g.gv.dl.setParm('WGT', WGT, time_stamp)
 
      ################### Check for normal operation of TA ################### 
 
-     if Cell_temp > 50.0 and Dew_point_temp < 45.0 and Dew_point_temp > CC_T1 and CC_T1 > SC_T1 and SC_T1 > DPG_T1:
+     if CellT > 50.0 and DPT < 45.0 and DPT > CC_T and CC_T > SC_T and SC_T > DPG_T:
         
          pass
         

@@ -44,15 +44,9 @@ class Command_Proc():
             
             if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
                 
-                print(float(self.strings[2]))
+                #print(float(self.strings[2]))
 
-        	print(self.strings[1])
-
-        	#self.dl.setParm(self.strings[1], float(self.strings[2]), self.time_stamp) # Update register with user specified set point
-                
-        	#print(self.dl.getParm(self.strings[1])) 
-        
-        	#print(Command_Dict.Command_Dict[self.strings[1]+'_write'])
+        	#print(self.strings[1])
 
                 if self.strings[1][0:2] == "SC":
 
@@ -82,7 +76,7 @@ class Command_Proc():
 
                 elif self.strings[1][0:2] == "DP":
                     
-                    g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
+                    Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
                     if Output_string == "Done":
 
