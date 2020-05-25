@@ -30,7 +30,7 @@ def main():
 
     #################################  Turn power on and set control type  ################################# 
 
-    g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
+    g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 1)
 
     g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
@@ -79,7 +79,7 @@ def main():
 
             elif isinstance(Output, tuple):  # Write to PC if output is a tuple
                         
-                g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])+'\r'+'\n').encode())
+                g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])+'\n').encode())
                         
                 #g.gv.ser_PC.write(('\r'+'\n').encode())
 
@@ -89,7 +89,7 @@ def main():
 
             else:
         
-                g.gv.ser_PC.write((Output+'\r'+'\n').encode()) # Likely a string - display string on PC and then go to newline 
+                g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string - display string on PC and then go to newline 
                     
                 #print('Timestamp: '+ str(time_stamp))
                         
@@ -106,17 +106,17 @@ def main():
                 #print('\n')
                 
     except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e: #Determine type of error
-
          
         g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 0) #Turn power off
 
-        power = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_read']) 
+        power_CC = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['power_read'])
+ 
 
-        if power == 0: #Check that power was turned off
+        if power_CC == 0: #Check that power was turned off
 
             print('Controller turned off')
 
-        elif power ==1:
+        elif power_CC ==1:
 
             print('Controller still on')
 
