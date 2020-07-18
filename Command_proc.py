@@ -86,6 +86,8 @@ class Command_Proc():
 
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
+                print(Output_string)
+
                 return(Output_string) 
 
             else:
