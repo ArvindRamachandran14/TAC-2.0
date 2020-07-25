@@ -83,13 +83,9 @@ def main():
                         
                 #g.gv.ser_PC.write(('\r'+'\n').encode())
 
-            elif Output == 'Ok':
-
-                g.gv.ser_PC.write((Output+'\r'+'\n').encode())
-
             else:
         
-                g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string - display string on PC and then go to newline 
+                g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string with error code - display string on PC and then go to newline 
                     
                 #print('Timestamp: '+ str(time_stamp))
                         
