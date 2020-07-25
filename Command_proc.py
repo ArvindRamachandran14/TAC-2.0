@@ -36,7 +36,7 @@ class Command_Proc():
 
         elif self.string == 'c-check\n':
 
-            return 'Ok'
+            return 'Ok\n'
 
         elif self.strings[0] == 's': #Check to see if command is a set command
 	
@@ -46,9 +46,13 @@ class Command_Proc():
                 
                 #print(float(self.strings[2]))
 
-        	#print(self.strings[1])
+        	    #print(self.strings[1])
+
+                ###### check if self.strings[1] is a parameter that can actually be set or if it is a readonly paramter
 
                 if self.strings[1][0:2] == "SC":
+
+                    #Need to check if the self.strings[2] (set point) is a legit value - float/int, within range
 
                     Output_string = g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)) # Performing set operation, return string - Done, Input Error, Checksum Error
 
@@ -60,8 +64,12 @@ class Command_Proc():
 
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_SC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
+                        Output_string = 'e 0'
+
                 elif self.strings[1][0:2] == "CC":
-                
+
+                    #Need to check if the set point is a legit value - float/int, within range
+                    
                     Output_string = g.gv.TC_CC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
                     print(Output_string)
@@ -74,7 +82,11 @@ class Command_Proc():
 
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
+                        Output_string = 'e 0'
+
                 elif self.strings[1][0:2] == "DP":
+
+                    #Need to check if the set point is a legit value - float/int, within range
                     
                     Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
@@ -86,13 +98,17 @@ class Command_Proc():
 
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
-                print(Output_string)
+                        Output_string = 'e 0'
+
+                else: 
+
+                    Output_string = 'e 3' #readonly paramter
 
                 return(Output_string) 
 
             else:
 
-                return('Variable does not exist') # Variable does not exist, return error message string  
+                return('e 2') # Variable does not exist, return error message string  
 
         elif self.strings[0] == 'g': #Check to see if command is a get command     
 		
@@ -109,11 +125,10 @@ class Command_Proc():
             
             else:
             
-
-                return('Variable does not exist') # Variable does not exist, return error message string 
+                return('e 2') # Variable does not exist, return error message string 
 
         else:
             
             print(self.strings)
 
-            return('Command Error') # Wrong command
+            return('e 1') # Wrong command

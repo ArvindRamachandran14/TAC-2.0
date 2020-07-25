@@ -101,7 +101,7 @@ class TC():
 
         else:
     
-            return('Checksum error')
+            return('Checksum error: Command Buffer = '+ command_buffer[5:-3]+ ' Output Buffer = '+output_buffer[1:-3])
 
     def read_value(self, command):
 
