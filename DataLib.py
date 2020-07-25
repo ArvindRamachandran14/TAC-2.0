@@ -35,8 +35,8 @@ class DataLib():
 
         # Setpoints
         self.SC_set = Register(5, 'SC_set', 0.0, init_ts) #Sample chamber temp controller set point
-        self.DPG_set = Register(6, 'CC_set', 0.0, init_ts) #Conditioning chamber temp controller set point
-        self.CC_set = Register(7, 'DPG_set', 0.0, init_ts) #Dew point generator temp controller set point
+        self.CC_set = Register(6, 'CC_set', 0.0, init_ts) #Conditioning chamber temp controller set point
+        self.DPG_set = Register(7, 'DPG_set', 0.0, init_ts) #Dew point generator temp controller set point
 
         # SC paramters
         self.SC_P = Register(8, 'SC_P', 0.0, init_ts) #Sample chamber temp controller proportional gain
@@ -64,16 +64,19 @@ class DataLib():
         self.CellT = Register(24,'CellT', 0.0, init_ts) # Cell Temp
         self.IVOLT = Register(25, 'IVOLT', 0.0, init_ts) # Voltage supplied to IRGA
         self.pH2O = Register(26, 'pH2O', 0.0, init_ts)    # Partial pressure H20 (Pa)
-        self.pCO2 = Register(27, 'pCO2', 0.0, init_ts)   # Partial pressure CO2 (Pa)
-        self.DPT = Register(28, 'DPT', 0.0, init_ts)
+        self.pH2O_set = Register(27, 'pH2O_set', 0.0, init_ts)    # Partial pressure H20 (Pa)
+        self.pCO2 = Register(28, 'pCO2', 0.0, init_ts)   # Partial pressure CO2 (Pa)
+        self.DPT = Register(29, 'DPT', 0.0, init_ts)
+        self.RH = Register(30, 'RH', 0.0, init_ts)
+        self.RH_set = Register(31, 'RH_set', 0.0, init_ts)
 
         #Others
-        self.WGT = Register(29, 'WGT', 0.0, init_ts) #Weight of the sample
-        self.ByPass = Register(30, 'ByPass',0.0, init_ts) #Desired valve state – bypass/norma
+        self.WGT = Register(32, 'WGT', 0.0, init_ts) #Weight of the sample
+        self.ByPass = Register(33, 'ByPass',0.0, init_ts) #Desired valve state – bypass/norma
 
         #Status 
 
-        self.Status = Register(31, "Status", 0, init_ts)
+        self.Status = Register(34, "Status", 0, init_ts)
 
         # The parameter dictionary with register objects
         self.parmDict = {
@@ -103,8 +106,11 @@ class DataLib():
             self.CellT.name: self.CellT,
             self.IVOLT.name: self.IVOLT,
             self.pH2O.name: self.pH2O,
+            self.pH2O_set.name: self.pH2O_set,
             self.pCO2.name: self.pCO2,
             self.DPT.name: self.DPT,
+            self.RH.name: self.RH,
+            self.RH_set.name: self.RH_set,
             self.WGT.name: self.WGT,
             self.ByPass.name: self.ByPass,
             self.Status.name: self.Status
