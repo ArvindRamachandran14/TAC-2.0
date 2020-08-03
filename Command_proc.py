@@ -68,6 +68,8 @@ class Command_Proc():
 
                         Output_string = 'e 0'
 
+                        return(Output_string)
+
                 elif self.strings[1][0:2] == "CC":
 
                     #Need to check if the set point is a legit value - float/int, within range
@@ -85,6 +87,8 @@ class Command_Proc():
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
                         Output_string = 'e 0'
+
+                        return(Output_string)
 
                 elif self.strings[1][0:2] == "DP":
 
@@ -104,11 +108,13 @@ class Command_Proc():
 
                         Output_string = 'e 0'
 
+                        return(Output_string)
+
                 else: 
 
                     Output_string = 'e 3' #readonly paramter
 
-                return(Output_string) 
+                    return(Output_string) 
 
             else:
 
