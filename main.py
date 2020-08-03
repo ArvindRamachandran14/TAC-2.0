@@ -163,13 +163,25 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
      g.gv.dl.setParm('SC_Tblock', SC_Tblock, time_stamp)
 
+     SC_output = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_output_read'])/100.0
+
+     g.gv.dl.setParm('SC_output', SC_output, time_stamp)
+
      CC_T = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T_read'])/100.0
 
      g.gv.dl.setParm('CC_T', CC_T, time_stamp)
 
+     CC_output = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_output_read'])/100.0
+
+     g.gv.dl.setParm('CC_output', CC_output, time_stamp)
+
      DPG_T = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T_read'])/100.0
 
      g.gv.dl.setParm('DPG_T', DPG_T, time_stamp)
+
+     DPG_output = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_output_read'])/100.0
+
+     g.gv.dl.setParm('DPG_output', DPG_output, time_stamp)
 
      WGT = ((m.get_adc(0,1))/4096.0)*10
 

@@ -126,22 +126,6 @@ class Command_Proc():
 	   
             elif self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
 
-                current_time = time.time()
-
-                time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-
-                if self.strings[1] == 'SC_output':
-
-                    g.gv.dl.setParm(self.strings[1], g.gv.TC_SC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
-
-                if self.strings[1] == 'CC_output':
-
-                    g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
-
-                if self.strings[1] == 'DPG_output':
-
-                    g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
-
                 return(self.dl.getParm(self.strings[-1])) # Obtain value from register, return tuple to lab PC
             
             else:
