@@ -1,3 +1,6 @@
+
+#################################  Import relevant packages  ################################# 
+
 import DataLib
 
 import serial
@@ -12,143 +15,174 @@ import datetime
 
 import time
 
+import global_variables as g
+
+import Command_Dict
+
+#import dicttoxml
+
+import json
+
+import megaio as m
+
+
 def main():
 
+    #################################  Turn power on and set control type  ################################# 
 
-    #################################   Define Serial Ports   ################################# 
+    #g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 1)
 
-    ser_TC_SC = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
-
-    ser_TC_DPG = serial.Serial('/dev/ttyUSB2', 9600, timeout=1)
-
-    ser_TC_CC = serial.Serial('/dev/ttyUSB3', 9600, timeout=1)
-
-    ser_IRGA= serial.Serial('/dev/ttyUSB4', 9600, timeout=1)
-
-    ser_PC = serial.Serial('/dev/ttyUSB0', 9600, timeout=3)
-
-    #################################   Object creation   ################################# 
-
-    dl = DataLib.DataLib()  # initialization triggered when object is created 
-
-    irga = IRGA.IRGA(ser_IRGA)
-
-    TC_SC = TC.TC(ser_TC_SC)
-
-    TC_CC = TC.TC(ser_TC_CC)
-
-    TC_DPG = TC.TC(ser_TC_DPG)
-
-    TC_CC.set_control_type()
-
-    TC_CC.power_on()
-
-    #TC_SC.power_off()
-
-    #TC_DPG.power_off()
+    g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
     try:
 
         while True:
-            
-            current_time = time.time()
-        
-            time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-            
-            Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp)
 
-            Cmd_prc = Command_proc.Command_Proc(dl, ser_PC.readline().decode(), time_stamp)
-            
-            Output = Cmd_prc.Do_it()
-            
-            #print(type(Output))
-            
-            if isinstance(Output, bool):
+            #################################  Machine loop  ################################# 
+                        
+            current_time = time.time() # current time 
                 
+            time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f') # create time stamp in specific format
+                        
+            #print(time_stamp)
+
+            Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
+
+            user_input = g.gv.ser_PC.readline().decode()
+
+            #print(user_input)
+            
+            Cmd_prc = Command_proc.Command_Proc(g.gv.dl, user_input, time_stamp) # perform user directed action from command line
+                        
+            Output = Cmd_prc.Do_it() # Output of said action from command processor
+                        
+            #print(type(Output))
+
+            ########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
+                        
+            if isinstance(Output, bool): # Pass if False 
+                                
                 pass
 
-            elif isinstance(Output, tuple):
-            
-                ser_PC.write((str(Output[0])+'---'+str(Output[1])).encode())
-            
-                ser_PC.write(('\r'+'\n').encode())
+            elif isinstance(Output, dict):
 
-            elif isinstance(Output, unicode):
-                
-                #print('Output is a string')
-                
-                #print(dl.getParmDict().keys())
-                
-                if Output in dl.getParmDict().keys():
+                print('output is a dictionary')
 
-                    ser_PC.write('Ok'.encode())
-                
-                    ser_PC.write(('\r'+'\n').encode())
+                #xmlstring = dicttoxml.dicttoxml(Output)
 
-                    if Output in ['SC_T_Set', 'CC_T_Set', 'DPG_T_Set']:
-                  
-                        if Output == 'CC_T_Set':
-                    
-                            #TC_CC.power_on()
-                    
-                            #TC_CC.read_control_type()
-                            
-                            print(TC_CC.set_temperature())
+                #result_string = json.dumps(Output) 
+
+                #g.gv.ser_PC.write(xmlstring)
+
+                #g.gv.ser_PC.write(('\r'+'\n').encode())
+
+
+            elif isinstance(Output, tuple):  # Write to PC if output is a tuple
+                        
+                g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])+'\n').encode())
+                        
+                #g.gv.ser_PC.write(('\r'+'\n').encode())
 
             else:
-
-                ser_PC.write(Output.encode())
-                
-                ser_PC.write(('\r'+'\n').encode())
-          
-            
-            #print('Timestamp: '+ str(time_stamp))
-            
-            #print('pCO2: '+ str(dl.getParm('pCO2'))+ ' ppm')
-            
-            #print('pH2O: '+ str(dl.getParm('pH2O'))+ ' ppt')
-            
-            #print('Cell Temp: ' + str(dl.getParm('Cell_temp'))+ ' C')
-            
-            #print('Cell Pressure: ' + str(dl.getParm('Cell_pressure'))+ ' kPa')
-
-            #print('Cell Voltage: ' + str(dl.getParm('IVOLT'))+ ' V')
-            
-            #print('\n')
         
-    except KeyboardInterrupt:
-	TC_CC.power_off()
-        print('Terminated')
-    
+                g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string with error code - display string on PC and then go to newline 
+                    
+                #print('Timestamp: '+ str(time_stamp))
+                        
+                #print('pCO2: '+ str(dl.getParm('pCO2'))+ ' ppm')
+                        
+                #print('pH2O: '+ str(dl.getParm('pH2O'))+ ' ppt')
+                        
+                #print('Cell Temp: ' + str(dl.getParm('Cell_temp'))+ ' C')
+                        
+                #print('Cell Pressure: ' + str(dl.getParm('Cell_pressure'))+ ' kPa')
+
+                #print('Cell Voltage: ' + str(dl.getParm('IVOLT'))+ ' V')
+                        
+                #print('\n')
+                
+    except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e: #Determine type of error
+         
+        g.gv.TC_SC.write_command(Command_Dict.Command_Dict['SC_power_write'], 0) #Turn power off
+
+        g.gv.TC_CC.write_command(Command_Dict.Command_Dict['CC_power_write'], 0) #Turn power off
+
+        g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_power_write'], 0) #Turn power off
+
+        power_CC = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_power_read'])
+       
+        power_SC = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_power_read'])
+        
+        power_DPG = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_power_read'])
  
+
+        if power_CC == power_SC == power_DPG == 0: #Check that power was turned off
+
+            print('Controllers turned off')
+
+        else:
+
+            print('One or more of the controllers still on')
+
+        print('Terminated because ' + str(e)) #Print error messahe
+        
+
 def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
-    
-    #print(irga.read_IRGA())
-   
-   #print('reading instruments')
-   
-   IRGA_list = irga.read_IRGA()
 
-   #TC_list = [0,0,0,0]
+     #Function to read instruments - IRGA, TC_SC, TC_CC, TC_DPG
 
-   TC_list = [TC_SC.read_temperature(0), TC_SC.read_temperature(1), TC_CC.read_temperature(0), TC_DPG.read_temperature(0)]
-   
-   dl.setParm('pCO2', IRGA_list[0], time_stamp)
+     #print(irga.read_IRGA())
+     
+     #print('reading instruments')
+     
+     IRGA_list = g.gv.irga.read_IRGA() # Read IRGA 
 
-   dl.setParm('pH2O', IRGA_list[1], time_stamp)
-   
-   dl.setParm('Cell_pressure', IRGA_list[2], time_stamp)
-   
-   dl.setParm('Cell_temp', IRGA_list[3], time_stamp)
-   
-   dl.setParm('IVOLT', IRGA_list[4], time_stamp)
+     # Updated the registers with the most recently read system variables in 
 
-   dl.setParm('SC_T1', TC_list[0], time_stamp)
+     g.gv.dl.setParm('pCO2', IRGA_list[0], time_stamp) 
 
-   dl.setParm('SC_T2', TC_list[1], time_stamp)
+     g.gv.dl.setParm('pH2O', IRGA_list[1], time_stamp)
+     
+     g.gv.dl.setParm('CellP', IRGA_list[2], time_stamp)
 
-   dl.setParm('CC_T1', TC_list[2], time_stamp)
+     CellT = IRGA_list[3]
+     
+     g.gv.dl.setParm('CellT', CellT, time_stamp)
+     
+     g.gv.dl.setParm('IVOLT', IRGA_list[4], time_stamp)
 
-   dl.setParm('DPG_T1', TC_list[3], time_stamp)
+     DPT =  IRGA_list[5]
 
-main()
+     g.gv.dl.setParm('DPT', DPT, time_stamp)
+
+     SC_T = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T_read'])/100.0
+
+     g.gv.dl.setParm('SC_T', SC_T, time_stamp)
+
+     SC_Tblock = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_Tblock_read'])/100.0
+
+     g.gv.dl.setParm('SC_Tblock', SC_Tblock, time_stamp)
+
+     CC_T = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T_read'])/100.0
+
+     g.gv.dl.setParm('CC_T', CC_T, time_stamp)
+
+     DPG_T = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T_read'])/100.0
+
+     g.gv.dl.setParm('DPG_T', DPG_T, time_stamp)
+
+     WGT = ((m.get_adc(0,1))/4096.0)*10
+
+     g.gv.dl.setParm('WGT', WGT, time_stamp)
+
+     ################### Check for normal operation of TA ################### 
+
+     if CellT > 50.0 and DPT < 45.0 and DPT > CC_T and CC_T > SC_T and SC_T > DPG_T:
+        
+         pass
+        
+     else:
+
+        g.gv.dl.setParm('Status', 1, time_stamp)
+
+main() # Call main

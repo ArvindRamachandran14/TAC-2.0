@@ -1,144 +1,135 @@
+#Temperature Controller module - applies to SC_TC, CC_TC, DPG_TC
+
 import serial
 
 import time 
 
 import datetime
 
+import Command_Dict
 
 class TC():
 
-	#List of Commands to perform TC operations
+    def __init__(self, ser):
 
-	pw_on = ['*','0','0','2','d','0','0','0','0','0','0','0','1','7','7','\r'] # Command to turn TC power on
+        self.ser = ser
 
-	pw_off = ['*','0','0','2','d','0','0','0','0','0','0','0','0','7','6','\r']	# Command to turn TC power off
-
-	bstc_25 =['*','0','0','1','c','0','0','0','0','0','9','c','4','b','4','\r'] # Command to set temp to 25 C
+        self.output_buffer = []
 
 
-	bst_35 = ['*','0','0','1','c','0','0','0','0','0','d','a','c','2','f','\r'] #Command to set temp to 35 C
+    @classmethod
+    def command_generator(cls, command, send_value): 
 
-	bstc_30 =['*','0','0','1','c','0','0','0','0','0','b','b','8','e','0','\r'] # Command to set temp to 30 C
+        #Function to generate the command to be sent to the TC, given the command type and sendvalue
+
+        return_buffer = ['*', '0', '0'] # Full command to be returned 
+
+        if len(command) == 2:
+
+            return_buffer.append(command[0])
+
+            return_buffer.append(command[1])
+
+        else: 
+
+            print(error)
+
+            return(None)
+
+        if send_value>=0:
+            pass
+        else:
+            send_value = 2**32 + send_value #hex representation of negative numbers
+
+        send_value_string = []
+
+        for x in hex(send_value)[2:]:
+            send_value_string.append(x) 
+
+        return_buffer+= ['0']*(8-len(send_value_string)) # 8 digit hex representation
+
+        return_buffer+= send_value_string
+
+        ################################# Checksum calculation #################################
+
+        checksum = 0
+
+        for x in return_buffer[1:]:
+            checksum += ord(x) 
+
+        #print(checksum)
+
+        return_buffer += hex(checksum)[-2:] #Add hex representation of checksum
+
+        return_buffer += '\r'
+
+        return(return_buffer)
+
+    def write_command(self, command, send_value):
+
+        #print(TC.command_generator(command, send_value))
+
+        output_buffer=[]
+
+        output_string = ""
+
+    #print(command)
+
+    #print(send_value)
+
+        command_buffer = TC.command_generator(command, send_value) # Command generator function returns the command buffer to be sent to the TC
+
+        ################################# Write command to TC #################################
+
+        for pn in range(0,16):
+            self.ser.write(command_buffer[pn].encode()) #ser is the serial port of the relevant TC
+            time.sleep(0.001)
+
+        ################################# Read response from TC #################################
 	
-	bst = []
+        output_string = self.ser.readline().decode()
 
-	bst.append(['*','0','0','0','1','0','0','0','0','0','0','0','0','4','1','\r']) # Command to read thermistor 1 temp from controller 
-
-	bst.append(['*','0','0','0','6','0','0','0','0','0','0','0','0','4','6','\r']) # Command to read thermistor 2 temp from controller 
-
-	read_ctl_type = ['*','0','0','4','4','0','0','0','0','0','0','0','0','4','8','\r'] #Command to Read CONTROL TYPE of TC
-	
-	set_ctl_type = ['*','0','0','2','b','0','0','0','0','0','0','0','1','7','5','\r'] #Command to Set CONTROL TYPE of TC to PID
-	
-	def __init__(self, ser): 
-
-	    self.ser = ser 
-
-	    self.dict = {}
+        for pn in range(len(output_string)):
+            output_buffer.append(str(output_string[pn]))
+            time.sleep(0.001)
         
-            self.buf_read_temp=[0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to read temperature
+        ################################# Checksum test #################################
 
-	    self.buf_ctl_type = [0,0,0,0,0,0,0,0,0,0,0,0] # Buffer to record CONTROL TYPE 
+        if command_buffer[5:-3] == output_buffer[1:-3]:
 
-	    self.buf_set_temp = [0,0,0,0,0,0,0,0,0,0,0,0] #Buffer to record response to SET TEMP
-            
-            self.string_read_temperature = "0x" # String to read temperature 
-            
-            self.string_ctl_type = "" #String to record CONTROL TYPE 
-            
-            self.string_set_temp = "" #String to record response to SET TEMP
+            return('Done')
+
+        else:
     
-	def power_on(self):
-	     
-	    print("Turning TC_CC ON")
-		
-	    for pn in range(0,16):
-	        self.ser.write((TC.pw_on[pn]).encode())
-		time.sleep(0.001)
+            return('Checksum error: Command Buffer = '+ command_buffer[5:-3]+ ' Output Buffer = '+output_buffer[1:-3])
 
-	def power_off(self):
-	     
-	     print("Turning TC_CC OFF")
+    def read_value(self, command):
 
-	     for pn in range(0,16):
-	         self.ser.write((TC.pw_off[pn]).encode())
-		 time.sleep(0.001)
+        send_value = 0
 
-	def read_temperature(self,thermistor):
+        output_buffer=[0,0,0,0,0,0,0,0,0,0,0,0]
 
-            self.buf_read_temp=[0,0,0,0,0,0,0,0,0,0,0,0]
-	
-            self.string_read_temp = "0x"
+        string_read_temp = "0x"
 
-	    self.ser.reset_output_buffer()
-	    self.ser.reset_input_buffer()
+        command_buffer = TC.command_generator(command, send_value)
 
-	    for pn in range(0,16):
-		self.ser.write((TC.bst[thermistor][pn]).encode())
-		time.sleep(0.001)
+        ################################# Write command to TC #################################
 
-	    self.dict['timestamp'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        for pn in range(0,16):
+            self.ser.write(command_buffer[pn].encode())
+            time.sleep(0.001)
 
-	    for pn in range(0,12):
-		self.buf_read_temp[pn]=self.ser.read(1)
-            	time.sleep(0.001)
+        ################################# Read response from TC #################################
 
-	    for i in range(1, 9):
-		self.string_read_temp+=self.buf_read_temp[i].decode()
+        for pn in range(0,12):
+            output_buffer[pn]=self.ser.read(1)
+            time.sleep(0.001)
 
-	    self.dict['temperature']  = int(self.string_read_temp,0)/100.0
-	    
-	    #print(self.dict['temperature'])
+        for i in range(1, 9):
+            string_read_temp+=output_buffer[i].decode()
 
-	    return(self.dict['temperature'])
+        return(int(string_read_temp,0)) #Convert string to integer (actual output)
 
-	def set_temperature(self):
-        
+#tc = TC('Ser')
 
-            self.buf_set_temp=[0,0,0,0,0,0,0,0,0,0,0,0]
-	    self.string_set_temp = ""
-	    
-	    self.ser.reset_output_buffer()
-	    self.ser.reset_input_buffer()
-
-            for pn in range(0,16):
-	        self.ser.write((TC.bstc_25[pn]).encode())
-	        time.sleep(0.001)
-	   
-	    for i in range(0,12):
-                self.buf_set_temp[i]=self.ser.read(1)
-		time.sleep(0.001)
-	    
-	    for i in range(0,12):
-		self.string_set_temp+=self.buf_set_temp[i].decode()
-
-            return(self.string_set_temp)
-
-	def read_control_type(self):
-	    
-
-            self.buf_ctl_type=[0,0,0,0,0,0,0,0,0,0,0,0] 
-            self.string_ctl_type = ""
-
-	    self.ser.reset_output_buffer()
-	    self.ser.reset_input_buffer()
-
-	    for pn in range(0,16):
-	        self.ser.write((TC.read_ctl_type[pn]).encode())
-
-	    for i in range(0,12):
-                self.buf_ctl_type[i]=self.ser.read(1)
-		time.sleep(0.001)
-
-	    for i in range(0,12):
-		self.string_ctl_type+=self.buf_ctl_type[i].decode()
- 
-            return(self.string_ctl_type)
-	
-	def set_control_type(self):
-
-	    self.ser.reset_output_buffer()
-	    self.ser.reset_input_buffer()
-
-            for pn in range(0,16):
-	        self.ser.write((TC.set_ctl_type[pn]).encode())
+#tc.send_command(Command_Dict.Command_Dict['set_ctl_type'],1)
