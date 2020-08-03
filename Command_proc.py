@@ -115,6 +115,8 @@ class Command_Proc():
                 return('e 2') # Variable does not exist, return error message string  
 
         elif self.strings[0] == 'g': #Check to see if command is a get command     
+
+            print(self.strings)
 		
             if self.strings[-1] == 'all':
 
