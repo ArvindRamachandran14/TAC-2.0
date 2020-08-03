@@ -116,16 +116,27 @@ class Command_Proc():
 
         elif self.strings[0] == 'g': #Check to see if command is a get command     
 
-            print(self.strings)
+            #print(self.strings)
 		
-            if self.strings[-1] == 'all':
+            if self.strings[1] == 'all':
 
                 #print('getting all data')
 
                 return(self.dl.get_all_data())
-	
 	   
-            elif self.strings[-1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
+            elif self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
+
+                if self.strings[1] == 'SC_output':
+
+                    g.gv.dl.setParm(self.strings[1], g.gv.TC_SC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
+
+                if self.strings[1] == 'CC_output':
+
+                    g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
+
+                if self.strings[1] == 'DPG_output':
+
+                    g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
                 return(self.dl.getParm(self.strings[-1])) # Obtain value from register, return tuple to lab PC
             
