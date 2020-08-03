@@ -28,7 +28,7 @@ class Command_Proc():
 
         ############# Function that executes the command #############s
     
-        #print(self.strings)
+        print(self.strings)
         
         if self.strings in ([u''], [u'\n'], [u'\r']): # User enters a new line or does not enter anything - no action requied, return False
         
