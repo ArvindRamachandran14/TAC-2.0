@@ -21,7 +21,11 @@ Command_Dict['DPG_power_write'] = '2d'
 
 ################################### Output read ####################################
 
-Command_Dict['output_read'] = '02'
+Command_Dict['SC_output_read'] = '02'
+
+Command_Dict['CC_output_read'] = '02'
+
+Command_Dict['DPG_output_read'] = '02'
 
 #################################### Read thermistors ####################################
 

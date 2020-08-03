@@ -56,6 +56,8 @@ class Command_Proc():
 
                     Output_string = g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)) # Performing set operation, return string - Done, Input Error, Checksum Error
 
+                    print(Output_string)
+
                     if Output_string == "Done":
 
                         current_time = time.time() # current time 
@@ -87,8 +89,10 @@ class Command_Proc():
                 elif self.strings[1][0:2] == "DP":
 
                     #Need to check if the set point is a legit value - float/int, within range
-                    
+
                     Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
+
+                    print(Output_string)
 
                     if Output_string == "Done":
 
