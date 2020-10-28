@@ -56,8 +56,6 @@ def main():
                         
             Output = Cmd_prc.Do_it() # Output of said action from command processor
                         
-            #print(type(Output))
-
             ########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
                         
             if isinstance(Output, bool): # Pass if False 
