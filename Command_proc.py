@@ -129,7 +129,12 @@ class Command_Proc():
                 #print('getting all data')
 
                 return(self.dl.get_all_data())
-	   
+
+            elif self.strings[1] == 'cal_variables':
+
+                return(self.dl.get_cal_data())
+
+
             elif self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
 
                 return(self.dl.getParm(self.strings[-1])) # Obtain value from register, return tuple to lab PC
