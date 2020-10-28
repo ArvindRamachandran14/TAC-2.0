@@ -81,6 +81,8 @@ class TC():
 
         ################################# Write command to TC #################################
 
+        # Replace below lines of code with self.ser.write(command_buffer.encode()) 
+
         for pn in range(0,16):
             self.ser.write(command_buffer[pn].encode()) #ser is the serial port of the relevant TC
             time.sleep(0.001)
@@ -89,10 +91,15 @@ class TC():
 	
         output_string = self.ser.readline().decode()
 
+        #No need to put output_string into output_buffer
+
         for pn in range(len(output_string)):
             output_buffer.append(str(output_string[pn]))
             time.sleep(0.001)
         
+
+        #The checksum test can be simplified by just looking for 'X' character in the output_string
+
         ################################# Checksum test #################################
 
         if command_buffer[5:-3] == output_buffer[1:-3]:

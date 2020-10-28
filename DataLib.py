@@ -120,6 +120,23 @@ class DataLib():
         
         return self.parmDict
 
+    def get_cal_data(self):
+
+        ######### Function to get calibration data at once from TA #########
+
+        cal_data_dict = {}
+
+        string = ""
+
+        for key in ['SC_power', 'SC_P', 'SC_I', 'SC_D', 'SC_set', 'SC_output', 'CC_power', 'CC_P', 'CC_I', 'CC_D', 'CC_set', 'CC_output', 'DPG_power', 'DPG_P', 'DPG_I', 'DPG_D', 'DPG_set', 'DPG_output']:
+
+            string += str(self.parmDict[key].value) 
+
+            string += ','
+
+        return(string)
+
+
     def get_all_data(self):
 
         ######### Function to get all the data at once from TA #########
