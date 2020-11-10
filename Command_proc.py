@@ -52,11 +52,11 @@ class Command_Proc():
                 ###### check if self.strings[1] is a parameter that can actually be set or if it is a readonly paramter
                 if self.strings[1] == "ByPass":
 
-                    #print("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
-
                     os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
 
-		    
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                     g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
 
@@ -66,9 +66,11 @@ class Command_Proc():
 
                 elif self.strings[1] == "IRGA_pump":
 
-                    #print("megaio 0 rwrite 7 "+self.switch[int(self.strings[2])])
-
                     os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
+
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                     g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
 
