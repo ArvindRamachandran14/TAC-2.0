@@ -11,4 +11,4 @@ Bypass_command_off = "megaio 0 rwrite 8 off"
 
 
 
-os.system("grep Arvind text.txt")
+os.system(Bypass_command_off)
