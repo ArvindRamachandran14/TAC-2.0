@@ -131,6 +131,8 @@ class Command_Proc():
                 return(self.dl.get_all_data())
 
             elif self.strings[1] == 'cal_variables':
+		
+		print('g cal_variables command received')
 
                 return(self.dl.get_cal_data())
 

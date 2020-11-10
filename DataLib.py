@@ -134,6 +134,8 @@ class DataLib():
 
             string += ','
 
+	print("output is", string)
+
         return(string)
 
 

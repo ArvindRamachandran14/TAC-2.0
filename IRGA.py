@@ -34,6 +34,8 @@ class IRGA():
         
         self.ser.write('<LI840> <CFG> <OUTRATE> 0 </OUTRATE> </CFG> </LI840>'.encode()) #Set the OUTRATE to 0
         
+	self.xmlstring = self.ser.readline().decode() 
+	
         self.ser.write('<LI840><DATA>?</DATA></LI840>'.encode())
 
         self.return_list = []
@@ -46,7 +48,7 @@ class IRGA():
 
         #self.ser.reset_output_buffer()
 
-        self.xmlstring = self.ser.read(1000).decode() # Reading the output as an XML string 
+        self.xmlstring = self.ser.readline().decode() # Reading the output as an XML string 
 
         self.ser.write('<LI840><DATA>?</DATA></LI840>'.encode()) #Command to request output from IRGA
 
