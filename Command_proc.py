@@ -1,5 +1,3 @@
-
-
 ############## Module that processes the commands from the user ##############
 
 import global_variables as g
@@ -9,6 +7,8 @@ import Command_Dict
 import datetime
 
 import time
+
+import os 
 
 class Command_Proc():
     """docstring for Command_Proc"""
@@ -23,6 +23,7 @@ class Command_Proc():
 
         self.time_stamp = time_stamp
 
+        self.switch = ['on', 'off']
 
     def Do_it(self):
 
@@ -49,8 +50,31 @@ class Command_Proc():
         	    #print(self.strings[1])
 
                 ###### check if self.strings[1] is a parameter that can actually be set or if it is a readonly paramter
+                if self.strings[1] == "ByPass":
 
-                if self.strings[1][0:2] == "SC":
+                    print("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
+
+                    #os.system(print("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])]))
+
+                    g.gv.dl.setParm(self.strings[1], int(self.strings[2]))
+
+                    Output_string = 'e 0'
+
+                    #return(Output_string)
+
+                elif self.strings[1] == "IRGA_pump":
+
+                    print("megaio 0 rwrite 7 "+self.switch[int(self.strings[2])])
+
+                    #os.system(print("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])]))
+
+                    g.gv.dl.setParm(self.strings[1], int(self.strings[2]))
+
+                    Output_string = 'e 0'
+
+                    #return(Output_string)
+
+                elif self.strings[1][0:2] == "SC":
 
                     #Need to check if the self.strings[2] (set point) is a legit value - float/int, within range
 
@@ -68,7 +92,7 @@ class Command_Proc():
 
                         Output_string = 'e 0'
 
-                        return(Output_string)
+                        #return(Output_string)
 
                 elif self.strings[1][0:2] == "CC":
 
@@ -88,7 +112,7 @@ class Command_Proc():
 
                         Output_string = 'e 0'
 
-                        return(Output_string)
+                        #return(Output_string)
 
                 elif self.strings[1][0:2] == "DP" #or RH or pHO
 
@@ -110,17 +134,19 @@ class Command_Proc():
 
                         Output_string = 'e 0'
 
-                        return(Output_string)
+                        #return(Output_string)
 
                 else: 
 
                     Output_string = 'e 3' #readonly paramter
 
-                    return(Output_string) 
+                    #return(Output_string) 
 
             else:
 
-                return('e 2') # Variable does not exist, return error message string  
+                Output_string = 'e 2' # Variable does not exist, return error message string  
+
+            return(Output_string)
 
         elif self.strings[0] == 'g': #Check to see if command is a get command     
 

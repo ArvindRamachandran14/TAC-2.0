@@ -72,11 +72,12 @@ class DataLib():
 
         #Others
         self.WGT = Register(32, 'WGT', 0.0, init_ts) #Weight of the sample
-        self.ByPass = Register(33, 'ByPass',0.0, init_ts) #Desired valve state – bypass/norma
+        self.ByPass = Register(33, 'ByPass', 0, init_ts) #Desired valve state – bypass/norma
+        self.IRGA_pump = Register(34, 'IRGA_pump', 0, init_ts)
 
         #Status 
 
-        self.Status = Register(34, "Status", 0, init_ts)
+        self.Status = Register(35, "Status", 0, init_ts)
 
         # The parameter dictionary with register objects
         self.parmDict = {
@@ -113,6 +114,7 @@ class DataLib():
             self.RH_set.name: self.RH_set,
             self.WGT.name: self.WGT,
             self.ByPass.name: self.ByPass,
+            self.IRGA_pump.name: self.IRGA_pump,
             self.Status.name: self.Status
         }
 
