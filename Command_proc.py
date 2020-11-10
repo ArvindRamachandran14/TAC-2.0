@@ -23,7 +23,7 @@ class Command_Proc():
 
         self.time_stamp = time_stamp
 
-        self.switch = ['on', 'off']
+        self.switch = ['off', 'on']
 
     def Do_it(self):
 
@@ -52,11 +52,13 @@ class Command_Proc():
                 ###### check if self.strings[1] is a parameter that can actually be set or if it is a readonly paramter
                 if self.strings[1] == "ByPass":
 
-                    print("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
+                    #print("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
 
-                    #os.system(print("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])]))
+                    os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
 
-                    g.gv.dl.setParm(self.strings[1], int(self.strings[2]))
+		    
+
+                    g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
 
                     Output_string = 'e 0'
 
@@ -64,11 +66,11 @@ class Command_Proc():
 
                 elif self.strings[1] == "IRGA_pump":
 
-                    print("megaio 0 rwrite 7 "+self.switch[int(self.strings[2])])
+                    #print("megaio 0 rwrite 7 "+self.switch[int(self.strings[2])])
 
-                    #os.system(print("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])]))
+                    os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
 
-                    g.gv.dl.setParm(self.strings[1], int(self.strings[2]))
+                    g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
 
                     Output_string = 'e 0'
 
