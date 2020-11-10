@@ -114,7 +114,7 @@ class Command_Proc():
 
                         #return(Output_string)
 
-                elif self.strings[1][0:2] == "DP" #or RH or pHO
+                elif self.strings[1][0:2] == "DP": #or RH or pHO
 
                     # DPG_ctrl = Convert_to_DPT(self.strings[2])
 
