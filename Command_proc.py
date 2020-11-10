@@ -90,9 +90,11 @@ class Command_Proc():
 
                         return(Output_string)
 
-                elif self.strings[1][0:2] == "DP":
+                elif self.strings[1][0:2] == "DP" #or RH or pHO
 
-                    #Need to check if the set point is a legit value - float/int, within range
+                    # DPG_ctrl = Convert_to_DPT(self.strings[2])
+
+                    #Need to check if the set point is a legit value - float/int, within range - input validation done on TAGUI end 
 
                     Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
@@ -148,3 +150,8 @@ class Command_Proc():
             print(self.strings)
 
             return('e 1') # Wrong command
+
+
+'''
+
+'''
