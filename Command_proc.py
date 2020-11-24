@@ -240,9 +240,15 @@ class Command_Proc():
 
         else:
 
+            print('RH_set, SC_T, pH2O_sat = ', self.dl.getParm('RH_set')[0], self.dl.getParm('SC_T')[0], self.ph2oSat(self.dl.getParm('SC_T')[0]))
+
             ph2oNeed =  self.dl.getParm('RH_set')[0]*self.ph2oSat(self.dl.getParm('SC_T')[0])/100
 
+            print('ph2oNeed', ph2oNeed)
+
         if ph2oNeed!=0:    
+
+            print('DPG_ctrl', DPG_ctrl)
 
             DPG_ctrl = self.dewPointTemp(ph2oNeed)
 
