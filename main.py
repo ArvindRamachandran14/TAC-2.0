@@ -55,14 +55,16 @@ def main():
             Cmd_prc = Command_proc.Command_Proc(g.gv.dl, user_input, time_stamp) # perform user directed action from command line
                         
             Output = Cmd_prc.Do_it() # Output of said action from command processor
-                      
-            DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
+                   
+	    if g.gv.dl.getparm("DPG_power")[0] !=0:   
 
-            Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
+            	DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
 
-            print(Output_string)
+            	Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
 
-            #print(type(Output))
+            	print(Output_string)
+
+            	#print(type(Output))
 
             ########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
                         
