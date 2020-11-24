@@ -10,6 +10,8 @@ import time
 
 import os 
 
+from math import exp, log
+
 
 class Command_Proc():
     """docstring for Command_Proc"""
