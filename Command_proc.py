@@ -243,7 +243,9 @@ class Command_Proc():
 
             ph2oNeed =  self.dl.getParm('RH_set')[0]*self.ph2oSat(self.dl.getParm('SC_T')[0])/100
 
-        DPG_ctrl = self.dewPointTemp(ph2oNeed)
+        if ph2oNeed!=0:    
+
+            DPG_ctrl = self.dewPointTemp(ph2oNeed)
 
         self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')[0]) #Error
 
