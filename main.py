@@ -55,10 +55,12 @@ def main():
             Cmd_prc = Command_proc.Command_Proc(g.gv.dl, user_input, time_stamp) # perform user directed action from command line
                         
             Output = Cmd_prc.Do_it() # Output of said action from command processor
-                      
-            DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
 
-            print(DPG_ctrl)
+            if g.gv.dl.getParm(DPG_power)[0] !=0:
+                      
+                DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
+
+                print(DPG_ctrl)
 
             Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl*100))
 
