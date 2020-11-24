@@ -32,7 +32,7 @@ class Command_Proc():
         self.err_1 = 0.0                            # Previous value of error
         self.errDot = 0.0                           # Derivative of error at iternation n
         self.errSum = 0.0   
-
+        self.deltaT = 1.0
 
     def Do_it(self):
 
