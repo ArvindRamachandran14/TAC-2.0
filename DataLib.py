@@ -27,7 +27,7 @@ class DataLib():
         
         # Thermocouples
 
-        self.cfg = Config.Config()
+        self.cfg = Cfg.Config()
 
         init_ts = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
