@@ -213,6 +213,13 @@ class Command_Proc():
 
             return('e 1') # Wrong command
 
+    def Set_DPG_ctrl(self, DPG_ctrl):
+
+        Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl)*100)
+
+        return(Output_string)
+
+
     def Convert_to_DPG_ctrl(self):
 
         DPG_ctrl = 0.0
