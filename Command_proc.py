@@ -219,15 +219,21 @@ class Command_Proc():
 
         if self.dl.getParm('DPG_set')!=0:
 
+            print('1')
+
             DPG_ctrl = float(self.dl.getParm('DPG_set'))
 
             return(DPG_ctrl)
 
         elif self.dl.getParm('RH_set')!=0:
 
+            print('2')
+
             ph2oNeed =  float(self.dl.getParm('RH_set'))*self.ph2oSat(self.dl.getParm('SC_T'))/100
 
         elif self.dl.getParm('pH2O_set')!=0:
+
+            print('3')
 
             ph2oNeed = float(self.dl.getParm('pH2O_set'))
 
