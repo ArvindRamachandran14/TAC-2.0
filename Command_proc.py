@@ -128,6 +128,22 @@ class Command_Proc():
 
                         #return(Output_string)
 
+                elif self.strings[1] == "DPG_power":
+
+                    Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
+
+                    print(Output_string)
+
+                    if Output_string == "Done":
+
+                        current_time = time.time() # current time 
+
+                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                        g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
+
+                        Output_string = 'e 0'
+
                 elif self.strings[1]== "pH2O_P":
 
                     g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
@@ -163,6 +179,8 @@ class Command_Proc():
                 elif self.strings[1] == "pH2O_set":
 
                     g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+
+
 
                     #DPG_set = Convert_to_DPG_set(self.strings[1], self.strings[2])
 
