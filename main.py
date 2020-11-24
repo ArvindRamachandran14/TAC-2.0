@@ -55,7 +55,13 @@ def main():
             Cmd_prc = Command_proc.Command_Proc(g.gv.dl, user_input, time_stamp) # perform user directed action from command line
                         
             Output = Cmd_prc.Do_it() # Output of said action from command processor
-                        
+                      
+            DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
+
+            Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], DPG_ctrl*100)
+
+            print(Output_string)
+
             #print(type(Output))
 
             ########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
