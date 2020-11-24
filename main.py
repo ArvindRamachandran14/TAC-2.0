@@ -62,9 +62,9 @@ def main():
 
                 print(DPG_ctrl)
 
-            Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl*100))
+                Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl*100))
 
-            print(Output_string)
+                print(Output_string)
 
             #print(type(Output))
 
