@@ -211,54 +211,53 @@ class Command_Proc():
 
             return('e 1') # Wrong command
 
-        def Convert_to_DPG_ctrl(self):
+    def Convert_to_DPG_ctrl(self):
 
-            DPG_ctrl = 0.0
+        DPG_ctrl = 0.0
             
-            ph2oNeed = 0.0
+        ph2oNeed = 0.0
 
-            if self.dl.getParm('DPG_set')!=0:
+        if self.dl.getParm('DPG_set')!=0:
 
-                DPG_ctrl = float(self.dl.getParm('DPG_set'))
+            DPG_ctrl = float(self.dl.getParm('DPG_set'))
 
-                return(DPG_ctrl)
+            return(DPG_ctrl)
 
-            elif self.dl.getParm('RH_set')!=0:
+        elif self.dl.getParm('RH_set')!=0:
 
-                ph2oNeed =  float(self.dl.getParm('RH_set'))*self.ph2oSat(self.dl.getParm('SC_T'))/100
+            ph2oNeed =  float(self.dl.getParm('RH_set'))*self.ph2oSat(self.dl.getParm('SC_T'))/100
 
-            elif self.dl.getParm('pH2O_set')!=0:
+        elif self.dl.getParm('pH2O_set')!=0:
 
-                ph2oNeed = float(self.dl.getParm('pH2O_set'))
+            ph2oNeed = float(self.dl.getParm('pH2O_set'))
 
-            else:
+        else:
 
-                ph2oNeed =  self.dl.getParm('RH_set')*self.ph2oSat(self.dl.getParm('SC_T'))/100
+            ph2oNeed =  self.dl.getParm('RH_set')*self.ph2oSat(self.dl.getParm('SC_T'))/100
 
-            DPG_ctrl = self.dewPointTemp(ph2oNeed)
+        DPG_ctrl = self.dewPointTemp(ph2oNeed)
 
-            self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')) #Error
+        self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')) #Error
 
-            self.errDot = (self.err - self.err_1) / self.deltaT     # Error derivative value
-            self.err_1 = self.err                                   # Save the error value
-            self.errSum += self.err                                 # Error sum value
+        self.errDot = (self.err - self.err_1) / self.deltaT     # Error derivative value
+        self.err_1 = self.err                                   # Save the error value
+        self.errSum += self.err                                 # Error sum value
             
-            self.DPG_ctrl = (self.dl.getParm('pH2O_P')*self.err + self.dl.getParm('pH2O_D')*self.errDot + self.dl.getParm('pH2O_I')*self.errSum)
+        self.DPG_ctrl = (self.dl.getParm('pH2O_P')*self.err + self.dl.getParm('pH2O_D')*self.errDot + self.dl.getParm('pH2O_I')*self.errSum)
 
-            # Now, we need the limiter
-            limit = min(self.dl.getParm('SC_T'), self.dl.getParm('CC_T'))
-            if DPG_ctrl > limit :
-                DPG_ctrl = limit
-            return DPG_ctrl
+        # Now, we need the limiter
+        limit = min(self.dl.getParm('SC_T'), self.dl.getParm('CC_T'))
+        if DPG_ctrl > limit :
+            DPG_ctrl = limit
+        return DPG_ctrl
 
-
-        def ph2oSat(T) :
+    def ph2oSat(T) :
             
-            return 610.78 * exp((T * 17.2684) / (T + 238.3))
+        return 610.78 * exp((T * 17.2684) / (T + 238.3))
 
-        def dewPointTemp(ph2o) :
-            w = log(ph2o / 610.78)
-            return w * 238.3 / (17.294 - w)
+    def dewPointTemp(ph2o) :
+        w = log(ph2o / 610.78)
+        return w * 238.3 / (17.294 - w)
 
 
 '''
