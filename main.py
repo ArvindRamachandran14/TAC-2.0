@@ -58,7 +58,7 @@ def main():
                       
             DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
 
-            Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], DPG_ctrl*100)
+            Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_set_write'], DPG_ctrl*100)
 
             print(Output_string)
 
