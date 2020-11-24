@@ -31,7 +31,6 @@ class Command_Proc():
         self.errDot = 0.0                           # Derivative of error at iternation n
         self.errSum = 0.0   
 
-        self.p
 
     def Do_it(self):
 
