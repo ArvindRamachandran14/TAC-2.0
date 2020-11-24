@@ -221,31 +221,29 @@ class Command_Proc():
 
         if self.dl.getParm('DPG_set')[0]!=0:
 
-            print('1')
-
             DPG_ctrl = float(self.dl.getParm('DPG_set')[0])
 
             return(DPG_ctrl)
 
         elif self.dl.getParm('RH_set')[0]!=0:
 
-            print('2')
+            print('RH_set, SC_T, pH2O_sat = ', self.dl.getParm('RH_set')[0], self.dl.getParm('SC_T')[0], self.ph2oSat(self.dl.getParm('SC_T')[0]))
 
             ph2oNeed =  float(self.dl.getParm('RH_set')[0])*self.ph2oSat(self.dl.getParm('SC_T')[0])/100
 
-        elif self.dl.getParm('pH2O_set')[0]!=0:
+            print('ph2oNeed', ph2oNeed)
 
-            print('3')
+        elif self.dl.getParm('pH2O_set')[0]!=0:
 
             ph2oNeed = float(self.dl.getParm('pH2O_set')[0])
 
         else:
 
-            print('RH_set, SC_T, pH2O_sat = ', self.dl.getParm('RH_set')[0], self.dl.getParm('SC_T')[0], self.ph2oSat(self.dl.getParm('SC_T')[0]))
+            #print('RH_set, SC_T, pH2O_sat = ', self.dl.getParm('RH_set')[0], self.dl.getParm('SC_T')[0], self.ph2oSat(self.dl.getParm('SC_T')[0]))
 
             ph2oNeed =  self.dl.getParm('RH_set')[0]*self.ph2oSat(self.dl.getParm('SC_T')[0])/100
 
-            print('ph2oNeed', ph2oNeed)
+            #print('ph2oNeed', ph2oNeed)
 
         if ph2oNeed!=0:    
 
