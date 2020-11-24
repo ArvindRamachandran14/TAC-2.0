@@ -256,11 +256,11 @@ class Command_Proc():
             DPG_ctrl = limit
         return DPG_ctrl
 
-    def ph2oSat(T) :
+    def ph2oSat(self, T) :
             
         return 610.78 * exp((T * 17.2684) / (T + 238.3))
 
-    def dewPointTemp(ph2o) :
+    def dewPointTemp(self, ph2o) :
         w = log(ph2o / 610.78)
         return w * 238.3 / (17.294 - w)
 
