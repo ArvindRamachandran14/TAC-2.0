@@ -10,6 +10,8 @@ import time
 
 import datetime
 
+import Config as cfg
+
 class Register():
     def __init__(self, _i, _n, _v, _ts):
         self.index  = _i
@@ -24,6 +26,8 @@ class DataLib():
     def __init__(self):
         
         # Thermocouples
+
+        self.cfg = Config.Config()
 
         init_ts = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
@@ -75,6 +79,14 @@ class DataLib():
         self.ByPass = Register(33, 'ByPass', 0, init_ts) #Desired valve state – bypass/norma
         self.IRGA_pump = Register(34, 'IRGA_pump', 0, init_ts)
 
+        self.pH2O_P = Register(35, 'pH2O_P', self.cfg.pH2O_P, init_ts)
+
+        self.pH2O_I = Register(36, 'pH2O_I', self.cfg.pH2O_P, init_ts)
+
+        self.pH2O_D = Register(37, 'pH2O_D', self.cfg.pH2O_P, init_ts)
+
+        #Updates json file with new parameters
+
         #Status 
 
         self.Status = Register(35, "Status", 0, init_ts)
@@ -115,7 +127,10 @@ class DataLib():
             self.WGT.name: self.WGT,
             self.ByPass.name: self.ByPass,
             self.IRGA_pump.name: self.IRGA_pump,
-            self.Status.name: self.Status
+            self.Status.name: self.Status,
+            self.pH2O_P.name: self.pH2O_P,
+            self.pH2O_I.name: self.pH2O_I,
+            self.pH2O_D.name: self.pH2O_D
         }
 
     def getParmDict(self):

@@ -10,6 +10,7 @@ import time
 
 import os 
 
+
 class Command_Proc():
     """docstring for Command_Proc"""
 
@@ -24,6 +25,13 @@ class Command_Proc():
         self.time_stamp = time_stamp
 
         self.switch = ['off', 'on']
+
+        self.err = 0.0
+        self.err_1 = 0.0                            # Previous value of error
+        self.errDot = 0.0                           # Derivative of error at iternation n
+        self.errSum = 0.0   
+
+        self.p
 
     def Do_it(self):
 
@@ -118,27 +126,49 @@ class Command_Proc():
 
                         #return(Output_string)
 
-                elif self.strings[1][0:2] == "DP": #or RH or pHO
+                elif self.strings[1]== "pH2O_P":
 
-                    # DPG_ctrl = Convert_to_DPT(self.strings[2])
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+
+                    self.dl.cfg["pH2O_P"] = float(self.strings[2])
+
+                    self.dl.cfg.update()
+
+                elif self.strings[1]== "pH2O_I":
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+
+                    self.dl.cfg["pH2O_I"] = float(self.strings[2])
+
+                    self.dl.cfg.update()
+
+                elif self.strings[1]== "pH2O_D":
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+
+                    self.dl.cfg["pH2O_D"] = float(self.strings[2])
+
+                    self.dl.cfg.update()
+
+                elif self.strings[1] == "DPG_set": 
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+
+                elif self.strings[1] == "RH_set":
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+
+                elif self.strings[1] == "pH2O_set":
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+
+                    #DPG_set = Convert_to_DPG_set(self.strings[1], self.strings[2])
 
                     #Need to check if the set point is a legit value - float/int, within range - input validation done on TAGUI end 
 
-                    Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
+                    #Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
-                    print(Output_string)
-
-                    if Output_string == "Done":
-
-                        current_time = time.time() # current time 
-
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-
-                        g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
-
-                        Output_string = 'e 0'
-
-                        #return(Output_string)
+                    #return(Output_string)
 
                 else: 
 
@@ -176,12 +206,60 @@ class Command_Proc():
             else:
             
                 return('e 2') # Variable does not exist, return error message string 
-
         else:
             
             print(self.strings)
 
             return('e 1') # Wrong command
+
+        def Convert_to_DPG_ctrl(self):
+
+            DPG_ctrl = 0.0
+            
+            ph2oNeed = 0.0
+
+            if self.dl.getParm('DPG_set')!=0:
+
+                DPG_ctrl = float(self.dl.getParm('DPG_set'))
+
+                return(DPG_ctrl)
+
+            elif self.dl.getParm('RH_set')!=0:
+
+                ph2oNeed =  float(self.dl.getParm('RH_set'))*self.ph2oSat(self.dl.getParm('SC_T'))/100
+
+            elif self.dl.getParm('pH2O_set')!=0:
+
+                ph2oNeed = float(self.dl.getParm('pH2O_set'))
+
+            else:
+
+                ph2oNeed =  self.dl.getParm('RH_set')*self.ph2oSat(self.dl.getParm('SC_T'))/100
+
+            DPG_ctrl = self.dewPointTemp(ph2oNeed)
+
+            self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')) #Error
+
+            self.errDot = (self.err - self.err_1) / self.deltaT     # Error derivative value
+            self.err_1 = self.err                                   # Save the error value
+            self.errSum += self.err                                 # Error sum value
+            
+            self.DPG_ctrl = (self.dl.getParm('pH2O_P')*self.err + self.dl.getParm('pH2O_D')*self.errDot + self.dl.getParm('pH2O_I')*self.errSum)
+
+            # Now, we need the limiter
+            limit = min(self.dl.getParm('SC_T'), self.dl.getParm('CC_T'))
+            if DPG_ctrl > limit :
+                DPG_ctrl = limit
+            return DPG_ctrl
+
+
+        def ph2oSat(T) :
+            
+            return 610.78 * exp((T * 17.2684) / (T + 238.3))
+
+        def dewPointTemp(ph2o) :
+            w = log(ph2o / 610.78)
+            return w * 238.3 / (17.294 - w)
 
 
 '''

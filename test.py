@@ -1,16 +1,13 @@
-import DataLib
 
-import serial
+import Config
 
-import IRGA
+cfg = Config.Config()
 
-import Command_proc
+print(cfg.pH2O_P)
 
-import datetime
+#ser_IRGA= serial.Serial('/dev/ttyUSB3', 9600, timeout=1)
 
-import time
 
-ser_IRGA= serial.Serial('/dev/ttyUSB3', 9600, timeout=1)
 
-while(True):
-    print(ser_IRGA.readline())
+#while(True):
+#print(ser_IRGA.readline())
