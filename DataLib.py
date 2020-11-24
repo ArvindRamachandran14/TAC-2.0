@@ -72,7 +72,7 @@ class DataLib():
         self.pCO2 = Register(28, 'pCO2', 0.0, init_ts)   # Partial pressure CO2 (Pa)
         self.DPT = Register(29, 'DPT', 0.0, init_ts)
         self.RH = Register(30, 'RH', 0.0, init_ts)
-        self.RH_set = Register(31, 'RH_set', 20.0, init_ts)
+        self.RH_set = Register(31, 'RH_set', 50.0, init_ts)
 
         #Others
         self.WGT = Register(32, 'WGT', 0.0, init_ts) #Weight of the sample
