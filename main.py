@@ -56,11 +56,11 @@ def main():
                         
             Output = Cmd_prc.Do_it() # Output of said action from command processor
                    
-	    if g.gv.dl.getParm("DPG_power")[0] !=0:
-
-		print('DPG power on')   
+	    if g.gv.dl.getParm("DPG_power")[0] !=0:  
 
             	DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
+
+		print(DPG_ctrl)
 
             	Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
 

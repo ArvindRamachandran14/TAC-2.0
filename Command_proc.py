@@ -144,42 +144,64 @@ class Command_Proc():
                         Output_string = 'e 0'
 
                 elif self.strings[1]== "pH2O_P":
+		
+		    current_time = time.time() # current time 
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
                     self.dl.cfg["pH2O_P"] = float(self.strings[2])
 
                     self.dl.cfg.update()
 
                 elif self.strings[1]== "pH2O_I":
+		
+		    current_time = time.time() # current time 
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
                     self.dl.cfg["pH2O_I"] = float(self.strings[2])
 
                     self.dl.cfg.update()
 
                 elif self.strings[1]== "pH2O_D":
+		
+		    current_time = time.time() # current time 
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')			
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
                     self.dl.cfg["pH2O_D"] = float(self.strings[2])
 
                     self.dl.cfg.update()
 
                 elif self.strings[1] == "DPG_set": 
+		    
+		    current_time = time.time() # current time 
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]),time_stamp)
 
                 elif self.strings[1] == "RH_set":
+			
+		    current_time = time.time() # current time 
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]),time_stamp)
 
                 elif self.strings[1] == "pH2O_set":
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+		    current_time = time.time() # current time 
 
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
                     #DPG_set = Convert_to_DPG_set(self.strings[1], self.strings[2])
 
