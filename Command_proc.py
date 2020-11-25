@@ -320,9 +320,9 @@ class Command_Proc():
 
         # Now, we need the limiter
         limit = min(self.dl.getParm('SC_T')[0], self.dl.getParm('CC_T')[0])
-        if DPG_ctrl > limit :
-            DPG_ctrl = limit
-        return DPG_ctrl
+        if self.DPG_ctrl > limit :
+            self.DPG_ctrl = limit
+        return self.DPG_ctrl
 
     def ph2oSat(self, T) :
             
