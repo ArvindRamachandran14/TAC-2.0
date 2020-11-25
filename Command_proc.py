@@ -294,8 +294,6 @@ class Command_Proc():
 
         if self.dl.getParm('DPG_set')[0]!=0:
 
-            print(True)
-
             DPG_ctrl = float(self.dl.getParm('DPG_set')[0])
 
             Ctrl_type = "TDPG"
@@ -316,6 +314,8 @@ class Command_Proc():
 
             ph2oNeed = float(self.dl.getParm('pH2O_set')[0])
 
+            print(ph2oNeed)
+
             Ctrl_type = "pH2O"
 
         else:
@@ -332,13 +332,15 @@ class Command_Proc():
 
             DPG_ctrl = self.dewPointTemp(ph2oNeed)
 
+            print('DPG_ctrl', DPG_ctrl)
+
         self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')[0]) #Error
 
         self.errDot = (self.err - self.err_1) / self.deltaT     # Error derivative value
         self.err_1 = self.err                                   # Save the error value
         self.errSum += self.err                                 # Error sum value
             
-        print('DPG_ctrl', DPG_ctrl)
+        #print('DPG_ctrl', DPG_ctrl)
 
 	print('pH2O', self.dl.getParm('pH2O')[0])
 
