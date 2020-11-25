@@ -286,6 +286,8 @@ class Command_Proc():
 
     def Convert_to_DPG_ctrl(self):
 
+        Ctrl_type = None
+
         DPG_ctrl = 0.0
             
         ph2oNeed = 0.0
