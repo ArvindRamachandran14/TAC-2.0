@@ -48,11 +48,11 @@ def main():
 
             Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
 
-            print('DPG_set', g.gv.dl.getParm('DPG_set'))
+            #print('DPG_set', g.gv.dl.getParm('DPG_set'))
 
-	    print('RH_set', g.gv.dl.getParm('RH_set'))
+	        #print('RH_set', g.gv.dl.getParm('RH_set'))
 
-	    print('pH2O_set', g.gv.dl.getParm('pH2O_set'))
+	        #print('pH2O_set', g.gv.dl.getParm('pH2O_set'))
 
             user_input = g.gv.ser_PC.readline().decode()
 
@@ -64,9 +64,9 @@ def main():
                    
             if g.gv.dl.getParm("DPG_power")[0] !=0:  
 
-                DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
+                DPG_ctrl, Ctrl_type = Cmd_prc.Convert_to_DPG_ctrl()
 
-                print(DPG_ctrl)
+                print(DPG_ctrl, Ctrl_type)
 
                 Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
 

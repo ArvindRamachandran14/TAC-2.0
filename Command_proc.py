@@ -192,7 +192,11 @@ class Command_Proc():
 
                     time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]),time_stamp)
+                    g.gv.dl.setParm("DPG_set", float(self.strings[2]),time_stamp)
+
+                    g.v.dl.setParm("RH_set", 0.0, time_stamp)
+
+                    g.v.dl.setParm("pH2O_set", 0.0, time_stamp)
 
                     Output_string = 'e 0'
 
@@ -202,7 +206,11 @@ class Command_Proc():
 
                     time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]),time_stamp)
+                    g.gv.dl.setParm("DPG_set", 0.0, time_stamp)
+
+                    g.v.dl.setParm("RH_set", float(self.strings[2]), time_stamp)
+
+                    g.v.dl.setParm("pH2O_set", 0.0, time_stamp)
 
                     Output_string = 'e 0'
 
@@ -212,7 +220,11 @@ class Command_Proc():
 
                     time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
+                    g.gv.dl.setParm("DPG_set", 0.0, time_stamp)
+
+                    g.v.dl.setParm("RH_set", 0.0, time_stamp)
+
+                    g.gv.dl.setParm("pH2O_set", float(self.strings[2]), time_stamp)
 
                     Output_string = 'e 0'
 
@@ -284,6 +296,8 @@ class Command_Proc():
 
             DPG_ctrl = float(self.dl.getParm('DPG_set')[0])
 
+            Ctrl_type = "TDPG"
+
             #return(DPG_ctrl)
 
         elif self.dl.getParm('RH_set')[0]!=0:
@@ -292,11 +306,15 @@ class Command_Proc():
 
             ph2oNeed =  float(self.dl.getParm('RH_set')[0])*self.ph2oSat(self.dl.getParm('SC_T')[0])/100
 
+            Ctrl_type = "RH"
+
             #print('ph2oNeed', ph2oNeed)
 
         elif self.dl.getParm('pH2O_set')[0]!=0:
 
             ph2oNeed = float(self.dl.getParm('pH2O_set')[0])
+
+            Ctrl_type = "pH2O"
 
         else:
 
@@ -326,7 +344,7 @@ class Command_Proc():
         limit = min(self.dl.getParm('SC_T')[0], self.dl.getParm('CC_T')[0])
         if self.DPG_ctrl > limit :
             self.DPG_ctrl = limit
-        return self.DPG_ctrl
+        return self.DPG_ctrl, Ctrl_type
 
     def ph2oSat(self, T) :
             
