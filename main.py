@@ -117,7 +117,7 @@ def main():
                         
                 #print('\n')
 
-            print('finish time', datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f'))
+            print('finish time', datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'))
                 
     except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e: #Determine type of error
          
