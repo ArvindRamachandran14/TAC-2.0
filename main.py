@@ -60,7 +60,7 @@ def main():
 
             	DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
 
-		print(DPG_ctrl)
+		        print(DPG_ctrl)
 
             	Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
 
