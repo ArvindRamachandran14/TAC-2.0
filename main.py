@@ -66,11 +66,11 @@ def main():
 
                 DPG_ctrl, Ctrl_type = Cmd_prc.Convert_to_DPG_ctrl()
 
-                print(DPG_ctrl, Ctrl_type)
+                #print(DPG_ctrl, Ctrl_type)
 
                 Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
 
-                print(Output_string)
+                #print(Output_string)
 
                 #print(type(Output))
 
