@@ -26,13 +26,12 @@ class Command_Proc():
 
         self.time_stamp = time_stamp
 
-        self.switch = ['on', 'off']
+        self.switch = ['off', 'on']
 
         self.err = 0.0
         self.err_1 = 0.0                            # Previous value of error
         self.errDot = 0.0                           # Derivative of error at iternation n
         self.errSum = 0.0   
-
         self.deltaT = 1.0
 
     def Do_it(self):
@@ -50,14 +49,14 @@ class Command_Proc():
             return 'Ok\n'
 
         elif self.strings[0] == 's': #Check to see if command is a set command
-	
+    
             print(self.strings)
             
             if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
                 
                 #print(float(self.strings[2]))
 
-        	    #print(self.strings[1])
+                #print(self.strings[1])
 
                 ###### check if self.strings[1] is a parameter that can actually be set or if it is a readonly paramter
                 if self.strings[1] == "ByPass":
@@ -145,41 +144,77 @@ class Command_Proc():
                         Output_string = 'e 0'
 
                 elif self.strings[1]== "pH2O_P":
+        
+                    current_time = time.time() # current time 
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
                     self.dl.cfg["pH2O_P"] = float(self.strings[2])
 
                     self.dl.cfg.update()
+
+                    Output_string = 'e 0'
                     
 
                 elif self.strings[1]== "pH2O_I":
+        
+                    current_time = time.time() # current time 
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
                     self.dl.cfg["pH2O_I"] = float(self.strings[2])
 
                     self.dl.cfg.update()
 
-                elif self.strings[1]== "pH2O_D":
+                    Output_string = 'e 0'
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                elif self.strings[1]== "pH2O_D":
+        
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')            
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
                     self.dl.cfg["pH2O_D"] = float(self.strings[2])
 
                     self.dl.cfg.update()
 
-                elif self.strings[1] == "DPG_set": 
+                    Output_string = 'e 0'
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                elif self.strings[1] == "DPG_set": 
+            
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]),time_stamp)
+
+                    Output_string = 'e 0'
 
                 elif self.strings[1] == "RH_set":
+            
+                    current_time = time.time() # current time 
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]),time_stamp)
+
+                    Output_string = 'e 0'
 
                 elif self.strings[1] == "pH2O_set":
 
-                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
+
+                    Output_string = 'e 0'
 
                     #DPG_set = Convert_to_DPG_set(self.strings[1], self.strings[2])
 
@@ -204,7 +239,7 @@ class Command_Proc():
         elif self.strings[0] == 'g': #Check to see if command is a get command     
 
             #print(self.strings)
-		
+        
             if self.strings[1] == 'all':
 
                 #print('getting all data')
@@ -212,6 +247,8 @@ class Command_Proc():
                 return(self.dl.get_all_data())
 
             elif self.strings[1] == 'cal_variables':
+        
+        print('g cal_variables command received')
 
                 return(self.dl.get_cal_data())
 
