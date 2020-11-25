@@ -56,17 +56,17 @@ def main():
                         
             Output = Cmd_prc.Do_it() # Output of said action from command processor
                    
-	        if g.gv.dl.getParm("DPG_power")[0] !=0:  
+            if g.gv.dl.getParm("DPG_power")[0] !=0:  
 
-            	DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
+                DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
 
-		        print(DPG_ctrl)
+                print(DPG_ctrl)
 
-            	Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
+                Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
 
-            	print(Output_string)
+                print(Output_string)
 
-            	#print(type(Output))
+                #print(type(Output))
 
             ########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
                         
