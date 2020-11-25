@@ -48,7 +48,11 @@ def main():
 
             Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
 
-            print(g.gv.dl.getParm('DPG_set'))
+            print('DPG_set', g.gv.dl.getParm('DPG_set'))
+
+	    print('RH_set', g.gv.dl.getParm('RH_set'))
+
+	    print('pH2O_set', g.gv.dl.getParm('pH2O_set'))
 
             user_input = g.gv.ser_PC.readline().decode()
 
