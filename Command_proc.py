@@ -248,7 +248,7 @@ class Command_Proc():
 
             elif self.strings[1] == 'cal_variables':
         
-        print('g cal_variables command received')
+                print('g cal_variables command received')
 
                 return(self.dl.get_cal_data())
 
