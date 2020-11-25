@@ -64,11 +64,11 @@ def main():
                    
             if g.gv.dl.getParm("DPG_power")[0] !=0:  
 
-                DPG_ctrl, Ctrl_type = Cmd_prc.Convert_to_DPG_ctrl()
+                DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
 
-                #print(DPG_ctrl, Ctrl_type)
+                #print(DPG_ctrl)
 
-                Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
+                #Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
 
                 #print(Output_string)
 
