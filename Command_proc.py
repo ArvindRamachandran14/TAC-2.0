@@ -340,6 +340,8 @@ class Command_Proc():
             
         print('DPG_ctrl', DPG_ctrl)
 
+	print('pH2O', self.dl.getParm('pH2O')[0])
+
         print('DPT', self.dewPointTemp(self.dl.getParm('pH2O')[0]))
 
         print('Error', self.err)

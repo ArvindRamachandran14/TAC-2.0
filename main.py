@@ -44,7 +44,7 @@ def main():
                 
             time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f') # create time stamp in specific format
                         
-            print('start time', time_stamp)
+            #print('start time', time_stamp)
 
             Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
 
@@ -117,7 +117,7 @@ def main():
                         
                 #print('\n')
 
-            print('finish time', datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'))
+            #print('finish time', datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'))
                 
     except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e: #Determine type of error
          
