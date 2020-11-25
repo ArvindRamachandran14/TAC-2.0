@@ -48,6 +48,8 @@ def main():
 
             Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
 
+            print(g.gv.dl.getParm('DPG_set'))
+
             user_input = g.gv.ser_PC.readline().decode()
 
             #print(user_input)
