@@ -151,6 +151,7 @@ class Command_Proc():
                     self.dl.cfg["pH2O_P"] = float(self.strings[2])
 
                     self.dl.cfg.update()
+                    
 
                 elif self.strings[1]== "pH2O_I":
 
@@ -179,8 +180,6 @@ class Command_Proc():
                 elif self.strings[1] == "pH2O_set":
 
                     g.gv.dl.setParm(self.strings[1], float(self.strings[2]))
-
-
 
                     #DPG_set = Convert_to_DPG_set(self.strings[1], self.strings[2])
 
@@ -235,7 +234,6 @@ class Command_Proc():
         Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl)*100)
 
         return(Output_string)
-
 
     def Convert_to_DPG_ctrl(self):
 
