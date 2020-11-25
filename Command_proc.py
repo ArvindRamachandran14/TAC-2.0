@@ -280,7 +280,11 @@ class Command_Proc():
 
     def Set_DPG_ctrl(self, DPG_ctrl):
 
+	print(type(DPG_ctrl))
+
         Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl)*100)
+	
+	print('Check point')
 
         return(Output_string)
 
@@ -314,7 +318,7 @@ class Command_Proc():
 
             ph2oNeed = float(self.dl.getParm('pH2O_set')[0])
 
-            print(ph2oNeed)
+            print('ph2oNeed',ph2oNeed)
 
             Ctrl_type = "pH2O"
 
@@ -328,13 +332,11 @@ class Command_Proc():
 
         if ph2oNeed!=0:    
 
-           #print('DPG_ctrl', DPG_ctrl)
+            DPG_ctrl = self.dewPointTemp(ph2oNeed*self.dl.getParm('CellP')[0])
 
-            DPG_ctrl = self.dewPointTemp(ph2oNeed)
+            #print('DPG_ctrl', DPG_ctrl)
 
-            print('DPG_ctrl', DPG_ctrl)
-
-        self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')[0]) #Error
+        self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')[0]*self.dl.getParm('CellP')[0]) #Error
 
         self.errDot = (self.err - self.err_1) / self.deltaT     # Error derivative value
         self.err_1 = self.err                                   # Save the error value
@@ -342,7 +344,9 @@ class Command_Proc():
             
         #print('DPG_ctrl', DPG_ctrl)
 
-        print('DPT', self.dewPointTemp(self.dl.getParm('pH2O')[0]))
+	print('pH2O', self.dl.getParm('pH2O')[0])
+
+        print('DPT', self.dewPointTemp(self.dl.getParm('pH2O')[0]*self.dl.getParm('CellP')[0]))
 
         print('Error', self.err)
 
@@ -351,12 +355,14 @@ class Command_Proc():
         #print('Error sum', self.errSum)
 
         self.DPG_ctrl = (self.dl.getParm('pH2O_P')[0]*self.err + self.dl.getParm('pH2O_D')[0]*self.errDot + self.dl.getParm('pH2O_I')[0]*self.errSum)
+	
+	print(self.DPG_ctrl)
 
         # Now, we need the limiter
         limit = min(self.dl.getParm('SC_T')[0], self.dl.getParm('CC_T')[0])
         if self.DPG_ctrl > limit :
             self.DPG_ctrl = limit
-        return self.DPG_ctrl, Ctrl_type
+        return self.DPG_ctrl
 
     def ph2oSat(self, T) :
             
