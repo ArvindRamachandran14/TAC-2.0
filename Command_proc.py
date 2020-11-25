@@ -32,7 +32,7 @@ class Command_Proc():
         self.err_1 = 0.0                            # Previous value of error
         self.errDot = 0.0                           # Derivative of error at iternation n
         self.errSum = 0.0   
-        self.deltaT = 1.0
+        self.deltaT = 3.0
 
     def Do_it(self):
 
@@ -338,11 +338,15 @@ class Command_Proc():
         self.err_1 = self.err                                   # Save the error value
         self.errSum += self.err                                 # Error sum value
             
+        print('DPG_ctrl', DPG_ctrl)
+
+        print('DPT', self.dewPointTemp(self.dl.getParm('pH2O')[0]))
+
         print('Error', self.err)
 
-        print('Error derivative', self.errDot)
+        #print('Error derivative', self.errDot)
 
-        print('Error sum', self.errSum)
+        #print('Error sum', self.errSum)
 
         self.DPG_ctrl = (self.dl.getParm('pH2O_P')[0]*self.err + self.dl.getParm('pH2O_D')[0]*self.errDot + self.dl.getParm('pH2O_I')[0]*self.errSum)
 
