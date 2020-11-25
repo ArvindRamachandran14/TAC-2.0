@@ -44,7 +44,7 @@ def main():
                 
             time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f') # create time stamp in specific format
                         
-            #print(time_stamp)
+            print('start time', time_stamp)
 
             Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
 
@@ -116,6 +116,8 @@ def main():
                 #print('Cell Voltage: ' + str(dl.getParm('IVOLT'))+ ' V')
                         
                 #print('\n')
+
+            print('finish time', time_stamp)
                 
     except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e: #Determine type of error
          
