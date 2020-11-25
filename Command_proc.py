@@ -194,9 +194,9 @@ class Command_Proc():
 
                     g.gv.dl.setParm("DPG_set", float(self.strings[2]),time_stamp)
 
-                    g.v.dl.setParm("RH_set", 0.0, time_stamp)
+                    g.gv.dl.setParm("RH_set", 0.0, time_stamp)
 
-                    g.v.dl.setParm("pH2O_set", 0.0, time_stamp)
+                    g.gv.dl.setParm("pH2O_set", 0.0, time_stamp)
 
                     Output_string = 'e 0'
 
@@ -208,9 +208,9 @@ class Command_Proc():
 
                     g.gv.dl.setParm("DPG_set", 0.0, time_stamp)
 
-                    g.v.dl.setParm("RH_set", float(self.strings[2]), time_stamp)
+                    g.gv.dl.setParm("RH_set", float(self.strings[2]), time_stamp)
 
-                    g.v.dl.setParm("pH2O_set", 0.0, time_stamp)
+                    g.gv.dl.setParm("pH2O_set", 0.0, time_stamp)
 
                     Output_string = 'e 0'
 
@@ -222,7 +222,7 @@ class Command_Proc():
 
                     g.gv.dl.setParm("DPG_set", 0.0, time_stamp)
 
-                    g.v.dl.setParm("RH_set", 0.0, time_stamp)
+                    g.gv.dl.setParm("RH_set", 0.0, time_stamp)
 
                     g.gv.dl.setParm("pH2O_set", float(self.strings[2]), time_stamp)
 
