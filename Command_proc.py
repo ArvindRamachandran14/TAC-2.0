@@ -280,9 +280,11 @@ class Command_Proc():
 
         if self.dl.getParm('DPG_set')[0]!=0:
 
+            print(True)
+
             DPG_ctrl = float(self.dl.getParm('DPG_set')[0])
 
-            return(DPG_ctrl)
+            #return(DPG_ctrl)
 
         elif self.dl.getParm('RH_set')[0]!=0:
 
