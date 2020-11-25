@@ -318,6 +318,8 @@ class Command_Proc():
         self.err_1 = self.err                                   # Save the error value
         self.errSum += self.err                                 # Error sum value
             
+        #print()
+
         self.DPG_ctrl = (self.dl.getParm('pH2O_P')[0]*self.err + self.dl.getParm('pH2O_D')[0]*self.errDot + self.dl.getParm('pH2O_I')[0]*self.errSum)
 
         # Now, we need the limiter
