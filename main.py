@@ -11,9 +11,11 @@ import TC
 
 import Command_proc
 
-import datetime
+import datetime as dt
 
 import time
+
+from datetime import datetime
 
 import global_variables as g
 
@@ -24,15 +26,19 @@ import Command_Dict
 import json
 
 import megaio as m
+import asyncio                      # Added by KDT 11/25/2020
 
-
-def main():
+async def main():
 
     #################################  Turn power on and set control type  ################################# 
 
     #g.gv.TC_CC.write_command(Command_Dict.Command_Dict['power_write'], 1)
 
     g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
+
+    deltaT = 4                      # seconds Added by KDT 11/25/2020
+
+    start = datetime.now()
 
     try:
 
@@ -42,17 +48,24 @@ def main():
                         
             current_time = time.time() # current time 
                 
-            time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f') # create time stamp in specific format
+            time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f') # create time stamp in specific format
                         
             #print('start time', time_stamp)
 
+            now = datetime.now()
+            diff = now - start
+            ms = diff.seconds * 1000 + diff.microseconds / 1000
+            print('Interval: {0:.1f}'.format(ms))
+
+            wkstart = datetime.now()
+	
             Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
 
             #print('DPG_set', g.gv.dl.getParm('DPG_set'))
 
-	        #print('RH_set', g.gv.dl.getParm('RH_set'))
+            #print('RH_set', g.gv.dl.getParm('RH_set'))
 
-	        #print('pH2O_set', g.gv.dl.getParm('pH2O_set'))
+            #print('pH2O_set', g.gv.dl.getParm('pH2O_set'))
 
             user_input = g.gv.ser_PC.readline().decode()
 
@@ -65,6 +78,7 @@ def main():
             if g.gv.dl.getParm("DPG_power")[0] !=0:  
 
                 DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
+                Output = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)         # Added by KDT 11/25/2020
 
                 #print(DPG_ctrl)
 
@@ -116,8 +130,21 @@ def main():
                 #print('Cell Voltage: ' + str(dl.getParm('IVOLT'))+ ' V')
                         
                 #print('\n')
+        
+            
+            start = now
 
-            #print('finish time', datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'))
+            wkdone = datetime.now()
+      
+            wkelapsed = wkdone - wkstart
+    
+            wkelapsed = wkelapsed.seconds + wkelapsed.microseconds/1000000
+
+            #print('finish time', dt.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'))
+
+            await asyncio.sleep(deltaT-wkelapsed)             # Added by KDT 11/25/2020
+
+            
                 
     except (RuntimeError, TypeError, NameError, KeyboardInterrupt) as e: #Determine type of error
          
@@ -215,4 +242,8 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
         g.gv.dl.setParm('Status', 1, time_stamp)
 
-main() # Call main
+# main() # Call main            # Replaced with below lines (see mainTest.py)
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
+loop.close()
+
