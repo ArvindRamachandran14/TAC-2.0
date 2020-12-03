@@ -40,247 +40,245 @@ class Command_Proc():
 
         ############# Function that executes the command #############s
         
-        async with g.gv.sem :
-
         #print(self.strings)
             
-            if self.strings in ([u''], [u'\n'], [u'\r']): # User enters a new line or does not enter anything - no action requied, return False
+        if self.strings in ([u''], [u'\n'], [u'\r']): # User enters a new line or does not enter anything - no action requied, return False
             
-                return False
+            return False
 
-            elif self.string == 'c-check\n':
+        elif self.string == 'c-check\n':
 
-                return 'Ok\n'
+            return 'Ok\n'
 
-            elif self.strings[0] == 's': #Check to see if command is a set command
+        elif self.strings[0] == 's': #Check to see if command is a set command
         
-                print(self.strings)
+            print(self.strings)
                 
-                if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
+        if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
                     
-                    #print(float(self.strings[2]))
+            #print(float(self.strings[2]))
 
-                    #print(self.strings[1])
+            #print(self.strings[1])
 
-                    ###### check if self.strings[1] is a parameter that can actually be set or if it is a readonly paramter
-                    if self.strings[1] == "ByPass":
+            ###### check if self.strings[1] is a parameter that can actually be set or if it is a readonly paramter
+            if self.strings[1] == "ByPass":
 
-                        os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
+                os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
+
+                current_time = time.time() # current time 
+
+                time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
+
+                Output_string = 'e 0'
+
+                #return(Output_string)
+
+                elif self.strings[1] == "IRGA_pump":
+
+                    os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
+
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
+
+                    Output_string = 'e 0'
+
+                    #return(Output_string)
+
+                elif self.strings[1][0:2] == "SC":
+
+                    #Need to check if the self.strings[2] (set point) is a legit value - float/int, within range
+
+                    Output_string = g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)) # Performing set operation, return string - Done, Input Error, Checksum Error
+
+                    print(Output_string)
+
+                    if Output_string == "Done":
 
                         current_time = time.time() # current time 
 
                         time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
-                        g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
+                        g.gv.dl.setParm(self.strings[1], g.gv.TC_SC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
                         Output_string = 'e 0'
 
                         #return(Output_string)
 
-                    elif self.strings[1] == "IRGA_pump":
+                elif self.strings[1][0:2] == "CC":
 
-                        os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
-
-                        current_time = time.time() # current time 
-
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-
-                        g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
-
-                        Output_string = 'e 0'
-
-                        #return(Output_string)
-
-                    elif self.strings[1][0:2] == "SC":
-
-                        #Need to check if the self.strings[2] (set point) is a legit value - float/int, within range
-
-                        Output_string = g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)) # Performing set operation, return string - Done, Input Error, Checksum Error
-
-                        print(Output_string)
-
-                        if Output_string == "Done":
-
-                            current_time = time.time() # current time 
-
-                            time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-
-                            g.gv.dl.setParm(self.strings[1], g.gv.TC_SC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
-
-                            Output_string = 'e 0'
-
-                            #return(Output_string)
-
-                    elif self.strings[1][0:2] == "CC":
-
-                        #Need to check if the set point is a legit value - float/int, within range
+                    #Need to check if the set point is a legit value - float/int, within range
                         
-                        Output_string = g.gv.TC_CC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
+                    Output_string = g.gv.TC_CC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
-                        print(Output_string)
+                    print(Output_string)
 
-                        if Output_string == "Done":
-
-                            current_time = time.time() # current time 
-
-                            time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-
-                            g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
-
-                            Output_string = 'e 0'
-
-                            #return(Output_string)
-
-                    elif self.strings[1] == "DPG_power":
-
-                        Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
-
-                        print(Output_string)
-
-                        if Output_string == "Done":
-
-                            current_time = time.time() # current time 
-
-                            time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-
-                            g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
-
-                            Output_string = 'e 0'
-
-                    elif self.strings[1]== "pH2O_P":
-            
-                        current_time = time.time() # current time 
-
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-
-                        g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
-
-                        self.dl.cfg["pH2O_P"] = float(self.strings[2])
-
-                        self.dl.cfg.update()
-
-                        Output_string = 'e 0'
-                        
-
-                    elif self.strings[1]== "pH2O_I":
-            
-                        current_time = time.time() # current time 
-
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-
-                        g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
-
-                        self.dl.cfg["pH2O_I"] = float(self.strings[2])
-
-                        self.dl.cfg.update()
-
-                        Output_string = 'e 0'
-
-                    elif self.strings[1]== "pH2O_D":
-            
-                        current_time = time.time() # current time 
-
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')            
-
-                        g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
-
-                        self.dl.cfg["pH2O_D"] = float(self.strings[2])
-
-                        self.dl.cfg.update()
-
-                        Output_string = 'e 0'
-
-                    elif self.strings[1] == "DPG_set": 
-                
-                        current_time = time.time() # current time 
-
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-
-                        g.gv.dl.setParm("DPG_set", float(self.strings[2]),time_stamp)
-
-                        g.gv.dl.setParm("RH_set", 0.0, time_stamp)
-
-                        g.gv.dl.setParm("pH2O_set", 0.0, time_stamp)
-
-                        Output_string = 'e 0'
-
-                    elif self.strings[1] == "RH_set":
-                
-                        current_time = time.time() # current time 
-
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-
-                        g.gv.dl.setParm("DPG_set", 0.0, time_stamp)
-
-                        g.gv.dl.setParm("RH_set", float(self.strings[2]), time_stamp)
-
-                        g.gv.dl.setParm("pH2O_set", 0.0, time_stamp)
-
-                        Output_string = 'e 0'
-
-                    elif self.strings[1] == "pH2O_set":
+                    if Output_string == "Done":
 
                         current_time = time.time() # current time 
 
                         time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
-                        g.gv.dl.setParm("DPG_set", 0.0, time_stamp)
-
-                        g.gv.dl.setParm("RH_set", 0.0, time_stamp)
-
-                        g.gv.dl.setParm("pH2O_set", float(self.strings[2]), time_stamp)
+                        g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
                         Output_string = 'e 0'
-
-                        #DPG_set = Convert_to_DPG_set(self.strings[1], self.strings[2])
-
-                        #Need to check if the set point is a legit value - float/int, within range - input validation done on TAGUI end 
-
-                        #Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
                         #return(Output_string)
 
-                    else: 
+                elif self.strings[1] == "DPG_power":
 
-                        Output_string = 'e 3' #readonly paramter
+                    Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
-                        #return(Output_string) 
+                    print(Output_string)
 
-                else:
+                    if Output_string == "Done":
 
-                    Output_string = 'e 2' # Variable does not exist, return error message string  
+                        current_time = time.time() # current time 
+
+                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                        g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
+
+                        Output_string = 'e 0'
+
+                elif self.strings[1]== "pH2O_P":
+            
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
+
+                    self.dl.cfg["pH2O_P"] = float(self.strings[2])
+
+                    self.dl.cfg.update()
+
+                    Output_string = 'e 0'
+                        
+
+                elif self.strings[1]== "pH2O_I":
+            
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
+
+                    self.dl.cfg["pH2O_I"] = float(self.strings[2])
+
+                    self.dl.cfg.update()
+
+                    Output_string = 'e 0'
+
+                elif self.strings[1]== "pH2O_D":
+            
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')            
+
+                    g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
+
+                    self.dl.cfg["pH2O_D"] = float(self.strings[2])
+
+                    self.dl.cfg.update()
+
+                    Output_string = 'e 0'
+
+                elif self.strings[1] == "DPG_set": 
+                
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm("DPG_set", float(self.strings[2]),time_stamp)
+
+                    g.gv.dl.setParm("RH_set", 0.0, time_stamp)
+
+                    g.gv.dl.setParm("pH2O_set", 0.0, time_stamp)
+
+                    Output_string = 'e 0'
+
+                elif self.strings[1] == "RH_set":
+                
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm("DPG_set", 0.0, time_stamp)
+
+                    g.gv.dl.setParm("RH_set", float(self.strings[2]), time_stamp)
+
+                    g.gv.dl.setParm("pH2O_set", 0.0, time_stamp)
+
+                    Output_string = 'e 0'
+
+                elif self.strings[1] == "pH2O_set":
+
+                    current_time = time.time() # current time 
+
+                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+
+                    g.gv.dl.setParm("DPG_set", 0.0, time_stamp)
+
+                    g.gv.dl.setParm("RH_set", 0.0, time_stamp)
+
+                    g.gv.dl.setParm("pH2O_set", float(self.strings[2]), time_stamp)
+
+                    Output_string = 'e 0'
+
+                    #DPG_set = Convert_to_DPG_set(self.strings[1], self.strings[2])
+
+                    #Need to check if the set point is a legit value - float/int, within range - input validation done on TAGUI end 
+
+                    #Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
+
+                    #return(Output_string)
+
+                else: 
+
+                    Output_string = 'e 3' #readonly paramter
+
+                    #return(Output_string) 
+
+            else:
+
+                Output_string = 'e 2' # Variable does not exist, return error message string  
 
                 return(Output_string)
 
-            elif self.strings[0] == 'g': #Check to see if command is a get command     
+        elif self.strings[0] == 'g': #Check to see if command is a get command     
 
-                #print(self.strings)
+            #print(self.strings)
             
-                if self.strings[1] == 'all':
+            if self.strings[1] == 'all':
 
-                    #print('getting all data')
+                #print('getting all data')
 
-                    return(self.dl.get_all_data())
+                return(self.dl.get_all_data())
 
-                elif self.strings[1] == 'cal_variables':
+            elif self.strings[1] == 'cal_variables':
             
-                    print('g cal_variables command received')
+                print('g cal_variables command received')
 
-                    return(self.dl.get_cal_data())
+                return(self.dl.get_cal_data())
 
 
-                elif self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
+            elif self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
 
-                    return(self.dl.getParm(self.strings[-1])) # Obtain value from register, return tuple to lab PC
+                return(self.dl.getParm(self.strings[-1])) # Obtain value from register, return tuple to lab PC
                 
-                else:
-                
-                    return('e 2') # Variable does not exist, return error message string 
             else:
                 
-                print(self.strings)
+                return('e 2') # Variable does not exist, return error message string 
+        else:
+                
+            print(self.strings)
 
-                return('e 1') # Wrong command
+            return('e 1') # Wrong command
 
     def Set_DPG_ctrl(self, DPG_ctrl):
 
@@ -359,7 +357,7 @@ class Command_Proc():
         #print('Error sum', self.errSum)
 
         self.DPG_ctrl = (self.dl.getParm('pH2O_P')[0]*self.err + self.dl.getParm('pH2O_D')[0]*self.errDot + self.dl.getParm('pH2O_I')[0]*self.errSum)
-        
+
         print(self.DPG_ctrl)
 
         # Now, we need the limiter
@@ -377,6 +375,3 @@ class Command_Proc():
         return w * 238.3 / (17.294 - w)
 
 
-'''
-
-'''

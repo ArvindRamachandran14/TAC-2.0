@@ -15,7 +15,7 @@ class gv():
 
     #################################   Serial port definiton   #################################     
 
-    sem = asyncio.Semaphore(1)
+    #sem = asyncio.Semaphore(1)
 
     ser_TC_SC = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
 
