@@ -24,9 +24,9 @@ import Command_Dict
 import json
 
 import megaio as m
+import asyncio                      # Added by KDT 11/25/2020
 
-
-def main():
+async def main():
 
     #################################  Turn power on and set control type  ################################# 
 
@@ -34,88 +34,95 @@ def main():
 
     g.gv.TC_CC.write_command(Command_Dict.Command_Dict['set_ctl_type'], 1)
 
+    deltaT = 2                      # seconds Added by KDT 11/25/2020
+
     try:
 
         while True:
 
+            async with g.gv.sem :
+
             #################################  Machine loop  ################################# 
                         
-            current_time = time.time() # current time 
-                
-            time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f') # create time stamp in specific format
-                        
-            #print('start time', time_stamp)
-
-            Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
-
-            #print('DPG_set', g.gv.dl.getParm('DPG_set'))
-
-	        #print('RH_set', g.gv.dl.getParm('RH_set'))
-
-	        #print('pH2O_set', g.gv.dl.getParm('pH2O_set'))
-
-            user_input = g.gv.ser_PC.readline().decode()
-
-            #print(user_input)
-            
-            Cmd_prc = Command_proc.Command_Proc(g.gv.dl, user_input, time_stamp) # perform user directed action from command line
-                        
-            Output = Cmd_prc.Do_it() # Output of said action from command processor
-                   
-            if g.gv.dl.getParm("DPG_power")[0] !=0:  
-
-                DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
-
-                #print(DPG_ctrl)
-
-                #Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
-
-                #print(Output_string)
-
-                #print(type(Output))
-
-            ########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
-                        
-            if isinstance(Output, bool): # Pass if False 
-                                
-                pass
-
-            elif isinstance(Output, dict):
-
-                print('output is a dictionary')
-
-                #xmlstring = dicttoxml.dicttoxml(Output)
-
-                #result_string = json.dumps(Output) 
-
-                #g.gv.ser_PC.write(xmlstring)
-
-                #g.gv.ser_PC.write(('\r'+'\n').encode())
-
-
-            elif isinstance(Output, tuple):  # Write to PC if output is a tuple
-                        
-                g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])+'\n').encode())
-                        
-                #g.gv.ser_PC.write(('\r'+'\n').encode())
-
-            else:
-        
-                g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string with error code - display string on PC and then go to newline 
+                current_time = time.time() # current time 
                     
-                #print('Timestamp: '+ str(time_stamp))
-                        
-                #print('pCO2: '+ str(dl.getParm('pCO2'))+ ' ppm')
-                        
-                #print('pH2O: '+ str(dl.getParm('pH2O'))+ ' ppt')
-                        
-                #print('Cell Temp: ' + str(dl.getParm('Cell_temp'))+ ' C')
-                        
-                #print('Cell Pressure: ' + str(dl.getParm('Cell_pressure'))+ ' kPa')
+                time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f') # create time stamp in specific format
+                            
+                #print('start time', time_stamp)
 
-                #print('Cell Voltage: ' + str(dl.getParm('IVOLT'))+ ' V')
+                Read_Instruments(g.gv.dl, g.gv.irga, g.gv.TC_SC, g.gv.TC_CC, g.gv.TC_DPG, time_stamp)  # read all instruments
+
+                #print('DPG_set', g.gv.dl.getParm('DPG_set'))
+
+                #print('RH_set', g.gv.dl.getParm('RH_set'))
+
+                #print('pH2O_set', g.gv.dl.getParm('pH2O_set'))
+
+                user_input = g.gv.ser_PC.readline().decode()
+
+                #print(user_input)
+                
+                Cmd_prc = Command_proc.Command_Proc(g.gv.dl, user_input, time_stamp) # perform user directed action from command line
+                            
+                Output = Cmd_prc.Do_it() # Output of said action from command processor
+                       
+                if g.gv.dl.getParm("DPG_power")[0] !=0:  
+
+                    DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
+                    Output = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)         # Added by KDT 11/25/2020
+
+                    #print(DPG_ctrl)
+
+                    #Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
+
+                    #print(Output_string)
+
+                    #print(type(Output))
+
+                ########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
+                            
+                if isinstance(Output, bool): # Pass if False 
+                                    
+                    pass
+
+                elif isinstance(Output, dict):
+
+                    print('output is a dictionary')
+
+                    #xmlstring = dicttoxml.dicttoxml(Output)
+
+                    #result_string = json.dumps(Output) 
+
+                    #g.gv.ser_PC.write(xmlstring)
+
+                    #g.gv.ser_PC.write(('\r'+'\n').encode())
+
+
+                elif isinstance(Output, tuple):  # Write to PC if output is a tuple
+                            
+                    g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])+'\n').encode())
+                            
+                    #g.gv.ser_PC.write(('\r'+'\n').encode())
+
+                else:
+            
+                    g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string with error code - display string on PC and then go to newline 
                         
-                #print('\n')
+                    #print('Timestamp: '+ str(time_stamp))
+                            
+                    #print('pCO2: '+ str(dl.getParm('pCO2'))+ ' ppm')
+                            
+                    #print('pH2O: '+ str(dl.getParm('pH2O'))+ ' ppt')
+                            
+                    #print('Cell Temp: ' + str(dl.getParm('Cell_temp'))+ ' C')
+                            
+                    #print('Cell Pressure: ' + str(dl.getParm('Cell_pressure'))+ ' kPa')
+
+                    #print('Cell Voltage: ' + str(dl.getParm('IVOLT'))+ ' V')
+                            
+                    #print('\n')
+
+                await asyncio.sleep(deltaT)             # Added by KDT 11/25/2020
 
             #print('finish time', datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'))
                 
@@ -215,4 +222,8 @@ def Read_Instruments(dl, irga, TC_SC, TC_CC, TC_DPG, time_stamp):
 
         g.gv.dl.setParm('Status', 1, time_stamp)
 
-main() # Call main
+# main() # Call main            # Replaced with below lines (see mainTest.py)
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
+loop.close()
+
