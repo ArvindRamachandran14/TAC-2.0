@@ -169,7 +169,7 @@ class TAC():
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
-            self.Terminate() 
+            self.Terminate(e) 
 
     def Terminate(self, e):
 
