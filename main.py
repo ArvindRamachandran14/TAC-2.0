@@ -31,7 +31,7 @@ class TAC():
 
         self.bdone = False
 
-    async def Read_Instruments():
+    async def Read_Instruments(self):
 
         try:
 
