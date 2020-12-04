@@ -4,7 +4,7 @@ import global_variables as g
 
 import Command_Dict
 
-import datetime
+import datetime as dt
 
 import time
 
@@ -21,12 +21,6 @@ class Command_Proc():
     def __init__(self, dl, string, time_stamp):
 
         self.dl = dl
- 
-        self.string = string
-
-        self.strings =  self.string.split('\n')[0].split(' ')
-
-        self.time_stamp = time_stamp
 
         self.switch = ['off', 'on']
 
@@ -36,11 +30,13 @@ class Command_Proc():
         self.errSum = 0.0   
         self.deltaT = 3.0 #machine cycle is roughly 3 seconds 
 
-    def Do_it(self):
+    def Do_it(self, string):
 
         ############# Function that executes the command #############s
         
-        #print(self.strings)
+        self.string = string
+
+        self.strings =  self.string.split('\n')[0].split(' ')
             
         if self.strings in ([u''], [u'\n'], [u'\r']): # User enters a new line or does not enter anything - no action requied, return False
             
@@ -67,7 +63,7 @@ class Command_Proc():
 
                     current_time = time.time() # current time 
 
-                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                    time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                     g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
 
@@ -81,7 +77,7 @@ class Command_Proc():
 
                     current_time = time.time() # current time 
 
-                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                    time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                     g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
 
@@ -101,7 +97,7 @@ class Command_Proc():
 
                         current_time = time.time() # current time 
 
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                        time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_SC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
@@ -121,7 +117,7 @@ class Command_Proc():
 
                         current_time = time.time() # current time 
 
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                        time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
@@ -139,7 +135,7 @@ class Command_Proc():
 
                         current_time = time.time() # current time 
 
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                        time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
@@ -149,7 +145,7 @@ class Command_Proc():
                 
                     current_time = time.time() # current time 
 
-                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                    time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                     g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
@@ -164,7 +160,7 @@ class Command_Proc():
                 
                     current_time = time.time() # current time 
 
-                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                    time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                     g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
@@ -178,7 +174,7 @@ class Command_Proc():
                 
                     current_time = time.time() # current time 
 
-                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')            
+                    time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')            
 
                     g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
@@ -192,7 +188,7 @@ class Command_Proc():
                     
                         current_time = time.time() # current time 
 
-                        time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                        time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                         g.gv.dl.setParm("DPG_set", float(self.strings[2]),time_stamp)
 
@@ -206,7 +202,7 @@ class Command_Proc():
                     
                     current_time = time.time() # current time 
 
-                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                    time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                     g.gv.dl.setParm("DPG_set", 0.0, time_stamp)
 
@@ -220,7 +216,7 @@ class Command_Proc():
 
                     current_time = time.time() # current time 
 
-                    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                    time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                     g.gv.dl.setParm("DPG_set", 0.0, time_stamp)
 
