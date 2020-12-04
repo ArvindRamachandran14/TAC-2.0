@@ -112,7 +112,7 @@ class TAC():
             self.Terminate(e)
    
 
-    async def doCmd(self):
+    async def doCmd(self, Cmd_prc):
 
         try:
 
@@ -203,11 +203,11 @@ async def main() :
 
     tac = TAC()
 
-    cmd_prc = Command_proc.Command_Proc(g.gv.dl)
+    Cmd_prc = Command_proc.Command_Proc(g.gv.dl)
 
     task1 = asyncio.create_task(tac.Read_Instruments())
 
-    task2 = asyncio.create_task(tac.doCmd())
+    task2 = asyncio.create_task(tac.doCmd(Cmd_prc))
 
     await task1
     await task2
