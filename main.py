@@ -205,11 +205,11 @@ async def main() :
 
     Cmd_prc = Command_proc.Command_Proc(g.gv.dl)
 
-    task1 = asyncio.create_task(tac.Read_Instruments())
+    #task1 = asyncio.create_task(tac.Read_Instruments())
 
     task2 = asyncio.create_task(tac.doCmd(Cmd_prc))
 
-    await task1
+    #await task1
     await task2
        
     print('Done')
