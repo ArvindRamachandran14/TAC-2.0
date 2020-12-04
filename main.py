@@ -201,7 +201,7 @@ async def main() :
 
     current_time = time.time()
 
-    time_stamp = datetime.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f')
+    time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f')
 
     tac = TAC()
 
