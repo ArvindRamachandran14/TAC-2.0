@@ -109,7 +109,7 @@ class TAC():
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
-            self.Terminate()
+            self.Terminate(e)
    
 
     async def doCmd(self):
@@ -171,7 +171,7 @@ class TAC():
 
             self.Terminate() 
 
-    def Terminate(self):
+    def Terminate(self, e):
 
         g.gv.TC_SC.write_command(Command_Dict.Command_Dict['SC_power_write'], 0) #Turn power off
 
