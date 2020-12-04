@@ -18,7 +18,7 @@ import asyncio #timing to work right asychronous call - go and read the data and
 class Command_Proc():
     """docstring for Command_Proc"""
 
-    def __init__(self, dl, string, time_stamp):
+    def __init__(self, dl):
 
         self.dl = dl
 
