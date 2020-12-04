@@ -205,7 +205,7 @@ async def main() :
 
     cmd_prc = Command_proc.Command_Proc(g.gv.dl)
 
-    task1 = asyncio.create_task(tac.read_instruments())
+    task1 = asyncio.create_task(tac.Read_instruments())
 
     task2 = asyncio.create_task(tac.doCmd())
 
