@@ -21,8 +21,6 @@ import Command_Dict
 
 import json
 
-import megaio as m
-
 import asyncio
 
 class TAC():
