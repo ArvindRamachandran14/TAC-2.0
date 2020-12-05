@@ -95,6 +95,8 @@ class Command_Proc():
 
                     if Output_string == "Done":
 
+                        print('Got here')
+
                         current_time = time.time() # current time 
 
                         time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
