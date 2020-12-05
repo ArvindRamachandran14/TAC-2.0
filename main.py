@@ -173,6 +173,12 @@ class TAC():
 
     def Terminate(self, e):
 
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        
+        print(exc_type, fname, exc_tb.tb_lineno)
+
         g.gv.TC_SC.write_command(Command_Dict.Command_Dict['SC_power_write'], 0) #Turn power off
 
         g.gv.TC_CC.write_command(Command_Dict.Command_Dict['CC_power_write'], 0) #Turn power off
@@ -205,11 +211,11 @@ async def main() :
 
     Cmd_prc = Command_proc.Command_Proc(g.gv.dl)
 
-    #task1 = asyncio.create_task(tac.Read_Instruments())
+    task1 = asyncio.create_task(tac.Read_Instruments())
 
     task2 = asyncio.create_task(tac.doCmd(Cmd_prc))
 
-    #await task1
+    await task1
     await task2
        
     print('Done')
