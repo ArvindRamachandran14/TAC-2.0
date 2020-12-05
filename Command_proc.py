@@ -95,7 +95,7 @@ class Command_Proc():
 
                     if Output_string == "Done":
 
-                        print('Got here')
+                        #print('Got here')
 
                         current_time = time.time() # current time 
 
@@ -188,17 +188,17 @@ class Command_Proc():
 
                 elif self.strings[1] == "DPG_set": 
                     
-                        current_time = time.time() # current time 
+                    current_time = time.time() # current time 
 
-                        time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
+                    time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
-                        g.gv.dl.setParm("DPG_set", float(self.strings[2]),time_stamp)
+                    g.gv.dl.setParm("DPG_set", float(self.strings[2]),time_stamp)
 
-                        g.gv.dl.setParm("RH_set", 0.0, time_stamp)
+                    g.gv.dl.setParm("RH_set", 0.0, time_stamp)
 
-                        g.gv.dl.setParm("pH2O_set", 0.0, time_stamp)
+                    g.gv.dl.setParm("pH2O_set", 0.0, time_stamp)
 
-                        Output_string = 'e 0'
+                    Output_string = 'e 0'
 
                 elif self.strings[1] == "RH_set":
                     
@@ -246,7 +246,7 @@ class Command_Proc():
 
                 Output_string = 'e 2' # Variable does not exist, return error message string  
 
-                return(Output_string)
+            return(Output_string)
 
         elif self.strings[0] == 'g': #Check to see if command is a get command     
 
