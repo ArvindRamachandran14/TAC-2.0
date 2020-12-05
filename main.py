@@ -181,6 +181,8 @@ class TAC():
 
     def Terminate(self, e):
 
+        self.bdone = True
+
         exc_type, exc_obj, exc_tb = sys.exc_info()
         
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -207,7 +209,11 @@ class TAC():
 
             print('One or more of the controllers still on')
 
-        print('Terminated because ' + str(e)) #Print error messahe
+        print('Terminated because ' + str(e)) #Print error message
+
+        return None
+
+
 
 async def main() :
 
