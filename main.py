@@ -95,7 +95,9 @@ class TAC():
 
                     g.gv.dl.setParm('DPG_output', DPG_output, time_stamp)
 
-                    WGT = ((m.get_adc(0,1))/4096.0)*10
+                    WGT = 10
+
+                    #WGT = ((m.get_adc(0,1))/4096.0)*10
 
                     g.gv.dl.setParm('WGT', WGT, time_stamp)
 
