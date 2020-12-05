@@ -43,9 +43,12 @@ class TAC():
 
                 async with self.sem:
 
+
                     current_time = time.time() # current time 
                     
                     time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f') # create time stamp in specific format        
+
+                    print('Reading IRGA')
 
                     IRGA_list = g.gv.irga.read_IRGA() # Read IRGA 
 
@@ -67,6 +70,8 @@ class TAC():
 
                     g.gv.dl.setParm('DPT', DPT, time_stamp)
 
+                    print('Reading SC')
+
                     SC_T = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T_read'])/100.0
 
                     g.gv.dl.setParm('SC_T', SC_T, time_stamp)
@@ -79,6 +84,8 @@ class TAC():
 
                     g.gv.dl.setParm('SC_output', SC_output, time_stamp)
 
+                    print('Reading CC')
+
                     CC_T = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T_read'])/100.0
 
                     g.gv.dl.setParm('CC_T', CC_T, time_stamp)
@@ -86,6 +93,8 @@ class TAC():
                     CC_output = ((g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_output_read'])/100.0)/5.11)*100.0 #convert to decimal then convert to %
 
                     g.gv.dl.setParm('CC_output', CC_output, time_stamp)
+
+                    print('Reading DPG')
 
                     DPG_T = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T_read'])/100.0
 
