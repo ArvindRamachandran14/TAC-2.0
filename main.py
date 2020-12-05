@@ -173,7 +173,7 @@ class TAC():
         
                         g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string with error code - display string on PC and then go to newline 
                     
-                        await asyncio.sleep(0.050)
+                    await asyncio.sleep(0.050)
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
