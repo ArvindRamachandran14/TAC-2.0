@@ -168,6 +168,8 @@ class TAC():
                         #g.gv.ser_PC.write(('\r'+'\n').encode())
 
                     else:
+
+                        print('Output')
         
                         g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string with error code - display string on PC and then go to newline 
                     
