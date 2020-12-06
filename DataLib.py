@@ -137,11 +137,25 @@ class DataLib():
         
         return self.parmDict
 
-    def get_cal_data(self):
+    def get_cal_basic_variables(self):
 
-        ######### Function to get calibration data at once from TA #########
+        ######### Function to get basic calibration data at once from TA #########
 
-        cal_data_dict = {}
+        string = ""
+
+        for key in ['SC_output', 'CC_output', 'DPG_output']
+
+            string += str(self.parmDict[key].value) 
+
+            string += ','
+
+        print("output is", string)
+
+        return(string)
+
+    def get_cal_all_variables(self):
+
+        ######### Function to get all calibration data at once from TA #########
 
         string = ""
 

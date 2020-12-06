@@ -258,12 +258,17 @@ class Command_Proc():
 
                 return(self.dl.get_all_data())
 
-            elif self.strings[1] == 'cal_variables':
+            elif self.strings[1] == 'cal_basic_variables':
             
-                print('g cal_variables command received')
+                print('g cal_basic_variables command received')
 
-                return(self.dl.get_cal_data())
+                return(self.dl.get_cal_basic_variables())
 
+            elif self.strings[1] == 'cal_all_variables':
+            
+                print('g cal_all_variables command received')
+
+                return(self.dl.get_cal_all_variables())
 
             elif self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
 
