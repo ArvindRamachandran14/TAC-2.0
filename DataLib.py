@@ -143,7 +143,7 @@ class DataLib():
 
         string = ""
 
-        for key in ['SC_output', 'CC_output', 'DPG_output']
+        for key in ['SC_output', 'CC_output', 'DPG_output']:
 
             string += str(self.parmDict[key].value) 
 
