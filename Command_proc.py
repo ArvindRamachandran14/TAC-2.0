@@ -127,7 +127,7 @@ class Command_Proc():
 
                         #return(Output_string)
 
-                elif self.strings[1] == "DPG":
+                elif self.strings[1][0:3] == "DPG":
 
                     Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
 
