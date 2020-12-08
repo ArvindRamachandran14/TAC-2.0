@@ -341,11 +341,7 @@ class Command_Proc():
 
         if ph2oNeed!=0:    
 
-            print('Check point 1')
-
             DPG_ctrl = self.dewPointTemp(ph2oNeed*0.001*self.dl.getParm('CellP')[0]*1000) #ppt to Pa
-
-            print('Check point 2')
 
             #print('pH2O', self.dl.getParm('pH2O')[0])
 
@@ -365,8 +361,6 @@ class Command_Proc():
 
             #print('Error sum', self.errSum)
 
-            print('Check point 3')
-
             DPG_ctrl = (self.dl.getParm('pH2O_P')[0]*self.err + self.dl.getParm('pH2O_D')[0]*self.errDot + self.dl.getParm('pH2O_I')[0]*self.errSum)
 
             #print(DPG_ctrl)
@@ -375,8 +369,6 @@ class Command_Proc():
             limit = min(self.dl.getParm('SC_T')[0], self.dl.getParm('CC_T')[0])
             if DPG_ctrl > limit :
                 DPG_ctrl = limit
-            
-            print('DPG_ctrl', DPG_ctrl)
 
             return DPG_ctrl
 
