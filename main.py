@@ -137,7 +137,7 @@ class TAC():
 
                         Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)
 
-                        print('DPG control output string', Output_string) 
+                        #print('DPG control output string', Output_string) 
 
                     user_input = g.gv.ser_PC.readline().decode()
 

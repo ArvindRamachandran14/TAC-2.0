@@ -285,19 +285,19 @@ class Command_Proc():
 
     def Set_DPG_ctrl(self, DPG_ctrl):
 
-        print(type(DPG_ctrl))
+        #print(type(DPG_ctrl))
 
         Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl)*100)
     
-        print('Check point')
+        #print('Check point')
 
         return(Output_string)
 
     def Convert_to_DPG_ctrl(self):
 
-        Ctrl_type = None
+        #Ctrl_type = None
 
-        DPG_ctrl = 0.0
+        #DPG_ctrl = 0.0
             
         ph2oNeed = 0.0
 
@@ -313,7 +313,9 @@ class Command_Proc():
 
             #print('RH_set, SC_T, pH2O_sat = ', self.dl.getParm('RH_set')[0], self.dl.getParm('SC_T')[0], self.ph2oSat(self.dl.getParm('SC_T')[0]))
 
-            ph2oNeed =  float(self.dl.getParm('RH_set')[0])*self.ph2oSat(self.dl.getParm('SC_T')[0])/100
+            P_h2o =  (float(self.dl.getParm('RH_set')[0])*0.01)*self.ph2oSat(self.dl.getParm('SC_T')[0]) #Pascal
+
+            ph2oNeed = (P_h2o/(self.dl.getParm('CellP')[0]*1000))*1000 # Pa to ppt
 
             Ctrl_type = "RH"
 
@@ -323,33 +325,29 @@ class Command_Proc():
 
             ph2oNeed = float(self.dl.getParm('pH2O_set')[0])
 
-            print('ph2oNeed',ph2oNeed)
+            #print('ph2oNeed', ph2oNeed)
 
             Ctrl_type = "pH2O"
 
-        else:
-
-            #print('RH_set, SC_T, pH2O_sat = ', self.dl.getParm('RH_set')[0], self.dl.getParm('SC_T')[0], self.ph2oSat(self.dl.getParm('SC_T')[0]))
-
-            ph2oNeed =  self.dl.getParm('RH_set')[0]*self.ph2oSat(self.dl.getParm('SC_T')[0])/100
-
-            #print('ph2oNeed', ph2oNeed)
-
         if ph2oNeed!=0:    
 
-            DPG_ctrl = self.dewPointTemp(ph2oNeed*self.dl.getParm('CellP')[0])
+            DPG_ctrl = self.dewPointTemp(ph2oNeed*0.001*self.dl.getParm('CellP')[0]*1000) #ppt to Pa
 
-            #print('DPG_ctrl', DPG_ctrl)
+        print('Control type', Ctrl_type)
+
+        print('DPG_ctrl', DPG_ctrl)
+
+        #print('pH2O', self.dl.getParm('pH2O')[0])
 
         self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')[0]*self.dl.getParm('CellP')[0]) #Error
 
         self.errDot = (self.err - self.err_1) / self.deltaT     # Error derivative value
-        self.err_1 = self.err                                   # Save the error value
-        self.errSum += self.err                                 # Error sum value
-            
-        #print('DPG_ctrl', DPG_ctrl)
 
-        #print('pH2O', self.dl.getParm('pH2O')[0])
+        self.err_1 = self.err                                   # Save the error value
+
+        self.errSum += self.err                                 # Error sum value
+
+        
 
         #print('DPT', self.dewPointTemp(self.dl.getParm('pH2O')[0]*self.dl.getParm('CellP')[0]))
 
