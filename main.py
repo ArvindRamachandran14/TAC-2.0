@@ -127,6 +127,12 @@ class TAC():
 
                 async with self.sem:
 
+                    if Cmd_prc.dl.getParm("DPG_power")[0]:
+
+                        DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
+
+                        print('DPG_ctrl', DPG_ctrl)
+
                     user_input = g.gv.ser_PC.readline().decode()
 
                     if len(user_input) == 0:
@@ -221,8 +227,9 @@ class TAC():
         return None
 
 
-
 async def main() :
+
+    print('start', datetime.now())
 
     current_time = time.time()
 
@@ -237,9 +244,10 @@ async def main() :
     task2 = asyncio.create_task(tac.doCmd(Cmd_prc))
 
     await task1
+
     await task2
        
-    print('Done')
+    print('end', datetime.now())
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
