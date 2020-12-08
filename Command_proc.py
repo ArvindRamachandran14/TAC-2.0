@@ -331,6 +331,10 @@ class Command_Proc():
 
             Ctrl_type = "pH2O"
 
+        else:
+
+            pass
+
         if ph2oNeed!=0:    
 
             DPG_ctrl = self.dewPointTemp(ph2oNeed*0.001*self.dl.getParm('CellP')[0]*1000) #ppt to Pa
