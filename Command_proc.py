@@ -347,7 +347,7 @@ class Command_Proc():
 
             #self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')[0]*0.001*self.dl.getParm('CellP')[0]*1000) #Error
 
-            self.err = DPG_ctrl - self.dl.getParm('DPT')
+            self.err = DPG_ctrl - self.dl.getParm('DPT')[0]
 
             self.errDot = (self.err - self.err_1) / self.deltaT     # Error derivative value
 
