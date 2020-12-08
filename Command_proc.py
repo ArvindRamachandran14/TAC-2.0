@@ -307,7 +307,9 @@ class Command_Proc():
 
             Ctrl_type = "TDPG"
 
-            #return(DPG_ctrl)
+            print('Ctrl_type')
+
+            return(DPG_ctrl)
 
         elif self.dl.getParm('RH_set')[0]!=0:
 
@@ -347,8 +349,6 @@ class Command_Proc():
 
         self.errSum += self.err                                 # Error sum value
 
-        
-
         #print('DPT', self.dewPointTemp(self.dl.getParm('pH2O')[0]*self.dl.getParm('CellP')[0]))
 
         #print('Error', self.err)
@@ -357,15 +357,15 @@ class Command_Proc():
 
         #print('Error sum', self.errSum)
 
-        self.DPG_ctrl = (self.dl.getParm('pH2O_P')[0]*self.err + self.dl.getParm('pH2O_D')[0]*self.errDot + self.dl.getParm('pH2O_I')[0]*self.errSum)
+        DPG_ctrl = (self.dl.getParm('pH2O_P')[0]*self.err + self.dl.getParm('pH2O_D')[0]*self.errDot + self.dl.getParm('pH2O_I')[0]*self.errSum)
 
-        #print(self.DPG_ctrl)
+        #print(DPG_ctrl)
 
         # Now, we need the limiter
         limit = min(self.dl.getParm('SC_T')[0], self.dl.getParm('CC_T')[0])
-        if self.DPG_ctrl > limit :
-            self.DPG_ctrl = limit
-        return self.DPG_ctrl
+        if DPG_ctrl > limit :
+            DPG_ctrl = limit
+        return DPG_ctrl
 
     def ph2oSat(self, T) :
             
