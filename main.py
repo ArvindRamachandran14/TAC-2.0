@@ -112,7 +112,7 @@ class TAC():
 
                         g.gv.dl.setParm('Status', 1, time_stamp)
 
-                await asyncio.sleep(4.0)
+                await asyncio.sleep(3.0)
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
