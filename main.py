@@ -99,7 +99,7 @@ class TAC():
 
                     g.gv.dl.setParm('DPG_output', DPG_output, time_stamp)
 
-                    WGT = 10
+                    WGT = 10 #to be edited
 
                     #WGT = ((m.get_adc(0,1))/4096.0)*10
 
@@ -245,7 +245,7 @@ async def main() :
 
     await task1
 
-    await task2
+    #await task2
     
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
