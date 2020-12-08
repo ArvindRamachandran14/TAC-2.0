@@ -40,7 +40,7 @@ class DataLib():
         # Setpoints
         self.SC_set = Register(5, 'SC_set', 0.0, init_ts) #Sample chamber temp controller set point
         self.CC_set = Register(6, 'CC_set', 0.0, init_ts) #Conditioning chamber temp controller set point
-        self.DPG_set = Register(7, 'DPG_set', 0.0, init_ts) #Dew point generator temp controller set point
+        self.DPG_set = Register(7, 'DPG_set', 12.0, init_ts) #Dew point generator temp controller set point
 
         # SC paramters
         self.SC_P = Register(8, 'SC_P', 0.0, init_ts) #Sample chamber temp controller proportional gain
