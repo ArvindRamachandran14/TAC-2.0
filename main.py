@@ -31,7 +31,7 @@ class TAC():
 
     def __init__(self):
 
-        self.delta_T = 3.0
+        self.delta_T = 3.5
 
         self.sem = asyncio.Semaphore(1)  
 
