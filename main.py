@@ -112,7 +112,7 @@ class TAC():
 
                         g.gv.dl.setParm('Status', 1, time_stamp)
 
-                await asyncio.sleep(0.050)
+                await asyncio.sleep(4)
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
@@ -188,7 +188,7 @@ class TAC():
             
                             g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string with error code - display string on PC and then go to newline 
                     
-                await asyncio.sleep(0.050)
+                await asyncio.sleep(1)
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
@@ -247,7 +247,6 @@ async def main() :
 
     await task2
     
-
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
 loop.close()
