@@ -121,7 +121,7 @@ class TAC():
                 print('Interval: {0:.1f}'.format(ms))
                 start = now
 
-                await asyncio.sleep(self.delta_T-ms*1000)
+                await asyncio.sleep(self.delta_T-ms/1000.0)
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
