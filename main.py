@@ -31,6 +31,8 @@ class TAC():
 
     def __init__(self):
 
+        self.delta_T = 3.0
+
         self.sem = asyncio.Semaphore(1)  
 
         self.bdone = False
@@ -39,10 +41,11 @@ class TAC():
 
         try:
 
+            start = datetime.now()
+
             while not self.bdone:
 
                 async with self.sem:
-
 
                     current_time = time.time() # current time 
                     
@@ -112,7 +115,13 @@ class TAC():
 
                         g.gv.dl.setParm('Status', 1, time_stamp)
 
-                await asyncio.sleep(3.0)
+                now = datetime.now()
+                diff = now - start
+                ms = diff.seconds * 1000 + diff.microseconds / 1000
+                print('Interval: {0:.1f}'.format(ms))
+                start = now
+
+                await asyncio.sleep(self.delta_T)
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
@@ -124,8 +133,6 @@ class TAC():
         try:
 
             while not self.bdone:
-
-                print('start', datetime.now())
 
                 async with self.sem:
 
@@ -179,8 +186,9 @@ class TAC():
                             print(Output)
             
                             g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string with error code - display string on PC and then go to newline 
-                    
-                await asyncio.sleep(1.0)
+                
+
+                await asyncio.sleep(0.1)
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
