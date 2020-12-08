@@ -31,7 +31,7 @@ class TAC():
 
     def __init__(self):
 
-        self.delta_T = 3.5
+        self.delta_T = 1.0
 
         self.sem = asyncio.Semaphore(1)  
 
@@ -121,7 +121,7 @@ class TAC():
                 print('Interval: {0:.1f}'.format(ms))
                 start = now
 
-                await asyncio.sleep(self.delta_T)
+                await asyncio.sleep(self.delta_T-ms*1000)
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
@@ -245,7 +245,7 @@ async def main() :
 
     await task1
 
-    #await task2
+    await task2
     
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
