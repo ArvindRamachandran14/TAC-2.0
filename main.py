@@ -125,6 +125,8 @@ class TAC():
 
             while not self.bdone:
 
+                print('start', datetime.now())
+
                 async with self.sem:
 
                     if Cmd_prc.dl.getParm("DPG_power")[0]:
@@ -229,8 +231,6 @@ class TAC():
 
 async def main() :
 
-    print('start', datetime.now())
-
     current_time = time.time()
 
     time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f')
@@ -246,8 +246,7 @@ async def main() :
     await task1
 
     await task2
-       
-    print('end', datetime.now())
+    
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
