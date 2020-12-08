@@ -118,10 +118,10 @@ class TAC():
                 now = datetime.now()
                 diff = now - start
                 ms = diff.seconds * 1000 + diff.microseconds / 1000
-                print('Interval: {0:.1f}'.format(ms))
+                delay = self.delta_T-ms/1000.0
+                print('Elapsed time: {0:.1f}, Delay: {1:.1f}'.format(ms, delay))
                 start = now
-
-                await asyncio.sleep(self.delta_T-ms/1000.0)
+                await asyncio.sleep(delay)
 
         except (ZeroDivisionError, RuntimeError, TypeError, NameError, KeyboardInterrupt) as e:
 
