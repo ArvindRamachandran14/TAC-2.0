@@ -37,7 +37,7 @@ class TAC():
 
         self.bdone = False
 
-    async def Read_Instruments(self):
+    async def Read_Instruments(self, Cmd_prc):
 
         try:
 
@@ -115,6 +115,17 @@ class TAC():
 
                         g.gv.dl.setParm('Status', 1, time_stamp)
 
+                    if Cmd_prc.dl.getParm("DPG_power")[0]:
+
+                        DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
+
+                        print('DPG_ctrl', DPG_ctrl)
+
+                        Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)
+
+                        #print('DPG control output string', Output_string) 
+
+
                 now = datetime.now()
                 diff = now - start
                 ms = diff.seconds * 1000 + diff.microseconds / 1000
@@ -135,16 +146,6 @@ class TAC():
             while not self.bdone:
 
                 async with self.sem:
-
-                    if Cmd_prc.dl.getParm("DPG_power")[0]:
-
-                        DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
-
-                        print('DPG_ctrl', DPG_ctrl)
-
-                        Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)
-
-                        #print('DPG control output string', Output_string) 
 
                     user_input = g.gv.ser_PC.readline().decode()
 
@@ -186,7 +187,6 @@ class TAC():
                             print(Output)
             
                             g.gv.ser_PC.write((Output+'\n').encode()) # Likely a string with error code - display string on PC and then go to newline 
-                
 
                 await asyncio.sleep(0.1)
 
@@ -239,7 +239,7 @@ async def main() :
 
     Cmd_prc = Command_proc.Command_Proc(g.gv.dl)
 
-    task1 = asyncio.create_task(tac.Read_Instruments())
+    task1 = asyncio.create_task(tac.Read_Instruments(Cmd_prc))
 
     task2 = asyncio.create_task(tac.doCmd(Cmd_prc))
 

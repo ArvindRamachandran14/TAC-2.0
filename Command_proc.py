@@ -28,7 +28,7 @@ class Command_Proc():
         self.err_1 = 0.0                            # Previous value of error
         self.errDot = 0.0                           # Derivative of error at iternation n
         self.errSum = 0.0   
-        self.deltaT = 4.0 #machine cycle is roughly 3 seconds 
+        self.deltaT = 2.0 #machine cycle takes 2 seconds 
 
     def Do_it(self, string):
 
@@ -345,7 +345,9 @@ class Command_Proc():
 
             #print('pH2O', self.dl.getParm('pH2O')[0])
 
-            self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')[0]*0.001*self.dl.getParm('CellP')[0]*1000) #Error
+            #self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')[0]*0.001*self.dl.getParm('CellP')[0]*1000) #Error
+
+            self.err = DPG_ctrl - self.dl.getParm('DPT')
 
             self.errDot = (self.err - self.err_1) / self.deltaT     # Error derivative value
 
