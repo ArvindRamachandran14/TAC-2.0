@@ -135,6 +135,10 @@ class TAC():
 
                         print('DPG_ctrl', DPG_ctrl)
 
+                        Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)
+
+                        print('DPG control output string', Output_string) 
+
                     user_input = g.gv.ser_PC.readline().decode()
 
                     if len(user_input) == 0:
@@ -144,18 +148,6 @@ class TAC():
                     else:
 
                         Output = Cmd_prc.Do_it(user_input)
-
-                        if g.gv.dl.getParm("DPG_power")[0] !=0:  
-
-                            DPG_ctrl = Cmd_prc.Convert_to_DPG_ctrl()
-
-                            #print(DPG_ctrl)
-
-                            #Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)  
-
-                            #print(Output_string)
-
-                            #print(type(Output))
 
                         ########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
                             
