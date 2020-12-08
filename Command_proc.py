@@ -339,8 +339,6 @@ class Command_Proc():
 
         print('Control type', Ctrl_type)
 
-        print('DPG_ctrl', DPG_ctrl)
-
         if ph2oNeed!=0:    
 
             DPG_ctrl = self.dewPointTemp(ph2oNeed*0.001*self.dl.getParm('CellP')[0]*1000) #ppt to Pa
@@ -372,6 +370,8 @@ class Command_Proc():
             if DPG_ctrl > limit :
                 DPG_ctrl = limit
             
+            print('DPG_ctrl', DPG_ctrl)
+
             return DPG_ctrl
 
     def ph2oSat(self, T) :
