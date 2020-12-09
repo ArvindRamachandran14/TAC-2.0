@@ -61,6 +61,8 @@ class TAC():
          
                     g.gv.dl.setParm('CellP', IRGA_list[2], time_stamp)
          
+                    CellT = IRGA_list[3]
+
                     g.gv.dl.setParm('CellT', IRGA_list[3], time_stamp)
          
                     g.gv.dl.setParm('IVOLT', IRGA_list[4], time_stamp)
