@@ -132,10 +132,19 @@ class TC():
             output_buffer[pn]=self.ser.read(1)
             time.sleep(0.001)
 
-        for i in range(1, 9):
-            string_read_temp+=output_buffer[i].decode()
 
-        return(int(string_read_temp,0)) #Convert string to integer (actual output)
+        if output_buffer[1:9] != "XXXXXXXX":
+            
+            for i in range(1, 9):
+                string_read_temp+=output_buffer[i].decode()
+
+            return(int(string_read_temp,0))
+
+        else:
+
+            return(0)
+
+         #Convert string to integer (actual output)
 
 #tc = TC('Ser')
 
