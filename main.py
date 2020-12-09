@@ -67,6 +67,8 @@ class TAC():
          
                     g.gv.dl.setParm('IVOLT', IRGA_list[4], time_stamp)
 
+                    DPT = IRGA_list[5]
+
                     g.gv.dl.setParm('DPT', IRGA_list[5], time_stamp)
 
                     SC_T = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T_read'])/100.0
