@@ -139,7 +139,7 @@ class TC():
 
             val = int(string_read_temp,0)
 
-            if string_read_temp[2] >= ‘7’ :
+            if string_read_temp[2] >= ‘7’:
 
                 val = -(2**32 – val)
 
