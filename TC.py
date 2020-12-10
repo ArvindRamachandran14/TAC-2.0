@@ -130,15 +130,20 @@ class TC():
 
         for pn in range(0,12):
             output_buffer[pn]=self.ser.read(1)
-            time.sleep(0.001)
-
+            #time.sleep(0.001)
 
         if output_buffer[1:9] != "XXXXXXXX":
             
             for i in range(1, 9):
                 string_read_temp+=output_buffer[i].decode()
 
-            return(int(string_read_temp,0))
+            val = int(string_read_temp,0)
+
+            if string_read_temp[2] >= ‘7’ :
+
+                val = -(2**32 – val)
+
+            return(val)
 
         else:
 
