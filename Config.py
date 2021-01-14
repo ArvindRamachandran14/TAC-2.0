@@ -14,7 +14,7 @@ class Config():
 
         #print(pH2O_P, pH2O_I, pH2O_D)
 
-    def update():
+    def update(self):
 
         self.cfg["pH2O_P"] = self.pH2O_P
         self.cfg["pH2O_I"] = self.pH2O_I
