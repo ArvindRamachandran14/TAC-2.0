@@ -20,7 +20,7 @@ class Config():
         self.cfg["pH2O_I"] = self.pH2O_I
         self.cfg["pH2O_D"] = self.pH2O_D
 
-        with open(cfgFile, 'w') as fCfg:
+        with open(self.cfgFile, 'w') as fCfg:
 
-            json.dump(cfg, fCfg)
+            json.dump(self.cfg, fCfg)
 
