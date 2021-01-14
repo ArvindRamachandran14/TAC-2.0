@@ -21,9 +21,7 @@ class Command_Proc():
     def __init__(self, dl):
 
         self.dl = dl
-
         self.switch = ['off', 'on']
-
         self.err = 0.0
         self.err_1 = 0.0                            # Previous value of error
         self.errDot = 0.0                           # Derivative of error at iternation n
@@ -45,6 +43,20 @@ class Command_Proc():
         elif self.string == 'c-check\n':
 
             return 'Ok\n'
+
+        elif self.strings[0] == 'r':
+
+            if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
+
+                g.gv.dl.setParm(self.strings[1], 0.0, time_stamp)
+
+                Output_string = 'e 0' #Success
+
+            else:
+
+                Output_string = 'e 2' # Variable does not exist, return error message string  
+
+            return(Output_string)
 
         elif self.strings[0] == 's': #Check to see if command is a set command
         
