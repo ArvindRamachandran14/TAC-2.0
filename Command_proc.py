@@ -167,12 +167,11 @@ class Command_Proc():
 
                     g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
-                    self.dl.cfg["pH2O_P"] = float(self.strings[2])
+                    self.dl.cfg.pH2O_P = float(self.strings[2])
 
                     self.dl.cfg.update()
 
                     Output_string = 'e 0'
-                            
 
                 elif self.strings[1]== "pH2O_I":
                 
@@ -182,7 +181,7 @@ class Command_Proc():
 
                     g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
-                    self.dl.cfg["pH2O_I"] = float(self.strings[2])
+                    self.dl.cfg.pH2O_I = float(self.strings[2])
 
                     self.dl.cfg.update()
 
@@ -196,7 +195,7 @@ class Command_Proc():
 
                     g.gv.dl.setParm(self.strings[1], float(self.strings[2]), time_stamp)
 
-                    self.dl.cfg["pH2O_D"] = float(self.strings[2])
+                    self.dl.cfg.pH2O_D = float(self.strings[2])
 
                     self.dl.cfg.update()
 
