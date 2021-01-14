@@ -48,6 +48,8 @@ class Command_Proc():
 
             if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
 
+                current_time = time.time() # current time 
+
                 time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
 
                 g.gv.dl.setParm(self.strings[1], 0.0, time_stamp)
