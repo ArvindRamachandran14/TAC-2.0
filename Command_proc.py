@@ -46,6 +46,8 @@ class Command_Proc():
 
         elif self.strings[0] == 'r':
 
+            print(self.strings[1])
+
             if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
 
                 current_time = time.time() # current time 
@@ -321,8 +323,6 @@ class Command_Proc():
             DPG_ctrl = float(self.dl.getParm('DPG_set')[0])
 
             Ctrl_type = "TDPG"
-
-            print('Ctrl_type')
 
             return(DPG_ctrl)
 
