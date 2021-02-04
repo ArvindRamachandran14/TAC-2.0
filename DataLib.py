@@ -73,23 +73,24 @@ class DataLib():
         self.DPT = Register(29, 'DPT', 0.0, init_ts)
         self.RH = Register(30, 'RH', 0.0, init_ts)
         self.RH_set = Register(31, 'RH_set', 0.0, init_ts)
+        self.DP_set = Register(32, 'DP_set', 0.0, init_ts)
 
         #Others
-        self.WGT = Register(32, 'WGT', 0.0, init_ts) #Weight of the sample
-        self.ByPass = Register(33, 'ByPass', 0, init_ts) #Desired valve state – bypass/norma
-        self.IRGA_pump = Register(34, 'IRGA_pump', 0, init_ts)
+        self.WGT = Register(33, 'WGT', 0.0, init_ts) #Weight of the sample
+        self.ByPass = Register(34, 'ByPass', 0, init_ts) #Desired valve state – bypass/norma
+        self.IRGA_pump = Register(35, 'IRGA_pump', 0, init_ts)
 
-        self.pH2O_P = Register(35, 'pH2O_P', self.cfg.pH2O_P, init_ts)
+        self.pH2O_P = Register(36, 'pH2O_P', self.cfg.pH2O_P, init_ts)
 
-        self.pH2O_I = Register(36, 'pH2O_I', self.cfg.pH2O_P, init_ts)
+        self.pH2O_I = Register(37, 'pH2O_I', self.cfg.pH2O_I, init_ts)
 
-        self.pH2O_D = Register(37, 'pH2O_D', self.cfg.pH2O_P, init_ts)
+        self.pH2O_D = Register(38, 'pH2O_D', self.cfg.pH2O_D, init_ts)
 
         #Updates json file with new parameters
 
         #Status 
 
-        self.Status = Register(35, "Status", 0, init_ts)
+        self.Status = Register(39, "Status", 0, init_ts)
 
         # The parameter dictionary with register objects
         self.parmDict = {
@@ -124,6 +125,7 @@ class DataLib():
             self.DPT.name: self.DPT,
             self.RH.name: self.RH,
             self.RH_set.name: self.RH_set,
+            self.DP_set.name: self.DP_set,
             self.WGT.name: self.WGT,
             self.ByPass.name: self.ByPass,
             self.IRGA_pump.name: self.IRGA_pump,

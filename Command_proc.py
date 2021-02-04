@@ -91,7 +91,7 @@ class Command_Proc():
 
                 elif self.strings[1] == "IRGA_pump":
 
-                    os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
+                    os.system("megaio 0 rwrite 7 "+self.switch[int(self.strings[2])])
 
                     current_time = time.time() # current time 
 
@@ -320,11 +320,11 @@ class Command_Proc():
 
         if self.dl.getParm('DPG_set')[0]!=0:
 
-            DPG_ctrl = float(self.dl.getParm('DPG_set')[0])
+            Ctrl_type = "TDP"
 
-            Ctrl_type = "TDPG"
+            P_h2o =  self.ph2oSat(float(self.dl.getParm('DP_set')[0])) #Pascal
 
-            return(DPG_ctrl)
+            ph2oNeed = (P_h2o/(self.dl.getParm('CellP')[0]*1000))*1000 # Pa to ppt
 
         elif self.dl.getParm('RH_set')[0]!=0:
 
