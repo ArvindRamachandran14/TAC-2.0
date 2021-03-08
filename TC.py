@@ -50,14 +50,10 @@ class TC():
 
         return_buffer+= send_value_string
 
-        ################################# Checksum calculation #################################
-
         checksum = 0
 
         for x in return_buffer[1:]:
-            checksum += ord(x) 
-
-        #print(checksum)
+            checksum += ord(x) # Checksum calculation 
 
         return_buffer += hex(checksum)[-2:] #Add hex representation of checksum
 
@@ -67,42 +63,27 @@ class TC():
 
     def write_command(self, command, send_value):
 
-        #print(TC.command_generator(command, send_value))
-
         output_buffer=[]
 
         output_string = ""
 
-    #print(command)
-
-    #print(send_value)
-
         command_buffer = TC.command_generator(command, send_value) # Command generator function returns the command buffer to be sent to the TC
 
-        ################################# Write command to TC #################################
-
-        # Replace below lines of code with self.ser.write(command_buffer.encode()) 
+        #Write command to TC
 
         for pn in range(0,16):
             self.ser.write(command_buffer[pn].encode()) #ser is the serial port of the relevant TC
             time.sleep(0.001)
-
-        ################################# Read response from TC #################################
 	
-        output_string = self.ser.readline().decode()
-
-        #No need to put output_string into output_buffer
+        output_string = self.ser.readline().decode()  # Read response from TC 
 
         for pn in range(len(output_string)):
             output_buffer.append(str(output_string[pn]))
             time.sleep(0.001)
         
-
         #The checksum test can be simplified by just looking for 'X' character in the output_string
 
-        ################################# Checksum test #################################
-
-        if command_buffer[5:-3] == output_buffer[1:-3]:
+        if command_buffer[5:-3] == output_buffer[1:-3]: #Checksum test
 
             return('Done')
 
@@ -120,16 +101,12 @@ class TC():
 
         command_buffer = TC.command_generator(command, send_value)
 
-        ################################# Write command to TC #################################
-
         for pn in range(0,16):
-            self.ser.write(command_buffer[pn].encode())
+            self.ser.write(command_buffer[pn].encode()) # Write command to TC 
             time.sleep(0.001)
 
-        ################################# Read response from TC #################################
-
         for pn in range(0,12):
-            output_buffer[pn]=self.ser.read(1)
+            output_buffer[pn]=self.ser.read(1) # Read response from TC
             #time.sleep(0.001)
 
         if output_buffer[1:9] != "XXXXXXXX":
@@ -148,9 +125,3 @@ class TC():
         else:
 
             return(0)
-
-         #Convert string to integer (actual output)
-
-#tc = TC('Ser')
-
-#tc.send_command(Command_Dict.Command_Dict['set_ctl_type'],1)

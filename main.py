@@ -105,7 +105,7 @@ class TAC():
 
                     g.gv.dl.setParm('WGT', WGT, time_stamp)
 
-                     ################### Check for normal operation of TA ################### 
+                    #Check for normal operation of TA
 
                     if CellT > 50.0 and DPT < 45.0 and DPT > CC_T and CC_T > SC_T and SC_T > DPG_T:
                     
@@ -122,8 +122,6 @@ class TAC():
                         print('DPG_ctrl', DPG_ctrl)
 
                         Output_string = Cmd_prc.Set_DPG_ctrl(DPG_ctrl)
-
-                        #print('DPG control output string', Output_string) 
 
 
                 now = datetime.now()
@@ -157,7 +155,7 @@ class TAC():
 
                         Output = Cmd_prc.Do_it(user_input)
 
-                        ########## Checking nature of output from command processor and write back to lab PC accordingly  ####### 
+                        # Checking nature of output from command processor and write back to lab PC accordingly
                             
                         if isinstance(Output, bool): # Pass if False 
                                     
@@ -167,21 +165,10 @@ class TAC():
 
                             print('output is a dictionary')
 
-                            #xmlstring = dicttoxml.dicttoxml(Output)
-
-                            #result_string = json.dumps(Output) 
-
-                            #g.gv.ser_PC.write(xmlstring)
-
-                            #g.gv.ser_PC.write(('\r'+'\n').encode())
-
-
                         elif isinstance(Output, tuple):  # Write to PC if output is a tuple
                             
                             g.gv.ser_PC.write((str(Output[0])+'---'+str(Output[1])+'\n').encode())
                                     
-                            #g.gv.ser_PC.write(('\r'+'\n').encode())
-
                         else:
 
                             print(Output)

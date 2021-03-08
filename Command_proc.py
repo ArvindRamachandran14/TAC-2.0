@@ -16,7 +16,6 @@ import asyncio #timing to work right asychronous call - go and read the data and
 
 
 class Command_Proc():
-    """docstring for Command_Proc"""
 
     def __init__(self, dl):
 
@@ -25,12 +24,13 @@ class Command_Proc():
         self.err = 0.0
         self.err_1 = 0.0                            # Previous value of error
         self.errDot = 0.0                           # Derivative of error at iternation n
-        self.errSum = 0.0   
-        self.deltaT = 2.0 #machine cycle takes 2 seconds 
+        self.errSum = 0.0                           # Integral of error
+        self.deltaT = 2.0                           #machine cycle takes 2 seconds 
+
+
+    # Function that executes commands
 
     def Do_it(self, string):
-
-        ############# Function that executes the command #############s
         
         self.string = string
 
@@ -44,9 +44,7 @@ class Command_Proc():
 
             return 'Ok\n'
 
-        elif self.strings[0] == 'r':
-
-            print(self.strings[1])
+        elif self.strings[0] == 'r': #register command  
 
             if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
 
@@ -64,17 +62,14 @@ class Command_Proc():
 
             return(Output_string)
 
-        elif self.strings[0] == 's': #Check to see if command is a set command
+        elif self.strings[0] == 's': #set command
         
             print(self.strings)
                 
             if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
-                        
-                #print(float(self.strings[2]))
-
-                #print(self.strings[1])
 
                 ###### check if self.strings[1] is a parameter that can actually be set or if it is a readonly paramter
+
                 if self.strings[1] == "ByPass":
 
                     os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
@@ -86,8 +81,6 @@ class Command_Proc():
                     g.gv.dl.setParm(self.strings[1], int(self.strings[2]), time_stamp)
 
                     Output_string = 'e 0'
-
-                    #return(Output_string)
 
                 elif self.strings[1] == "IRGA_pump":
 
@@ -101,8 +94,6 @@ class Command_Proc():
 
                     Output_string = 'e 0'
 
-                    #return(Output_string)
-
                 elif self.strings[1][0:2] == "SC":
 
                     #Need to check if the self.strings[2] (set point) is a legit value - float/int, within range
@@ -112,8 +103,6 @@ class Command_Proc():
                     print(Output_string)
 
                     if Output_string == "Done":
-
-                        #print('Got here')
 
                         current_time = time.time() # current time 
 
@@ -142,8 +131,6 @@ class Command_Proc():
                         g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
 
                         Output_string = 'e 0'
-
-                        #return(Output_string)
 
                 elif self.strings[1][0:3] == "DPG":
 
@@ -245,19 +232,9 @@ class Command_Proc():
 
                     Output_string = 'e 0'
 
-                    #DPG_set = Convert_to_DPG_set(self.strings[1], self.strings[2])
-
-                    #Need to check if the set point is a legit value - float/int, within range - input validation done on TAGUI end 
-
-                    #Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
-
-                    #return(Output_string)
-
                 else: 
 
                     Output_string = 'e 3' #readonly paramter
-
-                    #return(Output_string) 
 
             else:
 
@@ -265,13 +242,9 @@ class Command_Proc():
 
             return(Output_string)
 
-        elif self.strings[0] == 'g': #Check to see if command is a get command     
-
-            #print(self.strings)
+        elif self.strings[0] == 'g': # get command     
             
             if self.strings[1] == 'all':
-
-                #print('getting all data')
 
                 return(self.dl.get_all_data())
 
@@ -302,19 +275,11 @@ class Command_Proc():
 
     def Set_DPG_ctrl(self, DPG_ctrl):
 
-        #print(type(DPG_ctrl))
-
         Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl)*100)
-    
-        #print('Check point')
 
         return(Output_string)
 
     def Convert_to_DPG_ctrl(self):
-
-        #Ctrl_type = None
-
-        #DPG_ctrl = 0.0
             
         ph2oNeed = 0.0
 
@@ -336,13 +301,9 @@ class Command_Proc():
 
             Ctrl_type = "RH"
 
-            #print('ph2oNeed', ph2oNeed)
-
         elif self.dl.getParm('pH2O_set')[0]!=0:
 
             ph2oNeed = float(self.dl.getParm('pH2O_set')[0])
-
-            #print('ph2oNeed', ph2oNeed)
 
             Ctrl_type = "pH2O"
 
@@ -357,8 +318,6 @@ class Command_Proc():
         if ph2oNeed!=0:    
 
             DPG_ctrl = self.dewPointTemp(ph2oNeed*0.001*self.dl.getParm('CellP')[0]*1000) #ppt to Pa
-
-            #print('pH2O', self.dl.getParm('pH2O')[0])
 
             #self.err = DPG_ctrl - self.dewPointTemp(self.dl.getParm('pH2O')[0]*0.001*self.dl.getParm('CellP')[0]*1000) #Error
 
@@ -380,18 +339,21 @@ class Command_Proc():
 
             DPG_ctrl = (self.dl.getParm('pH2O_P')[0]*self.err + self.dl.getParm('pH2O_D')[0]*self.errDot + self.dl.getParm('pH2O_I')[0]*self.errSum)
 
-            #print(DPG_ctrl)
-
-            # Now, we need the limiter
-            limit = min(self.dl.getParm('SC_T')[0], self.dl.getParm('CC_T')[0])
+            limit = min(self.dl.getParm('SC_T')[0], self.dl.getParm('CC_T')[0]) #limiter to avoid condensation
             if DPG_ctrl > limit :
                 DPG_ctrl = limit
 
             return DPG_ctrl
 
+
+    # Function to calculate saturated pH2O at a given T
+
     def ph2oSat(self, T) :
             
         return 610.78 * exp((T * 17.2684) / (T + 238.3))
+
+
+    # Function to calculate dew point at a given pH2O
 
     def dewPointTemp(self, ph2o) :
         w = log(ph2o / 610.78)

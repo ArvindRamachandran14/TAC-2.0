@@ -13,9 +13,6 @@ import asyncio #timing to work right asychronous call - go and read the data and
 
 class gv():
 
-    #################################   Serial port definiton   #################################     
-
-    #sem = asyncio.Semaphore(1)
 
     ser_TC_SC = serial.Serial('/dev/ttyUSB0', 9600, timeout=0.1)
 
@@ -29,9 +26,7 @@ class gv():
 
     ser_PC.stopbits = 2
 
-    #################################   Object creation   ################################# 
-
-    dl = DataLib.DataLib()  # initialization triggered when object is created 
+    dl = DataLib.DataLib() 
 
     irga = IRGA.IRGA(ser_IRGA) 
 
