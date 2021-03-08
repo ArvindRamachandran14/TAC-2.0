@@ -147,7 +147,6 @@ class DataLib():
         return(string)
 
 
-
     #Function to get all calibration data at once from TA
     def get_cal_all_variables(self):
 
