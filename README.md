@@ -6,9 +6,9 @@ Contact - aramac13@asu.edu
 
 # TAC-2.0
 
-TAC-2.0 is the latest TAC program. TAC stands for ThermoAnalyzer Controller. This program is responsible for controlling system variables in the ThermoAnalyzer (TA), data acquisiton from the 5 different TA instruments, and handling the experimenter's commands via the TAGUI program. 
+TAC-2.0 is the latest TAC program. TAC stands for ThermoAnalyzer Controller. This program is responsible for controlling system variables in the ThermoAnalyzer (TA), data acquisition from the 5 different TA instruments, and handling the experimenter's commands via the TAGUI program. 
 
-
+TAC-2.0 is implemented in a Raspberry Pi computer in the CNCE lab at Arizona State University. To run the program, the Raspberry Pi needs to be connected to the TA and its instruments.
 
 ## Module Functionality
 
@@ -28,4 +28,4 @@ The different scripts here are different modules that have functions like
 
 7. `IRGA.py` - The IRGA module enables serial communication with the Infrared Gas Analyzer (IRGA)
 
-8. `TC.py` - The TC module enables serial communication with the three different temperature controllers (Sample chamber, conditoning chamber, dew point generator temperature controllers)
+8. `TC.py` - The TC module enables serial communication with the three different temperature controllers (Sample chamber, conditioning chamber, dew point generator temperature controllers)
