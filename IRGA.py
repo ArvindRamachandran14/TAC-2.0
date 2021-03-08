@@ -7,8 +7,7 @@ import xml.etree.ElementTree as ET
 
 class IRGA():
     def __init__(self, ser):
-        # When an instance of this class is created, the serial port is initialized and the OUTRATE is set to zero
-        # This makes sure the IRGA only sends values when requested
+        # When an instance of this class is created, the serial port is initialized and the OUTRATE is set to zero to makes sure the IRGA only sends values when requested
         self.ser = ser
         self.ser.write('<LI840> <CFG> <OUTRATE> 0 </OUTRATE> </CFG> </LI840>'.encode()) #Set the OUTRATE to 0
         self.xmlstring = self.ser.readline().decode() 
