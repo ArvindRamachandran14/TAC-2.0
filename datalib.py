@@ -1,16 +1,12 @@
-
 # -*- coding: utf-8 -*-
 
 """ DataLib.py
 
         Adapted from  Original issue - 03/12/2019 - KDT
 """
-
 import time 
-
 import datetime
-
-import Config as cfg
+import config as cfg
 
 class Register():
     def __init__(self, _i, _n, _v, _ts):
@@ -20,20 +16,16 @@ class Register():
         self.time_stamp = _ts
 
 class DataLib():
-
     def __init__(self):
-        
         # Thermocouples
-
         self.cfg = cfg.Config()
-
         init_ts = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-
+       
         self.SC_T = Register(1, 'SC_T', 0.0, init_ts) #Temperature inside the sample chamber
         self.SC_Tblock = Register(2, 'SC_Tblock', 0.0, init_ts) # Temperature of the temperature block /gas pre heater
         self.CC_T = Register(3, 'CC_T', 0.0, init_ts) #Temperature of the conditioning chamber
         self.DPG_T = Register(4, 'DPG_T', 0.0, init_ts) #Set point temperature of the dew point generator
-        
+
         self.SC_set = Register(5, 'SC_set', 0.0, init_ts) #Sample chamber temp controller set point
         self.CC_set = Register(6, 'CC_set', 0.0, init_ts) #Conditioning chamber temp controller set point
         self.DPG_set = Register(7, 'DPG_set', 12.0, init_ts) #Dew point generator temp controller set point
@@ -72,18 +64,14 @@ class DataLib():
         self.WGT = Register(33, 'WGT', 0.0, init_ts) #Weight of the sample
         self.ByPass = Register(34, 'ByPass', 0, init_ts) #Desired valve state for SC bypass
         self.IRGA_pump = Register(35, 'IRGA_pump', 0, init_ts) #IRGA pump
-
         self.pH2O_P = Register(36, 'pH2O_P', self.cfg.pH2O_P, init_ts) #humidity loop proportional gain
-
         self.pH2O_I = Register(37, 'pH2O_I', self.cfg.pH2O_I, init_ts) #humidity loop integral gain
-
         self.pH2O_D = Register(38, 'pH2O_D', self.cfg.pH2O_D, init_ts) #humidity loop derivative gain
 
         #Updates json file with new parameters
-
         #Status 
-
         self.Status = Register(39, "Status", 0, init_ts)
+
         # The parameter dictionary with register objects
         self.parmDict = {
             self.SC_T.name : self.SC_T,
@@ -128,58 +116,37 @@ class DataLib():
         }
 
     def getParmDict(self):
-        
         return self.parmDict
 
     #Function to get basic calibration data at once from TA 
     def get_cal_basic_variables(self):
-
         string = ""
-
         for key in ['SC_output', 'CC_output', 'DPG_output']:
-
             string += str(self.parmDict[key].value) 
-
             string += ','
-
         print("output is", string)
-
         return(string)
-
 
     #Function to get all calibration data at once from TA
     def get_cal_all_variables(self):
-
         string = ""
-
         for key in ['SC_power', 'SC_P', 'SC_I', 'SC_D', 'SC_set', 'SC_output', 'CC_power', 'CC_P', 'CC_I', 'CC_D', 'CC_set', 'CC_output', 'DPG_power', 'DPG_P', 'DPG_I', 'DPG_D', 'DPG_set', 'DPG_output']:
-
             string += str(self.parmDict[key].value) 
-
             string += ','
-
         print("output is", string)
         return(string)
 
-
     # Function to get all the data at once from TA
     def get_all_data(self):
-
         all_data_dict = {}
-
         string = ""
-
         for key in ['SC_T', 'SC_Tblock', 'CC_T', 'DPG_T', 'pH2O', 'pCO2', 'DPT', 'WGT', 'Status']:
-
             string += str(self.parmDict[key].value) 
-
             string += ','
-
         return(string)
 
     # Function to set a certain system variable's value
     def setParm(self, key, value, time_stamp):
-       
         if key in self.parmDict:
             self.parmDict[key].value = value
             self.parmDict[key].time_stamp = time_stamp
@@ -187,10 +154,8 @@ class DataLib():
         else:
             return False
 
-
     # Function to get a certain system variable's value
-    def getParm(self, key):
-        
+    def getParm(self, key):     
         if key in self.parmDict:
             value = self.parmDict[key].value
             time_stamp = self.parmDict[key].time_stamp
@@ -199,10 +164,8 @@ class DataLib():
             time_stamp = 'NaN'
         return value, time_stamp
 
-
     #Function to get a certain system variable's name
     def parmName(self, key):
-
         if key in self.parmDict:
             name = self.parmDict[key].name
         else:

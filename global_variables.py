@@ -1,9 +1,9 @@
 
 #This module has all the variables that need to be accessed across different modules. 
 
-import TC 
+import tc 
 
-import DataLib
+import datalib
 
 import IRGA
 
@@ -26,12 +26,12 @@ class gv():
 
     ser_PC.stopbits = 2
 
-    dl = DataLib.DataLib() 
+    dl = datalib.DataLib() 
 
     irga = IRGA.IRGA(ser_IRGA) 
 
-    TC_SC = TC.TC(ser_TC_SC)
+    TC_SC = tc.TC(ser_TC_SC)
 
-    TC_CC = TC.TC(ser_TC_CC)
+    TC_CC = tc.TC(ser_TC_CC)
 
-    TC_DPG = TC.TC(ser_TC_DPG)
+    TC_DPG = tc.TC(ser_TC_DPG)

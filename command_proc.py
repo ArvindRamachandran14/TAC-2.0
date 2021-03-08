@@ -1,13 +1,12 @@
 ############## Module that processes the commands from the user ##############
 
 import global_variables as g
-import Command_Dict
+import command_dict
 import datetime as dt
 import time
 import os 
 from math import exp, log
 import asyncio #timing to work right asychronous call - go and read the data and the meanwhile you can do other things
-
 
 class Command_Proc():
     def __init__(self, dl):
@@ -58,32 +57,32 @@ class Command_Proc():
 
                 elif self.strings[1][0:2] == "SC":
                     #Need to check if the self.strings[2] (set point) is a legit value - float/int, within range
-                    Output_string = g.gv.TC_SC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)) # Performing set operation, return string - Done, Input Error, Checksum Error
+                    Output_string = g.gv.TC_SC.write_command(command_dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100)) # Performing set operation, return string - Done, Input Error, Checksum Error
                     print(Output_string)
                     if Output_string == "Done":
                         current_time = time.time() # current time 
                         time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-                        g.gv.dl.setParm(self.strings[1], g.gv.TC_SC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
+                        g.gv.dl.setParm(self.strings[1], g.gv.TC_SC.read_value(command_dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
                         Output_string = 'e 0'
                         #return(Output_string)
 
                 elif self.strings[1][0:2] == "CC":
                     #Need to check if the set point is a legit value - float/int, within range
-                    Output_string = g.gv.TC_CC.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
+                    Output_string = g.gv.TC_CC.write_command(command_dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
                     print(Output_string)
                     if Output_string == "Done":
                         current_time = time.time() # current time 
                         time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-                        g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
+                        g.gv.dl.setParm(self.strings[1], g.gv.TC_CC.read_value(command_dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
                         Output_string = 'e 0'
 
                 elif self.strings[1][0:3] == "DPG":
-                    Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
+                    Output_string = g.gv.TC_DPG.write_command(command_dict.Command_Dict[self.strings[1]+'_write'], int(float(self.strings[2])*100))
                     print(Output_string)
                     if Output_string == "Done":
                         current_time = time.time() # current time 
                         time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S')
-                        g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(Command_Dict.Command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
+                        g.gv.dl.setParm(self.strings[1], g.gv.TC_DPG.read_value(command_Dict.command_Dict[self.strings[1]+'_read'])/100.0, time_stamp)
                         Output_string = 'e 0'
 
                 elif self.strings[1]== "pH2O_P":
@@ -167,7 +166,7 @@ class Command_Proc():
 
     def Set_DPG_ctrl(self, DPG_ctrl):
 
-        Output_string = g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl)*100)
+        Output_string = g.gv.TC_DPG.write_command(command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl)*100)
         return(Output_string)
 
     def Convert_to_DPG_ctrl(self):

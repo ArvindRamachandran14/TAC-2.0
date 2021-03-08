@@ -1,4 +1,3 @@
-
 Command_Dict = {} #Dictionary to hold TC commands
 
 Command_Dict['SC_power_read'] = '46'
