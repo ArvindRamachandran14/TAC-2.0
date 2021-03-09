@@ -6,7 +6,7 @@ Contact - aramac13@asu.edu
 
 # TAC-2.0
 
-TAC-2.0 is the latest TAC program. TAC stands for ThermoAnalyzer Controller. This program is responsible for controlling system variables in the ThermoAnalyzer (TA), data acquisition from the 5 different TA instruments, and handling the experimenter's commands via the TAGUI program. 
+ThermoAnalyzer Controller (TAC) is a Python-based program responsible for controlling system variables in the ThermoAnalyzer (TA), data acquisition from the 5 different TA instruments, and handling the experimenter's commands via the TAGUI program
 
 TAC-2.0 is implemented in a Raspberry Pi computer in the CNCE lab at Arizona State University. To run the program, the Raspberry Pi needs to be connected to the TA and its instruments.
 
