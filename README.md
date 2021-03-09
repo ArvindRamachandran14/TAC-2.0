@@ -29,3 +29,5 @@ The different scripts here are different modules that have functions like
 7. `IRGA.py` The IRGA module enables serial communication with the Infrared Gas Analyzer (IRGA)
 
 8. `tc.py` The TC module enables serial communication with the three different temperature controllers (Sample chamber, conditioning chamber, dew point generator temperature controllers)
+
+The TA is an apparatus that is used to study the thermodynamics of Direct Air Capture sorbents. Direct Air Capture (DAC) is the process of capturing CO2 from the atmosphere, as a way of managing the build up of CO2 in the atmosphere. You can learn more about DAC [here](https://cnce.engineering.asu.edu)
