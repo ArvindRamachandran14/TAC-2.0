@@ -1,4 +1,4 @@
-############## Module that processes the commands from the user ##############
+#Module that processes the commands from the user
 
 import global_variables as g
 import command_dict
@@ -6,24 +6,29 @@ import datetime as dt
 import time
 import os 
 from math import exp, log
-import asyncio #timing to work right asychronous call - go and read the data and the meanwhile you can do other things
+import asyncio #timing to work right asynchronous call - go and read the data and the meanwhile you can do other things
 
 class Command_Proc():
+
+    """class built for command processing"""
+
     def __init__(self, dl):
         self.dl = dl
         self.switch = ['off', 'on']
         self.err = 0.0
         self.err_1 = 0.0                            # Previous value of error
-        self.errDot = 0.0                           # Derivative of error at iternation n
+        self.errDot = 0.0                           # Derivative of error at iteration n
         self.errSum = 0.0                           # Integral of error
         self.deltaT = 2.0                           #machine cycle takes 2 seconds 
 
-    # Function that executes commands
+    
     def Do_it(self, string):
+
+        """ Function that executes the command from user received via serial communication and returns the appropriate message in the format 'e <error code>' """
 
         self.string = string
         self.strings =  self.string.split('\n')[0].split(' ')
-        if self.strings in ([u''], [u'\n'], [u'\r']): # User enters a new line or does not enter anything - no action requied, return False
+        if self.strings in ([u''], [u'\n'], [u'\r']): # User enters a new line or does not enter anything - no action required, return False
             return False
         elif self.string == 'c-check\n':
             return 'Ok\n'
@@ -40,7 +45,7 @@ class Command_Proc():
         elif self.strings[0] == 's': #set command
             print(self.strings)
             if self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable to be set is legit
-                ###### check if self.strings[1] is a parameter that can actually be set or if it is a readonly paramter
+                ###### check if self.strings[1] is a parameter that can actually be set or if it is a read only parameter
                 if self.strings[1] == "ByPass":
                     os.system("megaio 0 rwrite 8 "+self.switch[int(self.strings[2])])
                     current_time = time.time() # current time 
@@ -135,7 +140,7 @@ class Command_Proc():
                     Output_string = 'e 0'
 
                 else: 
-                    Output_string = 'e 3' #readonly paramter
+                    Output_string = 'e 3' #read only parameter
 
             else:
                 Output_string = 'e 2' # Variable does not exist, return error message string  
@@ -154,7 +159,7 @@ class Command_Proc():
                 print('g cal_all_variables command received')
                 return(self.dl.get_cal_all_variables())
 
-            elif self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable requeseted is legit
+            elif self.strings[1] in self.dl.getParmDict().keys(): # Check if the variable requested is legit
                 return(self.dl.getParm(self.strings[-1])) # Obtain value from register, return tuple to lab PC
                 
             else:
@@ -166,10 +171,14 @@ class Command_Proc():
 
     def Set_DPG_ctrl(self, DPG_ctrl):
 
+        """Function to write the dew point generator set point to the controller"""
+
         Output_string = g.gv.TC_DPG.write_command(command_Dict.Command_Dict['DPG_set_write'], int(DPG_ctrl)*100)
         return(Output_string)
 
     def Convert_to_DPG_ctrl(self):
+
+        """Function to convert a given pH2O or a relative humidity to a dew point generator controller set point"""
             
         ph2oNeed = 0.0
         if self.dl.getParm('DPG_set')[0]!=0:
@@ -211,12 +220,16 @@ class Command_Proc():
                 DPG_ctrl = limit
             return DPG_ctrl
 
-
-    # Function to calculate saturated pH2O at a given T
     def ph2oSat(self, T) :
+
+        """ Function to calculate saturated pH2O at a given temperature"""
+
         return 610.78 * exp((T * 17.2684) / (T + 238.3))
 
-    # Function to calculate dew point at a given pH2O
+    
     def dewPointTemp(self, ph2o) :
+
+        """Function to calculate the dew point at a given pH2O"""
+
         w = log(ph2o / 610.78)
         return w * 238.3 / (17.294 - w)

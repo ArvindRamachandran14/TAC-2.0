@@ -1,25 +1,29 @@
-import DataLib
 import serial
 import IRGA
-import TC
-import Command_proc
+import command_proc
 import datetime as dt
 import time
 from datetime import datetime
 import global_variables as g
-import Command_Dict
+import command_dict
 import json
 import asyncio
 import os
 import sys
 
 class TAC():
+
+    """ The main class that implements the TAC program responsible for reading the 5 TA instruments and processing the user commands received from TAGUI"""
+
     def __init__(self):
         self.delta_T = 2.0
         self.sem = asyncio.Semaphore(1)  
         self.bdone = False
 
     async def Read_Instruments(self, Cmd_prc):
+
+        """ Function to read the 5 TA instruments in every machine cycle"""
+
         try:
             start = datetime.now()
             while not self.bdone:
@@ -37,19 +41,19 @@ class TAC():
                     g.gv.dl.setParm('IVOLT', IRGA_list[4], time_stamp)
                     DPT = IRGA_list[5]
                     g.gv.dl.setParm('DPT', IRGA_list[5], time_stamp)
-                    SC_T = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_T_read'])/100.0
+                    SC_T = g.gv.TC_SC.read_value(command_dict.Command_Dict['SC_T_read'])/100.0
                     g.gv.dl.setParm('SC_T', SC_T, time_stamp)
-                    SC_Tblock = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_Tblock_read'])/100.0
+                    SC_Tblock = g.gv.TC_SC.read_value(command_dict.Command_Dict['SC_Tblock_read'])/100.0
                     g.gv.dl.setParm('SC_Tblock', SC_Tblock, time_stamp)
-                    SC_output = ((g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_output_read'])/100.0)/5.11)*100.0 #convert to decimal then convert to %
+                    SC_output = ((g.gv.TC_SC.read_value(command_dict.Command_Dict['SC_output_read'])/100.0)/5.11)*100.0 #convert to decimal then convert to %
                     g.gv.dl.setParm('SC_output', SC_output, time_stamp)
-                    CC_T = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_T_read'])/100.0
+                    CC_T = g.gv.TC_CC.read_value(command_dict.Command_Dict['CC_T_read'])/100.0
                     g.gv.dl.setParm('CC_T', CC_T, time_stamp)
-                    CC_output = ((g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_output_read'])/100.0)/5.11)*100.0 #convert to decimal then convert to %
+                    CC_output = ((g.gv.TC_CC.read_value(command_dict.Command_Dict['CC_output_read'])/100.0)/5.11)*100.0 #convert to decimal then convert to %
                     g.gv.dl.setParm('CC_output', CC_output, time_stamp)
-                    DPG_T = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_T_read'])/100.0
+                    DPG_T = g.gv.TC_DPG.read_value(command_dict.Command_Dict['DPG_T_read'])/100.0
                     g.gv.dl.setParm('DPG_T', DPG_T, time_stamp)
-                    DPG_output = ((g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_output_read'])/100.0)/5.11)*100.0 #convert to decimal then convert to %
+                    DPG_output = ((g.gv.TC_DPG.read_value(command_dict.Command_Dict['DPG_output_read'])/100.0)/5.11)*100.0 #convert to decimal then convert to %
                     g.gv.dl.setParm('DPG_output', DPG_output, time_stamp)
                     WGT = 10 #to be edited
                     #WGT = ((m.get_adc(0,1))/4096.0)*10
@@ -80,6 +84,9 @@ class TAC():
    
 
     async def doCmd(self, Cmd_prc):
+
+        """ Function to process the user commands received from TAGUI in every machine cycle"""
+
         try:
             while not self.bdone:
                 async with self.sem:
@@ -106,16 +113,18 @@ class TAC():
 
     def Terminate(self, e):
 
+        """Function that terminates the TAC program when there is an error. The error is printed on the terminal in a user friendly format"""
+
         self.bdone = True
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(exc_type, fname, exc_tb.tb_lineno)
-        g.gv.TC_SC.write_command(Command_Dict.Command_Dict['SC_power_write'], 0) #Turn power off
-        g.gv.TC_CC.write_command(Command_Dict.Command_Dict['CC_power_write'], 0) #Turn power off
-        g.gv.TC_DPG.write_command(Command_Dict.Command_Dict['DPG_power_write'], 0) #Turn power off
-        power_CC = g.gv.TC_CC.read_value(Command_Dict.Command_Dict['CC_power_read'])
-        power_SC = g.gv.TC_SC.read_value(Command_Dict.Command_Dict['SC_power_read'])        
-        power_DPG = g.gv.TC_DPG.read_value(Command_Dict.Command_Dict['DPG_power_read'])
+        g.gv.TC_SC.write_command(command_dict.Command_Dict['SC_power_write'], 0) #Turn power off
+        g.gv.TC_CC.write_command(command_dict.Command_Dict['CC_power_write'], 0) #Turn power off
+        g.gv.TC_DPG.write_command(command_dict.Command_Dict['DPG_power_write'], 0) #Turn power off
+        power_CC = g.gv.TC_CC.read_value(command_dict.Command_Dict['CC_power_read'])
+        power_SC = g.gv.TC_SC.read_value(command_dict.Command_Dict['SC_power_read'])        
+        power_DPG = g.gv.TC_DPG.read_value(command_dict.Command_Dict['DPG_power_read'])
         if power_CC == power_SC == power_DPG == 0: #Check that power was turned off
             print('Controllers turned off')
         else:
@@ -124,10 +133,13 @@ class TAC():
         return None
 
 async def main() :
+
+    """Function that implements the TAC machine cycle and schedules the tasks related to read instruments and processing commands"""
+
     current_time = time.time()
     time_stamp = dt.datetime.fromtimestamp(current_time).strftime('%Y-%m-%d %H:%M:%S.%f')
     tac = TAC()
-    Cmd_prc = Command_proc.Command_Proc(g.gv.dl)
+    Cmd_prc = command_proc.Command_Proc(g.gv.dl)
     task1 = asyncio.create_task(tac.Read_Instruments(Cmd_prc))
     task2 = asyncio.create_task(tac.doCmd(Cmd_prc))
     await task1

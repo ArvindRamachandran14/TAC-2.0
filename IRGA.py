@@ -6,6 +6,9 @@ import re
 import xml.etree.ElementTree as ET
 
 class IRGA():
+
+    """class to implement the irga module reponsible for reading the irga output at a given rate"""
+
     def __init__(self, ser):
         # When an instance of this class is created, the serial port is initialized and the OUTRATE is set to zero to makes sure the IRGA only sends values when requested
         self.ser = ser
@@ -15,6 +18,9 @@ class IRGA():
         self.return_list = []
 
     def read_IRGA(self):
+
+        """Function to read the irga output, parse it and return it as a list when called"""
+
         self.return_list = []
         self.xmlstring = self.ser.readline().decode() # Reading the output as an XML string 
         self.ser.write('<LI840><DATA>?</DATA></LI840>'.encode()) #Command to request output from IRGA

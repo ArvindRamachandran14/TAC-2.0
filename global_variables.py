@@ -1,6 +1,4 @@
 
-#This module has all the variables that need to be accessed across different modules. 
-
 import tc 
 
 import datalib
@@ -13,6 +11,7 @@ import asyncio #timing to work right asychronous call - go and read the data and
 
 class gv():
 
+    """class that holds all the variables that need to be accessed across different modules.""" 
 
     ser_TC_SC = serial.Serial('/dev/ttyUSB0', 9600, timeout=0.1)
 

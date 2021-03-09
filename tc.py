@@ -1,17 +1,20 @@
-#Temperature Controller module - applies to SC_TC, CC_TC, DPG_TC
 import serial
 import time 
 import datetime
-import Command_Dict
 
 class TC():
+
+    """ Class that implements the temperature controller functionality - applies to SC_TC, CC_TC, DPG_TC"""
+
     def __init__(self, ser):
         self.ser = ser
         self.output_buffer = []
 
     @classmethod
     def command_generator(cls, command, send_value): 
-        #Function to generate the command to be sent to the TC, given the command type and sendvalue
+
+        """Function to generate the command to be sent to the TC, given the command type and sendvalue"""
+        
         return_buffer = ['*', '0', '0'] # Full command to be returned 
         if len(command) == 2:
             return_buffer.append(command[0])
@@ -41,6 +44,9 @@ class TC():
         return(return_buffer)
 
     def write_command(self, command, send_value):
+
+        """Function to write the command bit by bit to the temperature contollers via serial communication"""
+
         output_buffer=[]
         output_string = ""
         command_buffer = TC.command_generator(command, send_value) # Command generator function returns the command buffer to be sent to the TC
@@ -61,6 +67,9 @@ class TC():
             return('Checksum error: Command Buffer = '+ command_buffer[5:-3]+ ' Output Buffer = '+output_buffer[1:-3])
 
     def read_value(self, command):
+
+        """Function to read the temperature controllers in a bit by bit fashion via serial communication and return the decimal value"""
+
         send_value = 0
         output_buffer=[0,0,0,0,0,0,0,0,0,0,0,0]
         string_read_temp = "0x"

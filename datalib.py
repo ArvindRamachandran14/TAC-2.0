@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-
 """ DataLib.py
-
-        Adapted from  Original issue - 03/12/2019 - KDT
+Adapted from  Original issue - 03/12/2019 - KDT
 """
 import time 
 import datetime
 import config as cfg
 
 class Register():
+
+    """class to create the register model for storing system variables"""
+
     def __init__(self, _i, _n, _v, _ts):
         self.index  = _i
         self.name = _n
@@ -16,6 +17,9 @@ class Register():
         self.time_stamp = _ts
 
 class DataLib():
+
+    """class to create a library of register objects corresponding to various system variables"""
+
     def __init__(self):
         # Thermocouples
         self.cfg = cfg.Config()
@@ -116,10 +120,16 @@ class DataLib():
         }
 
     def getParmDict(self):
+
+        """Function to get the dictionary with all the parameter names as keys and register objects as values"""
+
         return self.parmDict
 
-    #Function to get basic calibration data at once from TA 
+    
     def get_cal_basic_variables(self):
+
+        """Function to get basic calibration data at once from TA """
+
         string = ""
         for key in ['SC_output', 'CC_output', 'DPG_output']:
             string += str(self.parmDict[key].value) 
@@ -127,8 +137,11 @@ class DataLib():
         print("output is", string)
         return(string)
 
-    #Function to get all calibration data at once from TA
+    
     def get_cal_all_variables(self):
+
+        """Function to get all calibration data at once from TA"""
+
         string = ""
         for key in ['SC_power', 'SC_P', 'SC_I', 'SC_D', 'SC_set', 'SC_output', 'CC_power', 'CC_P', 'CC_I', 'CC_D', 'CC_set', 'CC_output', 'DPG_power', 'DPG_P', 'DPG_I', 'DPG_D', 'DPG_set', 'DPG_output']:
             string += str(self.parmDict[key].value) 
@@ -136,8 +149,11 @@ class DataLib():
         print("output is", string)
         return(string)
 
-    # Function to get all the data at once from TA
+    
     def get_all_data(self):
+
+        """Function to get all the data at once from TA"""
+
         all_data_dict = {}
         string = ""
         for key in ['SC_T', 'SC_Tblock', 'CC_T', 'DPG_T', 'pH2O', 'pCO2', 'DPT', 'WGT', 'Status']:
@@ -145,8 +161,11 @@ class DataLib():
             string += ','
         return(string)
 
-    # Function to set a certain system variable's value
+    
     def setParm(self, key, value, time_stamp):
+
+        """Function to set a certain system variable's value"""
+
         if key in self.parmDict:
             self.parmDict[key].value = value
             self.parmDict[key].time_stamp = time_stamp
@@ -154,8 +173,11 @@ class DataLib():
         else:
             return False
 
-    # Function to get a certain system variable's value
+    
     def getParm(self, key):     
+
+        """Function to get a certain system variable's value"""
+
         if key in self.parmDict:
             value = self.parmDict[key].value
             time_stamp = self.parmDict[key].time_stamp
@@ -164,8 +186,11 @@ class DataLib():
             time_stamp = 'NaN'
         return value, time_stamp
 
-    #Function to get a certain system variable's name
+    
     def parmName(self, key):
+
+        """Function to get a certain system variable's name"""
+
         if key in self.parmDict:
             name = self.parmDict[key].name
         else:
